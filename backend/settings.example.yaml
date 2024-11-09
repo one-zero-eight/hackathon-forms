@@ -1,0 +1,5 @@
+$schema: "./settings.schema.yaml"
+database_uri: mongodb://mongoadmin:secret@localhost:27017/db?authSource=admin # Database URL, "mongodb://mongoadmin:secret@db:27017/db?authSource=admin" inside the docker network
+accounts:
+  # get from https://api.innohassle.ru/accounts/v0/tokens/generate-service-token?sub=service-name&scopes=users&only_for_me=true
+  api_jwt_token: "secret"
