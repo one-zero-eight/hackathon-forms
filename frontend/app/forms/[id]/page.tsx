@@ -1,15 +1,14 @@
-import { FormComponent } from "@/components/forms/view/FormComponent";
-import { Card } from "@/components/ui/card";
+"use client";
+
+import { FormCard } from "@/components/forms/view/FormCard";
+import { FormProvider } from "@/components/forms/view/FormContext";
 
 export default function Page() {
   return (
     <div className="flex w-full justify-center p-4">
-      <Card className="flex w-full max-w-lg flex-col gap-2 p-4">
-        <FormComponent type="input" />
-        <FormComponent type="input" />
-        <FormComponent type="input" />
-        <FormComponent type="input" />
-      </Card>
+      <FormProvider id="00">
+        <FormCard />
+      </FormProvider>
     </div>
   );
 }

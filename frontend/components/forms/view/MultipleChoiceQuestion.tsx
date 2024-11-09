@@ -1,24 +1,33 @@
-interface MultipleChoiceQuestionProps {
+import { MultipleChoiceFormNode } from "@/components/forms/view/FormContext";
+import { useState } from "react";
+
+export interface MultipleChoiceQuestionProps {
   question: string;
   options: string[];
   onChange: (values: string[]) => void;
   value?: string[];
 }
 
-export function MultipleChoiceQuestion({ question, options, onChange, value = [] }: MultipleChoiceQuestionProps) {
+export function MultipleChoiceQuestion({
+  node,
+}: {
+  node: MultipleChoiceFormNode;
+}) {
+  const [value, setValue] = useState<string[]>([]);
+
   const toggleOption = (option: string) => {
     if (value.includes(option)) {
-      onChange(value.filter((v) => v !== option));
+      setValue(value.filter((v) => v !== option));
     } else {
-      onChange([...value, option]);
+      setValue([...value, option]);
     }
   };
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">{question}</h3>
+      <h3 className="text-lg font-medium">{node.title}</h3>
       <div className="space-y-2">
-        {options.map((option) => (
+        {node.options.map((option) => (
           <label key={option} className="flex items-center space-x-2">
             <input
               type="checkbox"
@@ -31,5 +40,5 @@ export function MultipleChoiceQuestion({ question, options, onChange, value = []
         ))}
       </div>
     </div>
-  )
-} 
+  );
+}
