@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -65,9 +66,16 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link
               href="/"
-              className="text-lg font-semibold text-gray-900 transition-colors hover:text-gray-600"
+              className="flex items-center text-lg font-semibold text-gray-900 transition-colors hover:text-gray-600"
               aria-label="Home"
             >
+              <Image
+                src="/logo.webp"
+                alt="KandidatAI"
+                width={30}
+                height={30}
+                className="mr-2 h-8 w-8 rounded-lg"
+              />
               КандидатАйКю
             </Link>
           </div>
