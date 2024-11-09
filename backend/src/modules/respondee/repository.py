@@ -4,7 +4,7 @@ import datetime
 
 from beanie import PydanticObjectId, UpdateResponse
 
-from src.modules.respondee.schemas import UpsertAnswerReq
+from src.modules.respondee.schemas import ListAnswersFilter, UpsertAnswerReq
 from src.storages.mongo.answers import Answer
 
 
@@ -44,6 +44,9 @@ class AnswerRepository:
 
     async def get(self, form_id: PydanticObjectId, session_id: PydanticObjectId) -> Answer:
         return await Answer.find_one({"session_id": session_id, "form_id": form_id})
+
+    async def list_answers(self, form_id: PydanticObjectId, filter: ListAnswersFilter) -> list[Answer]:
+        return await Answer.find({"session_id": filter.session_id, "invite_id": filter.invite_id}).to_list()
 
 
 answer_repository: AnswerRepository = AnswerRepository()

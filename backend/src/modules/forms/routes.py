@@ -6,8 +6,11 @@ from fastapi import APIRouter, HTTPException
 from src.api.dependencies import CURRENT_USER_ID_DEPENDENCY
 from src.modules.forms.repository import form_repository
 from src.modules.forms.schemas import CreateFormReq, CreateInviteReq, UpdateFormReq
+from src.modules.respondee.repository import answer_repository
+from src.modules.respondee.schemas import ListAnswersFilter
 from src.modules.users.repository import user_repository
 from src.storages.mongo import Invite
+from src.storages.mongo.answers import Answer
 from src.storages.mongo.forms import Form
 from src.storages.mongo.users import UserRole
 
@@ -80,3 +83,8 @@ async def get_invites(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPEND
 async def get_stats(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDENCY):
     _ = await can_edit_form_guard(form_id, user_id)
     raise NotImplementedError
+
+
+@router.get("/{form_id}/answers")
+async def list_answers(form_id: PydanticObjectId, filter: ListAnswersFilter) -> list[Answer]:
+    return await answer_repository.list_answers(form_id, filter)
