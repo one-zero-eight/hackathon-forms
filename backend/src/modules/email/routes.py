@@ -10,7 +10,7 @@ from starlette.requests import Request
 from src.modules.email.repository import EmailFlowVerificationStatus, email_flow_repository
 from src.modules.users.repository import user_repository
 
-router = APIRouter(prefix="/email")
+router = APIRouter(prefix="/email", tags=["Email"])
 
 
 class EmailFlowReference(BaseModel):
@@ -48,8 +48,8 @@ async def end_email_flow(
 
     if verification_result.status == EmailFlowVerificationStatus.SUCCESS:
         request.session["uid"] = str(verification_result.email_flow.user_id)
-
-    return EmailFlowResult(
-        status=verification_result.status,
-        email=verification_result.email_flow.email if verification_result.email_flow else None,
-    )
+        return EmailFlowResult(
+            status=verification_result.status,
+            email=verification_result.email_flow.email if verification_result.email_flow else None,
+        )
+    raise HTTPException(400)

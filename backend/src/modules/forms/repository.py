@@ -17,12 +17,12 @@ class FormRepository:
         created = Form(created_at=datetime.datetime.now(datetime.UTC), created_by=created_by, **data.model_dump())
         return await created.insert()
 
-    async def get_active_invite_links(self) -> list[str]:
-        links = await Invite.find({"active": True}).aggregate([{"$project": {"link": 1}}]).to_list()
+    async def get_active_invite_keys(self) -> list[str]:
+        links = await Invite.find({"active": True}).aggregate([{"$project": {"key": 1}}]).to_list()
 
-        return [link["link"] for link in links]
+        return [link["keys"] for link in links]
 
-    def generate_link(self, form_id: PydanticObjectId, banned: set[str] = None) -> str:
+    def generate_key_for_invite(self, form_id: PydanticObjectId, banned: set[str] = None) -> str:
         banned = banned or set()  # Use an empty set if no banned links are provided
 
         while True:
@@ -40,16 +40,28 @@ class FormRepository:
     async def create_invite(
         self, form_id: PydanticObjectId, data: CreateInviteReq, created_by: PydanticObjectId
     ) -> Invite:
-        banned = await self.get_active_invite_links()
+        banned = await self.get_active_invite_keys()
 
         created = Invite(
-            link=self.generate_link(form_id, set(banned)),
+            key=self.generate_key_for_invite(form_id, set(banned)),
             form_id=form_id,
             created_at=datetime.datetime.now(datetime.UTC),
             created_by=created_by,
             **data.model_dump(),
         )
         return await created.insert()
+
+    async def use_invite(self, key: str, *, session_id: str) -> Invite | None:
+        invite = await Invite.find_one({"key": key, "active": True})
+        if not invite:
+            return None
+        if invite.one_time:
+            await self.set_invite_active(invite_id=invite.id, active=False)
+        await Invite.find({"_id": invite.id}).update({"$addToSet": {"used_by": session_id}})
+        return invite
+
+    async def set_invite_active(self, invite_id: PydanticObjectId, active: bool):
+        await Invite.find({"_id": invite_id}).update({"$set": {"active": active}})
 
     async def get_invites(self, form_id: PydanticObjectId) -> list[Invite]:
         return await Invite.find({"form_id": form_id}).to_list()

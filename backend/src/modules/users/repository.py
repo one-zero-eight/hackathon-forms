@@ -12,7 +12,7 @@ class UserRepository:
         created = User(**user.model_dump(), role=UserRole.HR)
         return await created.insert()
 
-    async def read(self, user_id: int) -> User | None:
+    async def read(self, user_id: PydanticObjectId) -> User | None:
         return await User.get(user_id)
 
     async def read_by_email(self, email: str) -> User | None:

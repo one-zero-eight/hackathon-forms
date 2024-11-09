@@ -11,13 +11,13 @@ from src.modules.users.repository import user_repository
 
 
 async def _get_uid_from_session(request: Request) -> PydanticObjectId:
-    uid = await _get_optional_uid_from_session(request)
+    uid = await get_optional_uid_from_session(request)
     if uid is None:
         raise IncorrectCredentialsException()
     return uid
 
 
-async def _get_optional_uid_from_session(request: Request) -> PydanticObjectId | None:
+async def get_optional_uid_from_session(request: Request) -> PydanticObjectId | None:
     uid = request.session.get("uid")
 
     if uid is None:

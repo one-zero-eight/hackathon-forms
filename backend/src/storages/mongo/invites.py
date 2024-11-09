@@ -8,7 +8,7 @@ from src.storages.mongo.__base__ import CustomDocument
 
 
 class InviteSchema(BaseSchema):
-    link: str
+    key: str
     created_at: datetime.datetime
     created_by: PydanticObjectId
     form_id: PydanticObjectId
