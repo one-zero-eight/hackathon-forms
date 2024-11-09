@@ -57,7 +57,7 @@ function NodeEditor({ node, onUpdate }: { node: FormNode; onUpdate: (updates: Pa
   )
 
   const renderAnswerFields = () => (
-    <div className="mt-4 pt-4 border-t space-y-4">
+    <div className="mt-4 pt-6 border-t space-y-4">
       <div>
         <Label className="text-muted-foreground">Correct Answer</Label>
         {node.type === 'multiple-choice' ? (
