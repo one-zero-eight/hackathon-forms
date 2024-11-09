@@ -55,7 +55,9 @@ app.add_middleware(
 )
 
 from src.modules.email.routes import router as router_email  # noqa: E402
+from src.modules.forms.routes import router as router_form  # noqa: E402
 from src.modules.users.routes import router as router_users  # noqa: E402
 
 app.include_router(router_users)
 app.include_router(router_email)
+app.include_router(router_form)

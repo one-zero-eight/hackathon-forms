@@ -1,21 +1,33 @@
 __all__ = ["FormRepository", "form_repository"]
 
-from src.modules.users.schemas import CreateUser
-from src.storages.mongo.users import User
+import datetime
+
+from beanie import PydanticObjectId
+
+from src.modules.forms.schemas import CreateFormReq
+from src.storages.mongo.forms import Form
 
 
-# noinspection PyMethodMayBeStatic
-class UserRepository:
-    async def create(self, user: CreateUser) -> User:
-        created = User(**user.model_dump())
+class FormRepository:
+    async def create(self, form: CreateFormReq) -> Form:
+        created = Form(created_at=datetime.datetime.now(datetime.UTC) ** form.model_dump())
         return await created.insert()
 
-    async def read(self, user_id: int) -> User | None:
-        return await User.get(user_id)
+    async def delete(self, form_id: PydanticObjectId, user_id: int) -> bool:
+        await Form.update(
+            {
+                "_id": form_id,
+            },
+            {
+                "$set": {
+                    "deleted_by": user_id,
+                    "deleted_at": datetime.datetime.now(datetime.UTC),
+                }
+            },
+        )
 
-    async def read_id_by_innohassle_id(self, innohassle_id: str) -> int | None:
-        user = await User.find_one(User.innohassle_id == innohassle_id)
-        return user.id if user else None
+    async def get(self, form_id: PydanticObjectId) -> Form | None:
+        return await Form.find_one({"_id": form_id})
 
 
-user_repository: UserRepository = UserRepository()
+form_repository: FormRepository = FormRepository()
