@@ -103,7 +103,7 @@ export default function CreateFormPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-7">
-      <h1 className="text-3xl font-bold mb-8">Create New Form</h1>
+      <h1 className="text-3xl font-bold mb-8">Создать новую форму</h1>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
@@ -124,7 +124,7 @@ export default function CreateFormPage() {
             maxLength={100}
             className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
             placeholder="Введите название формы"
-            aria-label="Form title"
+            aria-label="Название формы"
           />
         </div>
 
@@ -143,7 +143,7 @@ export default function CreateFormPage() {
             rows={4}
             className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
             placeholder="Введите описание формы"
-            aria-label="Form description"
+            aria-label="Описание формы"
           />
         </div>
 
@@ -196,7 +196,7 @@ export default function CreateFormPage() {
                 onKeyDown={handleEmailKeyDown}
                 className="flex-1 rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 placeholder="Введите email адрес"
-                aria-label="Email address to share with"
+                aria-label="Email адрес для доступа"
               />
               <button
                 type="button"
@@ -219,7 +219,7 @@ export default function CreateFormPage() {
                       type="button"
                       onClick={() => handleRemoveEmail(email)}
                       className="text-red-500 hover:text-red-700"
-                      aria-label={`Remove ${email}`}
+                      aria-label={`Удалить ${email}`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -248,7 +248,7 @@ export default function CreateFormPage() {
             className="rounded-lg border px-6 py-2 hover:bg-gray-100"
             disabled={isPending}
           >
-            Cancel
+            Отмена
           </button>
           <button
             type="submit"
@@ -256,7 +256,7 @@ export default function CreateFormPage() {
             onKeyDown={handleKeyDown}
             disabled={isPending}
           >
-            Create Form
+            Создать форму
             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           </button>
         </div>
