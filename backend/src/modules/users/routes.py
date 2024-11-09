@@ -33,11 +33,11 @@ async def get_me(user_id: CURRENT_USER_ID_DEPENDENCY) -> User:
 )
 async def create_hr(user_id: CURRENT_USER_ID_DEPENDENCY, data: CreateUser) -> User:
     """
-    Create HR-user. Requires manager or admin rights.
+    Create HR-user. Requires admin rights.
     """
     user = await user_repository.read(user_id)
 
-    if user.role not in (UserRole.MANAGER, UserRole.ADMIN):
+    if user.role != UserRole.ADMIN:
         raise NotEnoughPermissionsException()
 
     try:
