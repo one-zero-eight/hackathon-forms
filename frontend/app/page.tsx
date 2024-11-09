@@ -11,28 +11,18 @@ export default function Home() {
         <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
             <div className="sm:text-center lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-                <span className="block text-primary">Form Builder</span>
-                <span className="block">for Modern Teams</span>
+              <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+                Создавайте мощные формы для оценки кандидатов
               </h1>
-              <p className="mt-3 text-base text-muted-foreground sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg lg:mx-0">
-                Create, share, and analyze forms with ease. Perfect for surveys,
-                questionnaires, and data collection.
+              <p className="mt-6 text-lg leading-8 text-muted-foreground">
+                Простой и эффективный способ создания форм для оценки кандидатов. Создавайте, делитесь и анализируйте результаты в одном месте.
               </p>
-              <div className="mt-8 sm:mx-auto sm:max-w-lg lg:mx-0">
-                <div className="space-x-4">
+              <div className="mt-8 flex gap-x-4">
+                <Button asChild size="lg">
                   <Link href="/forms">
-                    <Button size="lg" className="gap-2">
-                      Get Started
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
+                    Начать <ArrowRight />
                   </Link>
-                  <Link href="/forms/demo">
-                    <Button variant="outline" size="lg">
-                      View Demo
-                    </Button>
-                  </Link>
-                </div>
+                </Button>
               </div>
             </div>
             <div className="mt-12 lg:col-span-6 lg:mt-0">
@@ -55,34 +45,33 @@ export default function Home() {
           <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Everything you need to create powerful forms
+                Все необходимое для создания эффективных форм
               </h2>
               <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground sm:mt-4">
-                Our form builder comes with all the features you need to create
-                professional forms and surveys.
+                Наш конструктор форм содержит все функции, необходимые для создания профессиональных форм и опросов.
               </p>
             </div>
 
             <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               <Feature
                 icon={FileText}
-                title="Drag & Drop Builder"
-                description="Intuitive drag and drop interface to create forms in minutes"
+                title="Drag & Drop Конструктор"
+                description="Интуитивный интерфейс для создания форм за считанные минуты"
               />
               <Feature
                 icon={Users}
-                title="Collaboration"
-                description="Share forms with your team and work together seamlessly"
+                title="Совместная работа"
+                description="Делитесь формами с командой и работайте вместе"
               />
               <Feature
                 icon={Lock}
-                title="Privacy Controls"
-                description="Control who can view and submit responses to your forms"
+                title="Контроль доступа"
+                description="Управляйте тем, кто может просматривать и отправлять ответы"
               />
               <Feature
                 icon={BarChart}
-                title="Analytics"
-                description="Get insights from responses with powerful analytics tools"
+                title="Аналитика"
+                description="Получайте аналитику по ответам с помощью мощных инструментов"
               />
             </div>
           </div>
@@ -94,11 +83,10 @@ export default function Home() {
             <div className="mx-auto max-w-xl lg:max-w-none">
               <div className="text-center">
                 <h2 className="text-2xl font-bold tracking-tight text-primary-foreground sm:text-3xl">
-                  Ready to get started?
+                  Готовы начать?
                 </h2>
                 <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-foreground/80">
-                  Join thousands of teams already using our form builder to collect
-                  and analyze data.
+                  Присоединяйтесь к тысячам команд, которые уже используют наш конструктор форм для сбора и анализа данных.
                 </p>
                 <div className="mt-8">
                   <Link href="/forms">
@@ -107,7 +95,7 @@ export default function Home() {
                       variant="secondary"
                       className="gap-2 text-primary"
                     >
-                      Create Your First Form
+                      Создать первую форму
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
@@ -122,23 +110,21 @@ export default function Home() {
       <footer className="border-t">
         <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <Link
+              href="/privacy"
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              Политика конфиденциальности
+            </Link>
+            <Link
+              href="/terms"
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              Условия использования
+            </Link>
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Form Builder. All rights reserved.
+              © {new Date().getFullYear()} КандидатАйКю. Все права защищены.
             </p>
-            <div className="flex gap-4">
-              <Link
-                href="/privacy"
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                Terms of Service
-              </Link>
-            </div>
           </div>
         </div>
       </footer>

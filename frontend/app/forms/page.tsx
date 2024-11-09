@@ -92,19 +92,13 @@ export default function FormsPage() {
   return (
     <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold">Forms Management</h1>
-        <Link 
-          href="/forms/create"
-          className="w-full sm:w-auto"
-        >
-          <Button 
-            className="w-full sm:w-auto"
-            aria-label="Create new form"
-          >
-            <Plus className="h-4 w-4 mr-2" aria-hidden="true" />
-            Create New Form
-          </Button>
-        </Link>
+        <h1 className="text-2xl font-bold">Мои формы</h1>
+        <Button asChild>
+          <Link href="/forms/create">
+            <Plus className="mr-2" />
+            Создать форму
+          </Link>
+        </Button>
       </div>
 
       {forms.length === 0 ? (
@@ -159,18 +153,18 @@ export default function FormsPage() {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Form</AlertDialogTitle>
+                        <AlertDialogTitle>Удалить форму?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Are you sure you want to delete "{form.title}"? This action cannot be undone.
+                          Это действие нельзя отменить. Форма будет удалена навсегда.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>Отмена</AlertDialogCancel>
                         <AlertDialogAction
                           className="bg-destructive hover:bg-destructive/90"
                           onClick={() => handleDelete(form.id)}
                         >
-                          Delete
+                          Удалить
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>

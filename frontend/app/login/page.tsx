@@ -76,12 +76,10 @@ export default function LoginPage() {
       <Card className="w-full max-w-[400px]">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold tracking-tight">
-            Добро пожаловать
+            Вход в систему
           </CardTitle>
           <CardDescription>
-            {!loginIsSuccess
-              ? "Введите вашу почту, чтобы получить код доступа"
-              : "Введите код, который мы отправили на вашу почту"}
+            Введите свой email для получения кода подтверждения
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -124,7 +122,7 @@ export default function LoginPage() {
                   htmlFor="otp"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Код доступа
+                  Код подтверждения
                 </label>
                 <InputOTP
                   maxLength={6}
@@ -154,10 +152,8 @@ export default function LoginPage() {
               disabled={loginIsPending || verifyIsPending}
               size="lg"
             >
-              {(loginIsPending || verifyIsPending) && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              {!loginIsSuccess ? "Получить код" : "Отправить код"}
+              {(loginIsPending || verifyIsPending) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {!loginIsSuccess ? 'Отправить код' : 'Подтвердить код'}
             </Button>
           </form>
         </CardContent>

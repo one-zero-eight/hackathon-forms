@@ -5,6 +5,7 @@ import { UserRole } from "@/lib/api/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -58,7 +59,7 @@ const Navbar = () => {
           : "bg-white/40 backdrop-blur-sm"
       }`}
     >
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex h-14 justify-between">
           {/* Logo/Brand */}
           <div className="flex items-center">
@@ -83,10 +84,32 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
+
+            {/* Add login button or user email */}
+            {me ? (
+              <span className="text-sm font-medium text-gray-600">{me.email}</span>
+            ) : (
+              <Link href="/login">
+                <Button variant="outline" size="sm">
+                  Войти
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center sm:hidden">
+          <div className="flex items-center gap-4 sm:hidden">
+            {/* Add login button or user email for mobile */}
+            {me ? (
+              <span className="text-sm font-medium text-gray-600">{me.email}</span>
+            ) : (
+              <Link href="/login">
+                <Button variant="outline" size="sm">
+                  Войти
+                </Button>
+              </Link>
+            )}
+
             <button
               type="button"
               className="rounded-md p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"

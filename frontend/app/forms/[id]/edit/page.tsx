@@ -431,9 +431,10 @@ function SettingsTab({ formData, setFormData }: {
     <Card className="p-6">
       <div className="space-y-4">
         <div>
-          <Label htmlFor="formTitle">Form Title</Label>
+          <Label htmlFor="formTitle">Название формы</Label>
           <Input
             id="formTitle"
+            placeholder="Введите название формы"
             value={formData?.title || ''}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             className="mt-1"
@@ -441,9 +442,10 @@ function SettingsTab({ formData, setFormData }: {
         </div>
         
         <div>
-          <Label htmlFor="formDescription">Description</Label>
+          <Label htmlFor="formDescription">Описание</Label>
           <Textarea
             id="formDescription"
+            placeholder="Введите описание формы"
             value={formData?.description || ''}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             className="mt-1"
@@ -500,7 +502,7 @@ function QuestionsTab({
         variant="outline"
         className="w-full"
       >
-        Add Question
+        Добавить вопрос
       </Button>
     </div>
   )
@@ -510,8 +512,8 @@ function AnswersTab({ formData }: { formData: FormData }) {
   return (
     <div className="space-y-4">
       <Card className="p-6">
-        <h2 className="text-xl font-semibold mb-2">Form Responses</h2>
-        <p className="text-muted-foreground">No responses yet</p>
+        <h2 className="text-xl font-semibold mb-2">Ответы на форму</h2>
+        <p className="text-muted-foreground">Пока нет ответов</p>
         {/* Add answers/responses UI here */}
       </Card>
     </div>
@@ -708,15 +710,15 @@ export default function EditFormPage() {
           <TabsList className="grid w-[400px] grid-cols-3">
             <TabsTrigger value="questions" className="flex items-center gap-2">
               <ClipboardList className="h-4 w-4" />
-              Questions
+              Вопросы
             </TabsTrigger>
             <TabsTrigger value="answers" className="flex items-center gap-2">
               <MessageSquare className="h-4 w-4" />
-              Answers
+              Ответы
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
-              Settings
+              Настройки
             </TabsTrigger>
           </TabsList>
 

@@ -44,12 +44,12 @@ export default function CreateFormPage() {
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(emailInput)) {
-      alert('Please enter a valid email address')
+      alert('Пожалуйста, введите корректный email адрес')
       return
     }
 
     if (formData.sharedEmails.includes(emailInput)) {
-      alert('This email is already added')
+      alert('Этот email уже добавлен')
       return
     }
 
@@ -111,7 +111,7 @@ export default function CreateFormPage() {
             htmlFor="title"
             className="block text-sm font-medium text-gray-700"
           >
-            Title
+            Название формы
           </label>
           <input
             type="text"
@@ -123,7 +123,7 @@ export default function CreateFormPage() {
             minLength={3}
             maxLength={100}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter form title"
+            placeholder="Введите название формы"
             aria-label="Form title"
           />
         </div>
@@ -133,7 +133,7 @@ export default function CreateFormPage() {
             htmlFor="description"
             className="block text-sm font-medium text-gray-700"
           >
-            Description
+            Описание
           </label>
           <textarea
             id="description"
@@ -142,14 +142,14 @@ export default function CreateFormPage() {
             onChange={handleInputChange}
             rows={4}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter form description"
+            placeholder="Введите описание формы"
             aria-label="Form description"
           />
         </div>
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">
-            Permission
+            Доступ
           </label>
           <div className="flex space-x-4">
             <button
@@ -162,7 +162,7 @@ export default function CreateFormPage() {
               }`}
               aria-pressed={formData.permission === 'private'}
             >
-              Private
+              Приватный
             </button>
             <button
               type="button"
@@ -174,7 +174,7 @@ export default function CreateFormPage() {
               }`}
               aria-pressed={formData.permission === 'public'}
             >
-              Public
+              Публичный
             </button>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function CreateFormPage() {
         {formData.permission === 'private' && (
           <div className="space-y-2">
             <label htmlFor="sharedEmails" className="block text-sm font-medium text-gray-700">
-              Share with HR Users (Email Addresses)
+              Поделиться с HR пользователями (Email адреса)
             </label>
             <div className="flex space-x-2">
               <input
@@ -192,7 +192,7 @@ export default function CreateFormPage() {
                 onChange={(e) => setEmailInput(e.target.value)}
                 onKeyDown={handleEmailKeyDown}
                 className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter email address"
+                placeholder="Введите email адрес"
                 aria-label="Email address to share with"
               />
               <button
@@ -200,7 +200,7 @@ export default function CreateFormPage() {
                 onClick={handleAddEmail}
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
               >
-                Add
+                Добавить
               </button>
             </div>
             
