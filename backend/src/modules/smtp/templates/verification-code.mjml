@@ -2,7 +2,7 @@
   <mj-body>
     <mj-section>
       <mj-column>
-        <mj-image width="150px" src="https://github.com/Hackathon-qualify-championship-RT/students5/blob/32127d32cf61346ddd99114425b208328a63a2af/backend/src/modules/smtp/templates/logo.png"></mj-image>
+        <mj-image width="150px" src="https://ik.imagekit.io/croissanStudio/brands/NeuroArtist%20(1).jpeg"></mj-image>
         <mj-text
           font-family="helvetica"
           align="center"
