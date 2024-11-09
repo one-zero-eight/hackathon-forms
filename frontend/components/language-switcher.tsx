@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 const languages = {
   en: "English",
   ru: "Русский",
+  tt: "Татарча",
 } as const;
 
 const LANG_STORAGE_KEY = 'preferred-language';

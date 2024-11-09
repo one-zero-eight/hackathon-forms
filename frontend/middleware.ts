@@ -14,7 +14,7 @@ export default async function middleware(request: NextRequest) {
   const browserLanguage = request.headers.get('accept-language')?.split(',')[0]?.split('-')[0] || 'en';
   
   // Use preferred language from cookie if available, otherwise use browser language
-  const defaultLocale = preferredLanguage || ((['ru', 'en'].includes(browserLanguage)) ? browserLanguage : 'en');
+  const defaultLocale = preferredLanguage || ((['ru', 'en', 'tt'].includes(browserLanguage)) ? browserLanguage : 'ru');
 
   // Handle root path redirect
   if (pathname === '/') {
@@ -34,7 +34,7 @@ export default async function middleware(request: NextRequest) {
   const response = await intlMiddleware(request);
   const currentLocale = pathname.split('/')[1];
   
-  if (['en', 'ru'].includes(currentLocale)) {
+  if (['en', 'ru', 'tt'].includes(currentLocale)) {
     response.cookies.set('preferred-language', currentLocale, {
       path: '/',
       maxAge: 365 * 24 * 60 * 60, // 1 year
