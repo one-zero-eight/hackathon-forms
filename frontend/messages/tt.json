@@ -75,7 +75,20 @@
         "description": {
           "label": "Тасвирлама",
           "placeholder": "Форма тасвирламасын кертегез"
-        }
+        },
+        "access": {
+          "label": "Керү",
+          "private": "Шәхси",
+          "public": "Гавами"
+        },
+        "sharing": {
+          "label": "Уртаклашу",
+          "placeholder": "Email адресын кертегез",
+          "add": "Өстәү",
+          "invalidEmail": "Зинһар, дөрес email адресын кертегез",
+          "emailExists": "Бу email инде өстәлгән"
+        },
+        "submit": "Форма төзү"
       }
     },
     "delete": {

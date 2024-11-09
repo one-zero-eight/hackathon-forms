@@ -75,7 +75,20 @@
         "description": {
           "label": "Описание",
           "placeholder": "Введите описание формы"
-        }
+        },
+        "access": {
+          "label": "Доступ",
+          "private": "Приватный",
+          "public": "Публичный"
+        },
+        "sharing": {
+          "label": "Поделиться с",
+          "placeholder": "Введите email адрес",
+          "add": "Добавить",
+          "invalidEmail": "Пожалуйста, введите корректный email адрес",
+          "emailExists": "Этот email уже добавлен"
+        },
+        "submit": "Создать форму"
       }
     },
     "delete": {

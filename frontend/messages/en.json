@@ -75,7 +75,20 @@
         "description": {
           "label": "Description",
           "placeholder": "Enter form description"
-        }
+        },
+        "access": {
+          "label": "Access",
+          "private": "Private",
+          "public": "Public"
+        },
+        "sharing": {
+          "label": "Share with",
+          "placeholder": "Enter email address",
+          "add": "Add",
+          "invalidEmail": "Please enter a valid email address",
+          "emailExists": "This email is already added"
+        },
+        "submit": "Create Form"
       }
     },
     "delete": {
