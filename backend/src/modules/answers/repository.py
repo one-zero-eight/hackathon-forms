@@ -2,7 +2,7 @@ __all__ = ["AnswerRepository", "answer_repository"]
 
 import datetime
 
-from beanie import UpdateResponse
+from beanie import PydanticObjectId, UpdateResponse
 
 from src.modules.answers.schemas import UpsertAnswerReq
 from src.storages.mongo.answers import Answer
@@ -29,6 +29,9 @@ class AnswerRepository:
             response_type=UpdateResponse.NEW_DOCUMENT,
             on_insert=to_update,
         )
+
+    async def get(self, form_id: PydanticObjectId, session_id: PydanticObjectId) -> Answer:
+        return await Answer.find_one({"session_id": session_id, "form_id": form_id})
 
 
 answer_repository: AnswerRepository = AnswerRepository()
