@@ -54,7 +54,7 @@ export interface paths {
     get?: never;
     put?: never;
     /** Start Email Flow */
-    post: operations["start_email_flow"];
+    post: operations["email_start_email_flow"];
     delete?: never;
     options?: never;
     head?: never;
@@ -71,24 +71,25 @@ export interface paths {
     get?: never;
     put?: never;
     /** End Email Flow */
-    post: operations["end_email_flow"];
+    post: operations["email_end_email_flow"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/form/by-invite/{key}": {
+  "/form/": {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get?: never;
+    /** Get Forms */
+    get: operations["forms_get_forms"];
     put?: never;
-    /** Use Invite */
-    post: operations["forms_use_invite"];
+    /** Create Form */
+    post: operations["forms_create_form"];
     delete?: never;
     options?: never;
     head?: never;
@@ -106,23 +107,6 @@ export interface paths {
     get: operations["forms_get_form"];
     put?: never;
     post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/form/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** Create Form */
-    post: operations["forms_create_form"];
     delete?: never;
     options?: never;
     head?: never;
@@ -147,12 +131,103 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/as-respondee/form/by-invite/{key}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Use Invite */
+    post: operations["respondee_use_invite"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/as-respondee/form/{form_id}/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Form As Respondee */
+    get: operations["respondee_get_form_as_respondee"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/as-respondee/form/{form_id}/answers/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get My Answers */
+    get: operations["respondee_get_my_answers"];
+    /** Upsert Answer */
+    put: operations["respondee_upsert_answer"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    /** Body_end_email_flow */
-    Body_end_email_flow: {
+    /** Answer */
+    Answer: {
+      /**
+       * Id
+       * Format: objectid
+       * @description MongoDB document ObjectID
+       * @default None
+       * @example 5eb7cf5a86d9755df3a6c593
+       */
+      id: string;
+      /**
+       * Invite Id
+       * @description Invite id of the link by which user has been connected to the service
+       * @example 5eb7cf5a86d9755df3a6c593
+       */
+      invite_id: string;
+      /**
+       * Session Id
+       * @description Session id that is connected to the current respondent
+       */
+      session_id: string;
+      /**
+       * Form Id
+       * @description Form entity containing information about the form of the respondent
+       * @example 5eb7cf5a86d9755df3a6c593
+       */
+      form_id: string;
+      /**
+       * Answers
+       * @description Map of the answers for the current user
+       */
+      answers: Record<string, never>;
+      /**
+       * Updated At
+       * Format: date-time
+       * @description Contains information about last changes in the given form from answer perspective
+       */
+      updated_at: string;
+    };
+    /** Body_email_end_email_flow */
+    Body_email_end_email_flow: {
       /**
        * Email Flow Id
        * @example 5eb7cf5a86d9755df3a6c593
@@ -161,8 +236,8 @@ export interface components {
       /** Verification Code */
       verification_code: string;
     };
-    /** Body_start_email_flow */
-    Body_start_email_flow: {
+    /** Body_email_start_email_flow */
+    Body_email_start_email_flow: {
       /**
        * Email
        * Format: email
@@ -566,6 +641,11 @@ export interface components {
       correct_answer?: number | null;
       explanation: components["schemas"]["Explanation"];
     };
+    /** UpsertAnswerReq */
+    UpsertAnswerReq: {
+      /** Answers */
+      answers: Record<string, never>;
+    };
     /** User */
     User: {
       /**
@@ -603,10 +683,11 @@ export interface components {
   headers: never;
   pathItems: never;
 }
-export type SchemaBodyEndEmailFlow =
-  components["schemas"]["Body_end_email_flow"];
-export type SchemaBodyStartEmailFlow =
-  components["schemas"]["Body_start_email_flow"];
+export type SchemaAnswer = components["schemas"]["Answer"];
+export type SchemaBodyEmailEndEmailFlow =
+  components["schemas"]["Body_email_end_email_flow"];
+export type SchemaBodyEmailStartEmailFlow =
+  components["schemas"]["Body_email_start_email_flow"];
 export type SchemaContent = components["schemas"]["Content"];
 export type SchemaCreateFormReq = components["schemas"]["CreateFormReq"];
 export type SchemaCreateInviteReq = components["schemas"]["CreateInviteReq"];
@@ -629,6 +710,7 @@ export type SchemaMultipleChoice = components["schemas"]["MultipleChoice"];
 export type SchemaRanking = components["schemas"]["Ranking"];
 export type SchemaScale = components["schemas"]["Scale"];
 export type SchemaSingleChoice = components["schemas"]["SingleChoice"];
+export type SchemaUpsertAnswerReq = components["schemas"]["UpsertAnswerReq"];
 export type SchemaUser = components["schemas"]["User"];
 export type SchemaUserRole = components["schemas"]["UserRole"];
 export type SchemaValidationError = components["schemas"]["ValidationError"];
@@ -708,7 +790,7 @@ export interface operations {
       };
     };
   };
-  start_email_flow: {
+  email_start_email_flow: {
     parameters: {
       query?: never;
       header?: never;
@@ -717,7 +799,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["Body_start_email_flow"];
+        "application/json": components["schemas"]["Body_email_start_email_flow"];
       };
     };
     responses: {
@@ -741,7 +823,7 @@ export interface operations {
       };
     };
   };
-  end_email_flow: {
+  email_end_email_flow: {
     parameters: {
       query?: never;
       header?: never;
@@ -750,7 +832,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["Body_end_email_flow"];
+        "application/json": components["schemas"]["Body_email_end_email_flow"];
       };
     };
     responses: {
@@ -774,13 +856,11 @@ export interface operations {
       };
     };
   };
-  forms_use_invite: {
+  forms_get_forms: {
     parameters: {
       query?: never;
       header?: never;
-      path: {
-        key: string;
-      };
+      path?: never;
       cookie?: never;
     };
     requestBody?: never;
@@ -791,7 +871,31 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": unknown;
+          "application/json": components["schemas"]["Form"][];
+        };
+      };
+    };
+  };
+  forms_create_form: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateFormReq"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Form"];
         };
       };
       /** @description Validation Error */
@@ -815,39 +919,6 @@ export interface operations {
       cookie?: never;
     };
     requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Form"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  forms_create_form: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateFormReq"];
-      };
-    };
     responses: {
       /** @description Successful Response */
       200: {
@@ -922,6 +993,134 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["Invite"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  respondee_use_invite: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        key: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  respondee_get_form_as_respondee: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        form_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Form"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  respondee_get_my_answers: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        form_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Answer"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  respondee_upsert_answer: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        form_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpsertAnswerReq"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Answer"];
         };
       };
       /** @description Validation Error */
