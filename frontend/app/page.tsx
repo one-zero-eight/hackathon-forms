@@ -1,101 +1,167 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, FileText, Users, Lock, BarChart } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm sm:text-left">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="flex min-h-screen flex-col">
+      {/* Hero Section */}
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+            <div className="sm:text-center lg:col-span-6 lg:text-left">
+              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+                <span className="block text-primary">Form Builder</span>
+                <span className="block">for Modern Teams</span>
+              </h1>
+              <p className="mt-3 text-base text-muted-foreground sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg lg:mx-0">
+                Create, share, and analyze forms with ease. Perfect for surveys,
+                questionnaires, and data collection.
+              </p>
+              <div className="mt-8 sm:mx-auto sm:max-w-lg lg:mx-0">
+                <div className="space-x-4">
+                  <Link href="/forms">
+                    <Button size="lg" className="gap-2">
+                      Get Started
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/forms/demo">
+                    <Button variant="outline" size="lg">
+                      View Demo
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="mt-12 lg:col-span-6 lg:mt-0">
+              <div className="relative">
+                <Image
+                  src="/form-builder-preview.png"
+                  alt="Form Builder Preview"
+                  width={800}
+                  height={600}
+                  className="rounded-lg shadow-xl"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent bg-foreground px-4 text-sm text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] sm:h-12 sm:px-5 sm:text-base"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm transition-colors hover:border-transparent hover:bg-[#f2f2f2] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] sm:h-12 sm:min-w-44 sm:px-5 sm:text-base"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        {/* Features Section */}
+        <div className="bg-slate-50 dark:bg-slate-900">
+          <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                Everything you need to create powerful forms
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground sm:mt-4">
+                Our form builder comes with all the features you need to create
+                professional forms and surveys.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              <Feature
+                icon={FileText}
+                title="Drag & Drop Builder"
+                description="Intuitive drag and drop interface to create forms in minutes"
+              />
+              <Feature
+                icon={Users}
+                title="Collaboration"
+                description="Share forms with your team and work together seamlessly"
+              />
+              <Feature
+                icon={Lock}
+                title="Privacy Controls"
+                description="Control who can view and submit responses to your forms"
+              />
+              <Feature
+                icon={BarChart}
+                title="Analytics"
+                description="Get insights from responses with powerful analytics tools"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="rounded-2xl bg-primary px-6 py-16 sm:p-16">
+            <div className="mx-auto max-w-xl lg:max-w-none">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold tracking-tight text-primary-foreground sm:text-3xl">
+                  Ready to get started?
+                </h2>
+                <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-foreground/80">
+                  Join thousands of teams already using our form builder to collect
+                  and analyze data.
+                </p>
+                <div className="mt-8">
+                  <Link href="/forms">
+                    <Button
+                      size="lg"
+                      variant="secondary"
+                      className="gap-2 text-primary"
+                    >
+                      Create Your First Form
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="border-t">
+        <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <p className="text-sm text-muted-foreground">
+              © {new Date().getFullYear()} Form Builder. All rights reserved.
+            </p>
+            <div className="flex gap-4">
+              <Link
+                href="/privacy"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Terms of Service
+              </Link>
+            </div>
+          </div>
+        </div>
       </footer>
+    </div>
+  );
+}
+
+function Feature({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="relative rounded-lg border bg-background p-6">
+      <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+        <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+      </div>
+      <h3 className="mt-4 text-lg font-semibold">{title}</h3>
+      <p className="mt-2 text-muted-foreground">{description}</p>
     </div>
   );
 }

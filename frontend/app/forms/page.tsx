@@ -91,8 +91,8 @@ export default function FormsPage() {
 
   return (
     <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 className="text-3xl font-bold">Forms Management</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">Forms Management</h1>
         <Link 
           href="/forms/create"
           className="w-full sm:w-auto"
@@ -118,36 +118,40 @@ export default function FormsPage() {
         </Card>
       ) : (
         <div 
-          className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
           role="list"
           aria-label="Forms list"
         >
           {forms.map((form) => (
-            <Card key={form.id} className="flex flex-col" role="listitem">
-              <CardHeader>
-                <CardTitle className="line-clamp-2">{form.title}</CardTitle>
+            <Card key={form.id} className="flex flex-col h-full" role="listitem">
+              <CardHeader className="flex-none">
+                <CardTitle className="text-xl line-clamp-2">{form.title}</CardTitle>
                 <CardDescription>
                   {form.description && (
-                    <p className="line-clamp-2 mb-2">{form.description}</p>
+                    <p className="line-clamp-2 mb-2 text-sm">{form.description}</p>
                   )}
-                  Created on: {form.createdAt ? new Date(form.createdAt).toLocaleDateString() : 'Unknown date'}
+                  <p className="text-sm">
+                    Created on: {form.createdAt ? new Date(form.createdAt).toLocaleDateString() : 'Unknown date'}
+                  </p>
                 </CardDescription>
               </CardHeader>
-              <CardContent className="mt-auto">
-                <div className="flex flex-wrap gap-2">
+              <CardContent className="flex-1 flex items-end pt-4">
+                <div className="flex gap-2 w-full">
                   <Link 
                     href={`/forms/${form.id}/edit`} 
                     className="flex-1"
                     aria-label={`Edit form: ${form.title}`}
                   >
-                    <Button variant="outline" className="w-full">Edit</Button>
+                    <Button variant="outline" className="w-full h-9">
+                      Edit
+                    </Button>
                   </Link>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button 
                         variant="ghost" 
-                        size="icon" 
-                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        size="sm"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10 h-9"
                         aria-label={`Delete form: ${form.title}`}
                       >
                         <Trash2 className="h-4 w-4" aria-hidden="true" />

@@ -6,6 +6,8 @@ export interface BaseNode {
   title?: string
   label?: string
   placeholder?: string
+  answer?: string
+  correctAnswer?: string | string[]
 }
 
 export interface InputNode extends BaseNode {
@@ -71,7 +73,8 @@ export const mockForms: FormData[] = [
         type: "input",
         id: "name",
         label: "Full Name",
-        placeholder: "Enter your full name"
+        placeholder: "Enter your full name",
+        answer: "This is a personal identification field - any valid name is acceptable"
       },
       {
         type: "select",
@@ -83,7 +86,8 @@ export const mockForms: FormData[] = [
           "Business",
           "Arts",
           "Medicine"
-        ]
+        ],
+        answer: "Select your current department of study"
       },
       {
         type: "multiple-choice",
@@ -94,12 +98,14 @@ export const mockForms: FormData[] = [
           "In a group study session", 
           "In the library",
           "With background music"
-        ]
+        ],
+        answer: "This question helps us understand your preferred study environment. Multiple answers can be valid based on individual preferences."
       },
       {
         type: "date",
         id: "enrollment-date",
-        title: "When did you enroll in the university?"
+        title: "When did you enroll in the university?",
+        answer: "The enrollment date should be within the last 4 years"
       },
       {
         type: "likert",
@@ -111,7 +117,8 @@ export const mockForms: FormData[] = [
           "Neutral", 
           "Agree",
           "Strongly Agree"
-        ]
+        ],
+        answer: "This helps us gauge student satisfaction with course organization. Responses will be used to improve course structure."
       },
       {
         type: "ranking",
@@ -122,7 +129,8 @@ export const mockForms: FormData[] = [
           "Reading textbooks",
           "Hands-on projects",
           "Group discussions"
-        ]
+        ],
+        answer: "This question helps us understand your learning style preferences. There is no correct order - it's based on personal preference."
       },
       {
         type: "matching",
@@ -139,7 +147,8 @@ export const mockForms: FormData[] = [
           "Acquiring properties from parent class",
           "Many forms of a single entity",
           "Simplifying complex systems"
-        ]
+        ],
+        answer: "Correct matches:\nEncapsulation -> Hiding implementation details\nInheritance -> Acquiring properties from parent class\nPolymorphism -> Many forms of a single entity\nAbstraction -> Simplifying complex systems"
       }
     ]
   }
