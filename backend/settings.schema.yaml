@@ -6,6 +6,50 @@ $defs:
     - production
     title: Environment
     type: string
+  MinioSettings:
+    additionalProperties: false
+    properties:
+      endpoint:
+        default: 127.0.0.1:9000
+        description: URL of the target service.
+        title: Endpoint
+        type: string
+      secure:
+        default: false
+        description: Use https connection to the service.
+        title: Secure
+        type: boolean
+      region:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        description: Region of the service.
+        title: Region
+      bucket:
+        default: search
+        description: Name of the bucket in the service.
+        title: Bucket
+        type: string
+      access_key:
+        description: Access key (user ID) of a user account in the service.
+        examples:
+        - minioadmin
+        title: Access Key
+        type: string
+      secret_key:
+        description: Secret key (password) for the user account.
+        examples:
+        - password
+        format: password
+        title: Secret Key
+        type: string
+        writeOnly: true
+    required:
+    - access_key
+    - secret_key
+    title: MinioSettings
+    type: object
   SMTP:
     additionalProperties: false
     properties:
@@ -81,8 +125,11 @@ properties:
     - type: 'null'
     default: null
     description: SMTP settings
+  minio:
+    $ref: '#/$defs/MinioSettings'
 required:
 - session_secret_key
 - database_uri
+- minio
 title: Settings
 type: object

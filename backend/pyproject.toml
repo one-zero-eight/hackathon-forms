@@ -24,6 +24,9 @@ pre-commit = "^3.8.0"
 pydantic = "^2.9.2"
 ruff = "^0.6.7"
 uvicorn = "^0.31.0"
+minio = "^7.2.10"
+python-multipart = "^0.0.17"
+python-magic = "^0.4.27"
 
 [tool.ruff]
 line-length = 120

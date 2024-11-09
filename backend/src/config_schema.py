@@ -27,6 +27,19 @@ class SMTP(SettingBase):
     "SMTP server password"
 
 
+class MinioSettings(SettingBase):
+    endpoint: str = "127.0.0.1:9000"
+    "URL of the target service."
+    secure: bool = False
+    "Use https connection to the service."
+    bucket: str = "search"
+    "Name of the bucket in the service."
+    access_key: str = Field(..., examples=["minioadmin"])
+    "Access key (user ID) of a user account in the service."
+    secret_key: SecretStr = Field(..., examples=["password"])
+    "Secret key (password) for the user account."
+
+
 class Settings(SettingBase):
     """
     Settings for the application.
@@ -45,6 +58,7 @@ class Settings(SettingBase):
     "Allowed origins for CORS: from which domains requests to the API are allowed"
     smtp: SMTP | None = None
     "SMTP settings"
+    minio: MinioSettings
 
     @classmethod
     def from_yaml(cls, path: Path) -> "Settings":
