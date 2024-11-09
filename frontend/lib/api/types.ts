@@ -35,7 +35,7 @@ export interface paths {
     put?: never;
     /**
      * Create Hr
-     * @description Create HR-user. Requires manager or admin rights.
+     * @description Create HR-user. Requires admin rights.
      */
     post: operations["users_create_hr"];
     delete?: never;
@@ -78,10 +78,48 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/form/{form_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Form */
+    get: operations["get_form"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/form/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create Form */
+    post: operations["create_form"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    /** Body_create_form */
+    Body_create_form: {
+      req: components["schemas"]["CreateFormReq"];
+    };
     /** Body_end_email_flow */
     Body_end_email_flow: {
       /**
@@ -99,6 +137,40 @@ export interface components {
        * Format: email
        */
       email: string;
+    };
+    /**
+     * Content
+     * @description Content model that holds the title, markdown content, and media URLs for a form question.
+     */
+    Content: {
+      /**
+       * Title
+       * @description The title of the content section for the form node.
+       */
+      title?: string | null;
+      /**
+       * Md Content
+       * @description Markdown formatted content providing additional information or instructions.
+       */
+      md_content?: string | null;
+      /**
+       * Medias
+       * @description List of URLs pointing to media (e.g., images, videos) associated with the content.
+       * @default []
+       */
+      medias: string[];
+      explanation: components["schemas"]["Explanation"];
+    };
+    /** CreateFormReq */
+    CreateFormReq: {
+      /** Title */
+      title: string;
+      /** Description */
+      description?: string | null;
+      /** Nodes */
+      nodes: components["schemas"]["FormNode-Input"][];
+      /** Created By */
+      created_by: string;
     };
     /** CreateUser */
     CreateUser: {
@@ -126,10 +198,287 @@ export interface components {
      * @enum {string}
      */
     EmailFlowVerificationStatus: EmailFlowVerificationStatus;
+    /** Explanation */
+    Explanation: {
+      /** Explanation */
+      explanation: string;
+      /**
+       * For Correct Answer Too
+       * @description Show not only on incorrect but on correct answer too
+       * @default false
+       */
+      for_correct_answer_too: boolean;
+    };
+    /** Form */
+    Form: {
+      /**
+       * Id
+       * Format: objectid
+       * @description MongoDB document ObjectID
+       * @default None
+       * @example 5eb7cf5a86d9755df3a6c593
+       */
+      id: string;
+      /**
+       * Title
+       * @description Title of the form.
+       */
+      title: string;
+      /**
+       * Description
+       * @description Optional description providing additional context for the form.
+       */
+      description: string | null;
+      /**
+       * Nodes
+       * @description List of nodes, each representing a question with content, options, and configurations.
+       */
+      nodes: components["schemas"]["FormNode-Output"][];
+      /**
+       * Created At
+       * Format: date-time
+       * @description Timestamp of when the form was created.
+       */
+      created_at: string;
+      /**
+       * Created By
+       * @description Identifier of the user or system that created the form.
+       */
+      created_by: string;
+      /**
+       * Updated At
+       * @description Timestamp of the last update made to the form (optional).
+       */
+      updated_at: string | null;
+      /**
+       * Updated By
+       * @description Identifier of the user who last updated the form (optional).
+       */
+      updated_by: string | null;
+      /**
+       * Deleted At
+       * @description Timestamp of when the form was deleted (optional).
+       */
+      deleted_at: string | null;
+      /**
+       * Deleted By
+       * @description Identifier of the user who deleted the form (optional).
+       */
+      deleted_by: string | null;
+    };
+    /**
+     * FormNode
+     * @description Represents a single node in a form, containing content and a question.
+     */
+    "FormNode-Input": {
+      /**
+       * Id
+       * @description Index in Form.nodes
+       */
+      id: number;
+      /** @description Content providing context, information, or instructions for the question. */
+      content: components["schemas"]["Content"];
+      /**
+       * Question
+       * @description The question to be presented, determined by the 'question_type' field.
+       */
+      question:
+        | components["schemas"]["SingleChoice"]
+        | components["schemas"]["MultipleChoice"]
+        | components["schemas"]["Scale"]
+        | components["schemas"]["Input"]
+        | components["schemas"]["Ranking"]
+        | components["schemas"]["Matching"];
+      /**
+       * Required
+       * @description Determines if the question is mandatory (True) or optional (False).
+       */
+      required: boolean;
+      /**
+       * Next Node
+       * @description Index of the next node in 'Form.nodes' to proceed to, starting from zero.
+       */
+      next_node?: number | null;
+    };
+    /**
+     * FormNode
+     * @description Represents a single node in a form, containing content and a question.
+     */
+    "FormNode-Output": {
+      /**
+       * Id
+       * @description Index in Form.nodes
+       */
+      id: number;
+      /** @description Content providing context, information, or instructions for the question. */
+      content: components["schemas"]["Content"];
+      /**
+       * Question
+       * @description The question to be presented, determined by the 'question_type' field.
+       */
+      question:
+        | components["schemas"]["SingleChoice"]
+        | components["schemas"]["MultipleChoice"]
+        | components["schemas"]["Scale"]
+        | components["schemas"]["Input"]
+        | components["schemas"]["Ranking"]
+        | components["schemas"]["Matching"];
+      /**
+       * Required
+       * @description Determines if the question is mandatory (True) or optional (False).
+       */
+      required: boolean;
+      /**
+       * Next Node
+       * @description Index of the next node in 'Form.nodes' to proceed to, starting from zero.
+       */
+      next_node?: number | null;
+    };
     /** HTTPValidationError */
     HTTPValidationError: {
       /** Detail */
       detail?: components["schemas"]["ValidationError"][];
+    };
+    /**
+     * Input
+     * @description Model for an input-based question where respondents enter text.
+     */
+    Input: {
+      /**
+       * @description Indicates the type of question as 'input'. (enum property replaced by openapi-typescript)
+       * @enum {string}
+       */
+      question_type: InputQuestion_type;
+      /**
+       * Textarea
+       * @description Determines whether the input is a single-line field (False) or a textarea (True).
+       * @default false
+       */
+      textarea: boolean;
+      /**
+       * Correct Answer
+       * @description List of acceptable correct answers as text (optional).
+       */
+      correct_answer?: string[] | null;
+      explanation: components["schemas"]["Explanation"];
+    };
+    /**
+     * Matching
+     * @description Model for a matching-type question, where pairs are matched between two sets of options.
+     */
+    Matching: {
+      /**
+       * @description Indicates the type of question as 'matching'. (enum property replaced by openapi-typescript)
+       * @enum {string}
+       */
+      question_type: MatchingQuestion_type;
+      /**
+       * Options First
+       * @description List of items in the first group to be matched.
+       */
+      options_first: string[];
+      /**
+       * Options Second
+       * @description List of items in the second group to be matched.
+       */
+      options_second: string[];
+      /**
+       * Correct Answer
+       * @description Dictionary where keys are indices of items in 'options_first' and values are indices of matched items in "
+       *     "'options_second' (optional).
+       */
+      correct_answer?: {
+        [key: string]: number;
+      } | null;
+      explanation: components["schemas"]["Explanation"];
+    };
+    /**
+     * MultipleChoice
+     * @description Model for a multiple-choice question in a form.
+     */
+    MultipleChoice: {
+      /**
+       * @description Indicates the type of question as 'multiple_choice'. (enum property replaced by openapi-typescript)
+       * @enum {string}
+       */
+      question_type: MultipleChoiceQuestion_type;
+      /**
+       * Options
+       * @description List of answer options, allowing multiple selections.
+       */
+      options: string[];
+      /**
+       * Correct Answer
+       * @description List of indices for the correct answers (optional).
+       */
+      correct_answer?: number[] | null;
+      explanation: components["schemas"]["Explanation"];
+    };
+    /**
+     * Ranking
+     * @description Model for a ranking-type question, where options are ranked in a specified order.
+     */
+    Ranking: {
+      /**
+       * @description Indicates the type of question as 'ranking'. (enum property replaced by openapi-typescript)
+       * @enum {string}
+       */
+      question_type: RankingQuestion_type;
+      /**
+       * Options
+       * @description List of options that must be ranked.
+       */
+      options: string[];
+      /**
+       * Correct Answer
+       * @description Correct order as a list of indices representing the ranking (optional).
+       */
+      correct_answer?: number[] | null;
+      explanation: components["schemas"]["Explanation"];
+    };
+    /**
+     * Scale
+     * @description Model for a scale-type question, allowing answers to be chosen from a specified scale.
+     */
+    Scale: {
+      /**
+       * @description Indicates the type of question as 'scale'. (enum property replaced by openapi-typescript)
+       * @enum {string}
+       */
+      question_type: ScaleQuestion_type;
+      /**
+       * Scale
+       * @description List of scale labels, for example: ['Very Poor', 'Poor', 'Neutral', 'Good', 'Excellent'].
+       */
+      scale: string[];
+      /**
+       * Correct Answer
+       * @description List of indices representing correct answers on the scale (optional).
+       */
+      correct_answer?: number[] | null;
+      explanation: components["schemas"]["Explanation"];
+    };
+    /**
+     * SingleChoice
+     * @description Model for a single-choice question in a form.
+     */
+    SingleChoice: {
+      /**
+       * @description Indicates the type of question as 'select' for single-choice. (enum property replaced by openapi-typescript)
+       * @enum {string}
+       */
+      question_type: SingleChoiceQuestion_type;
+      /**
+       * Options
+       * @description List of answer options to choose from.
+       */
+      options: string[];
+      /**
+       * Correct Answer
+       * @description Index of the correct answer option (optional).
+       */
+      correct_answer?: number | null;
+      explanation: components["schemas"]["Explanation"];
     };
     /** User */
     User: {
@@ -168,18 +517,31 @@ export interface components {
   headers: never;
   pathItems: never;
 }
+export type SchemaBodyCreateForm = components["schemas"]["Body_create_form"];
 export type SchemaBodyEndEmailFlow =
   components["schemas"]["Body_end_email_flow"];
 export type SchemaBodyStartEmailFlow =
   components["schemas"]["Body_start_email_flow"];
+export type SchemaContent = components["schemas"]["Content"];
+export type SchemaCreateFormReq = components["schemas"]["CreateFormReq"];
 export type SchemaCreateUser = components["schemas"]["CreateUser"];
 export type SchemaEmailFlowReference =
   components["schemas"]["EmailFlowReference"];
 export type SchemaEmailFlowResult = components["schemas"]["EmailFlowResult"];
 export type SchemaEmailFlowVerificationStatus =
   components["schemas"]["EmailFlowVerificationStatus"];
+export type SchemaExplanation = components["schemas"]["Explanation"];
+export type SchemaForm = components["schemas"]["Form"];
+export type SchemaFormNodeInput = components["schemas"]["FormNode-Input"];
+export type SchemaFormNodeOutput = components["schemas"]["FormNode-Output"];
 export type SchemaHttpValidationError =
   components["schemas"]["HTTPValidationError"];
+export type SchemaInput = components["schemas"]["Input"];
+export type SchemaMatching = components["schemas"]["Matching"];
+export type SchemaMultipleChoice = components["schemas"]["MultipleChoice"];
+export type SchemaRanking = components["schemas"]["Ranking"];
+export type SchemaScale = components["schemas"]["Scale"];
+export type SchemaSingleChoice = components["schemas"]["SingleChoice"];
 export type SchemaUser = components["schemas"]["User"];
 export type SchemaUserRole = components["schemas"]["UserRole"];
 export type SchemaValidationError = components["schemas"]["ValidationError"];
@@ -325,12 +687,94 @@ export interface operations {
       };
     };
   };
+  get_form: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        form_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Form"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  create_form: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Body_create_form"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Form"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
 }
 export enum EmailFlowVerificationStatus {
   success = "success",
   expired = "expired",
   incorrect = "incorrect",
   not_found = "not_found",
+}
+export enum InputQuestion_type {
+  input = "input",
+}
+export enum MatchingQuestion_type {
+  matching = "matching",
+}
+export enum MultipleChoiceQuestion_type {
+  multiple_choice = "multiple_choice",
+}
+export enum RankingQuestion_type {
+  ranking = "ranking",
+}
+export enum ScaleQuestion_type {
+  scale = "scale",
+}
+export enum SingleChoiceQuestion_type {
+  select = "select",
 }
 export enum UserRole {
   hr = "hr",
