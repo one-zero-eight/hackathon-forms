@@ -17,7 +17,9 @@ from src.storages.mongo.users import UserRole
 router = APIRouter(prefix="/form", tags=["Forms"])
 
 
-async def can_edit_form_guard(form_id: PydanticObjectId, user_id: PydanticObjectId | None) -> Form:
+async def can_edit_form_guard(
+    form_id: PydanticObjectId, user_id: PydanticObjectId | None, edit_shared_with: bool = False
+) -> Form:
     form = await form_repository.get(form_id)
     if not form:
         raise HTTPException(status_code=404)
@@ -28,7 +30,7 @@ async def can_edit_form_guard(form_id: PydanticObjectId, user_id: PydanticObject
             return form
         elif user.id == form.created_by:
             return form
-        elif user.id in form.shared_with:
+        elif user.id in form.shared_with and not edit_shared_with:
             return form
     raise HTTPException(status_code=403)
 
@@ -57,6 +59,14 @@ async def create_form(data: CreateFormReq, user_id: CURRENT_USER_ID_DEPENDENCY) 
 async def update_form(form_id: PydanticObjectId, data: UpdateFormReq, user_id: CURRENT_USER_ID_DEPENDENCY) -> None:
     _ = await can_edit_form_guard(form_id, user_id)
     return await form_repository.update(form_id, user_id=user_id, data=data)
+
+
+@router.put("/{form_id}/share_with")
+async def share_with(
+    form_id: PydanticObjectId, shared_with_group: list[PydanticObjectId], req_id: CURRENT_USER_ID_DEPENDENCY
+):
+    _ = await can_edit_form_guard(form_id, req_id, True)
+    return await form_repository.share_with(req_id, form_id, shared_with_group)
 
 
 @router.delete("/{form_id}")

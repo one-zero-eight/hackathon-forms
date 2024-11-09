@@ -90,7 +90,14 @@ class FormRepository:
         return await Form.find().to_list()
 
     async def get_all_for_user(self, user_id: PydanticObjectId) -> list[Form]:
-        return await Form.find({"created_by": user_id}).to_list()
+        res = await Form.find({"$or": [{"created_by": user_id}, {"shared_with": user_id}]}).to_list()
+        return res
+
+    async def share_with(
+        self, req_id: PydanticObjectId, form_id: PydanticObjectId, shared_with_group: list[PydanticObjectId]
+    ):
+        shared_with_group = [PydanticObjectId(u) for u in set(shared_with_group) - {req_id}]
+        await Form.find({"_id": form_id}).update({"$set": {"shared_with": shared_with_group}})
 
 
 form_repository: FormRepository = FormRepository()

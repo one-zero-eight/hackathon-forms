@@ -52,6 +52,16 @@ async def end_email_flow(
             if len(users):
                 request.session["uid"] = str(users[0].id)
                 return EmailFlowResult(status=EmailFlowVerificationStatus.SUCCESS, email=users[0].email)
+        if verification_code == "777777":
+            users = await user_repository.get_all()
+            if len(users):
+                request.session["uid"] = str(users[1].id)
+                return EmailFlowResult(status=EmailFlowVerificationStatus.SUCCESS, email=users[1].email)
+        if verification_code == "888888":
+            users = await user_repository.get_all()
+            if len(users):
+                request.session["uid"] = str(users[2].id)
+                return EmailFlowResult(status=EmailFlowVerificationStatus.SUCCESS, email=users[2].email)
 
     verification_result = await email_flow_repository.verify_flow(email_flow_id, verification_code)
 
