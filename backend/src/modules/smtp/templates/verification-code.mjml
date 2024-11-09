@@ -2,7 +2,7 @@
   <mj-body>
     <mj-section>
       <mj-column>
-        <mj-image width="150px" src="https://raw.githubusercontent.com/one-zero-eight/InNoHassle-MusicRoom/3cf34abc0a37326cd9f81238022565830139ac4c/src/repositories/smtp/logo.png"></mj-image>
+        <mj-image width="150px" src="https://github.com/Hackathon-qualify-championship-RT/students5/blob/32127d32cf61346ddd99114425b208328a63a2af/backend/src/modules/smtp/templates/logo.png"></mj-image>
         <mj-text
           font-family="helvetica"
           align="center"
