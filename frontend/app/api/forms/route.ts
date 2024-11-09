@@ -1,34 +1,42 @@
-import { NextResponse } from 'next/server'
 import { mockForms } from './mockDb'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    const forms = Array.from(mockForms.values())
-    return NextResponse.json(forms)
+    return NextResponse.json(mockForms)
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Failed to fetch forms' },
       { status: 500 }
     )
   }
 }
 
-export async function POST(request: Request) {
+export async function DELETE(request: Request) {
   try {
-    const body = await request.json()
-    const newId = (mockForms.size + 1).toString()
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
     
-    const newForm = {
-      ...body,
-      id: newId,
-      fields: body.fields || []
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Form ID is required' },
+        { status: 400 }
+      )
     }
 
-    mockForms.set(newId, newForm)
-    return NextResponse.json(newForm, { status: 201 })
+    const formIndex = mockForms.findIndex(form => form.id === id)
+    if (formIndex === -1) {
+      return NextResponse.json(
+        { error: 'Form not found' },
+        { status: 404 }
+      )
+    }
+
+    mockForms.splice(formIndex, 1)
+    return NextResponse.json({ success: true })
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Failed to delete form' },
       { status: 500 }
     )
   }

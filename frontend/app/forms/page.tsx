@@ -28,18 +28,16 @@ export default function FormsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Simulate data fetching - replace with actual API call
   useEffect(() => {
     const fetchForms = async () => {
       try {
         setIsLoading(true)
-        // Replace with actual API call
-        const mockForms = [
-          { id: 1, title: "Employee Satisfaction Survey", createdAt: "2024-03-20" },
-          { id: 2, title: "Performance Review Form", createdAt: "2024-03-19" },
-          { id: 3, title: "Onboarding Feedback", createdAt: "2024-03-18" },
-        ]
-        setForms(mockForms)
+        const response = await fetch('/api/forms')
+        if (!response.ok) {
+          throw new Error('Failed to fetch forms')
+        }
+        const data = await response.json()
+        setForms(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch forms')
       } finally {
@@ -52,13 +50,19 @@ export default function FormsPage() {
 
   const handleDelete = async (formId: number) => {
     try {
-      // Implement delete logic here
-      console.log(`Deleting form ${formId}`)
+      const response = await fetch(`/api/forms?id=${formId}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to delete form')
+      }
+
       // Optimistic update
       setForms(forms.filter(form => form.id !== formId))
     } catch (err) {
-      // Handle error and possibly revert the optimistic update
       console.error('Failed to delete form:', err)
+      // You might want to show an error toast here
     }
   }
 
@@ -112,9 +116,6 @@ export default function FormsPage() {
               </CardHeader>
               <CardContent className="mt-auto">
                 <div className="flex flex-wrap gap-2">
-                  <Link href={`/forms/${form.id}`} className="flex-1">
-                    <Button variant="outline" className="w-full">View</Button>
-                  </Link>
                   <Link href={`/forms/${form.id}/edit`} className="flex-1">
                     <Button variant="outline" className="w-full">Edit</Button>
                   </Link>

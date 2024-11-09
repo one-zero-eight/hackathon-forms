@@ -6,7 +6,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const form = mockForms.get(params.id)
+    const id = params.id
+    const form = mockForms.find(form => form.id === id)
     
     if (!form) {
       return NextResponse.json(
@@ -29,9 +30,10 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const form = mockForms.get(params.id)
+    const id = params.id
+    const formIndex = mockForms.findIndex(form => form.id === id)
     
-    if (!form) {
+    if (formIndex === -1) {
       return NextResponse.json(
         { error: 'Form not found' },
         { status: 404 }
@@ -40,13 +42,13 @@ export async function PUT(
 
     const body = await request.json()
     
-    mockForms.set(params.id, {
-      ...form,
+    mockForms[formIndex] = {
+      ...mockForms[formIndex],
       ...body,
-      id: params.id
-    })
+      id: id
+    }
 
-    return NextResponse.json(mockForms.get(params.id))
+    return NextResponse.json(mockForms[formIndex])
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },

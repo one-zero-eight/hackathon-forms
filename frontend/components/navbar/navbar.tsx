@@ -51,7 +51,7 @@ const Navbar = () => {
               className="text-lg font-semibold text-gray-900 hover:text-gray-600 transition-colors"
               aria-label="Home"
             >
-              Brand
+              КандидатАйКю
             </Link>
           </div>
 
