@@ -28,21 +28,21 @@ import { Input } from "@/components/ui/input";
 interface User {
   id: number;
   email: string;
-  role: "USER" | "ADMIN";
+  role: "HR" | "MANAGER" | "ADMIN";
 }
 
 export default function AdminDashboard() {
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [newUser, setNewUser] = useState<Omit<User, "id">>({
     email: "",
-    role: "USER",
+    role: "HR",
   });
 
   // Dummy data for initial layout
   const users: User[] = [
-    { id: 1, email: "user1@example.com", role: "USER" },
+    { id: 1, email: "user1@example.com", role: "HR" },
     { id: 2, email: "admin@example.com", role: "ADMIN" },
-    { id: 3, email: "user2@example.com", role: "USER" },
+    { id: 3, email: "user2@example.com", role: "HR" },
   ];
 
   const handleEmailChange = (email: string) => {
@@ -83,7 +83,8 @@ export default function AdminDashboard() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="USER">User</SelectItem>
+                      <SelectItem value="HR">HR</SelectItem>
+                      <SelectItem value="MANAGER">Manager</SelectItem>
                       <SelectItem value="ADMIN">Admin</SelectItem>
                     </SelectContent>
                   </Select>
@@ -125,7 +126,8 @@ export default function AdminDashboard() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="USER">User</SelectItem>
+                  <SelectItem value="HR">HR</SelectItem>
+                  <SelectItem value="MANAGER">Manager</SelectItem>
                   <SelectItem value="ADMIN">Admin</SelectItem>
                 </SelectContent>
               </Select>
