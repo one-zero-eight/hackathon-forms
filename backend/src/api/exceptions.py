@@ -16,16 +16,9 @@ class IncorrectCredentialsException(CustomHTTPException):
     """
 
     def __init__(self, no_credentials: bool = False):
-        if no_credentials:
-            super().__init__(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=self.responses[401]["description"],
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-        else:
-            super().__init__(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=self.responses[401]["description"],
-            )
+        super().__init__(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=self.responses[401]["description"],
+        )
 
     responses = {401: {"description": "Unable to verify credentials OR Credentials not provided"}}

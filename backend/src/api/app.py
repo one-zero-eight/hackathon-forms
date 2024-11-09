@@ -3,6 +3,7 @@ __all__ = ["app"]
 from fastapi import FastAPI
 from fastapi_swagger import patch_fastapi
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 import src.logging_  # noqa: F401
 from src.api import docs
@@ -40,6 +41,21 @@ if settings.cors_allow_origins:
         allow_origin_regex=".*" if settings.environment == Environment.DEVELOPMENT else None,
     )
 
+same_site = "lax" if settings.environment == Environment.PRODUCTION else "none"
+session_cookie = "__Secure-session" if settings.environment == Environment.PRODUCTION else "session"
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.session_secret_key.get_secret_value(),
+    session_cookie=session_cookie,
+    max_age=14 * 24 * 60 * 60,  # 14 days, in seconds
+    path=settings.app_root_path or "/",
+    same_site=same_site,
+    https_only=True,
+    domain=None,
+)
+
+from src.modules.email.routes import router as router_email  # noqa: E402
 from src.modules.users.routes import router as router_users  # noqa: E402
 
 app.include_router(router_users)
+app.include_router(router_email)

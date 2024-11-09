@@ -1,35 +1,39 @@
 $schema: http://json-schema.org/draft-07/schema#
 $defs:
-  Accounts:
-    additionalProperties: false
-    description: InNoHassle-Accounts integration settings
-    properties:
-      api_url:
-        default: https://api.innohassle.ru/accounts/v0
-        description: URL of the Accounts API
-        title: Api Url
-        type: string
-      well_known_url:
-        default: https://api.innohassle.ru/accounts/v0/.well-known
-        description: URL of the well-known endpoint for the Accounts API
-        title: Well Known Url
-        type: string
-      api_jwt_token:
-        description: JWT token for accessing the Accounts API as a service
-        format: password
-        title: Api Jwt Token
-        type: string
-        writeOnly: true
-    required:
-    - api_jwt_token
-    title: Accounts
-    type: object
   Environment:
     enum:
     - development
     - production
     title: Environment
     type: string
+  SMTP:
+    additionalProperties: false
+    properties:
+      host:
+        description: SMTP server host
+        title: Host
+        type: string
+      port:
+        default: 587
+        description: SMTP server port
+        title: Port
+        type: integer
+      username:
+        description: SMTP server username
+        title: Username
+        type: string
+      password:
+        description: SMTP server password
+        format: password
+        title: Password
+        type: string
+        writeOnly: true
+    required:
+    - host
+    - username
+    - password
+    title: SMTP
+    type: object
 additionalProperties: false
 description: Settings for the application.
 properties:
@@ -46,6 +50,12 @@ properties:
     description: Prefix for the API path (e.g. "/api/v0")
     title: App Root Path
     type: string
+  session_secret_key:
+    description: Secret key for session middleware
+    format: password
+    title: Session Secret Key
+    type: string
+    writeOnly: true
   database_uri:
     description: MongoDB database settings
     examples:
@@ -65,10 +75,14 @@ properties:
       type: string
     title: Cors Allow Origins
     type: array
-  accounts:
-    $ref: '#/$defs/Accounts'
+  smtp:
+    anyOf:
+    - $ref: '#/$defs/SMTP'
+    - type: 'null'
+    default: null
+    description: SMTP settings
 required:
+- session_secret_key
 - database_uri
-- accounts
 title: Settings
 type: object

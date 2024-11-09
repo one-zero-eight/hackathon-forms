@@ -12,7 +12,6 @@ from pymongo.errors import ConnectionFailure
 
 from src.config import settings
 from src.logging_ import logger
-from src.modules.innohassle_accounts import innohassle_accounts
 from src.storages.mongo import document_models
 
 
@@ -44,7 +43,6 @@ async def setup_database() -> AsyncIOMotorClient:
 async def lifespan(_app: FastAPI):
     # Application startup
     motor_client = await setup_database()
-    await innohassle_accounts.update_key_set()
     yield
 
     # -- Application shutdown --
