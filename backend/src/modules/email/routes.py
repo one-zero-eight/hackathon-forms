@@ -49,4 +49,7 @@ async def end_email_flow(
     if verification_result.status == EmailFlowVerificationStatus.SUCCESS:
         request.session["uid"] = str(verification_result.email_flow.user_id)
 
-    return EmailFlowResult(status=verification_result.status, email=verification_result.email_flow.email)
+    return EmailFlowResult(
+        status=verification_result.status,
+        email=verification_result.email_flow.email if verification_result.email_flow else None,
+    )

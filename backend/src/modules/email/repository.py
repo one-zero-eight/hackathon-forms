@@ -3,7 +3,6 @@ import random
 from enum import StrEnum
 
 from beanie import PydanticObjectId
-from beanie.odm.operators.update.general import Set
 from pydantic import BaseModel
 
 from src.storages.mongo.email import EmailFlow
@@ -52,7 +51,7 @@ class EmailFlowRepository:
         email_flow = await EmailFlow.find_one(EmailFlow.id == email_flow_id)
         if email_flow is None:
             return EmailFlowVerificationResult(status=EmailFlowVerificationStatus.NOT_FOUND)
-        if email_flow.verification_code_expires_at < datetime.datetime.utcnow():
+        if email_flow.verification_code_expires_at < datetime.datetime.now(datetime.UTC):
             # delete flow
             await email_flow.delete()
             return EmailFlowVerificationResult(status=EmailFlowVerificationStatus.EXPIRED)
@@ -60,21 +59,17 @@ class EmailFlowRepository:
             return EmailFlowVerificationResult(status=EmailFlowVerificationStatus.INCORRECT)
         # clear all other verification codes
         await EmailFlow.find_many(
-            EmailFlow.email == email_flow.email,
-            EmailFlow.id != email_flow.id,
-            EmailFlow.is_verified is False,
+            {"email": email_flow.email, "_id": {"$ne": email_flow.id}, "is_verified": False}
         ).delete()
 
         # update
-        await email_flow.update(
-            Set({EmailFlow.verified_at: datetime.datetime.now(datetime.UTC), EmailFlow.is_verified: True})
-        )
+        await email_flow.update({"$set": {"verified_at": datetime.datetime.now(datetime.UTC), "is_verified": True}})
 
         return EmailFlowVerificationResult(status=EmailFlowVerificationStatus.SUCCESS, email_flow=email_flow)
 
     async def set_sent(self, id: PydanticObjectId) -> None:
         await EmailFlow.find_one(EmailFlow.id == id).update(
-            Set({EmailFlow.is_sent: True, EmailFlow.sent_at: datetime.datetime.now(datetime.UTC)})
+            {"$set": {"is_sent": True, "sent_at": datetime.datetime.now(datetime.UTC)}}
         )
 
 
