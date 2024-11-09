@@ -7,26 +7,29 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const me = useMe();
+  const t = useTranslations('nav');
 
   const navigationItems = [
-    { label: "Главная", href: "/" },
+    { label: t('home'), href: "/" },
     {
-      label: "Формы",
+      label: t('forms'),
       href: "/forms",
       roles: [UserRole.hr, UserRole.manager, UserRole.admin],
     },
     {
-      label: "Создать форму",
+      label: t('createForm'),
       href: "/forms/create",
       roles: [UserRole.hr, UserRole.manager, UserRole.admin],
     },
-    { label: "Админ-панель", href: "/admin", roles: [UserRole.admin] },
+    { label: t('admin'), href: "/admin", roles: [UserRole.admin] },
   ].filter((item) => {
     if (item.roles) {
       return me && item.roles.includes(me.role);
@@ -76,7 +79,7 @@ const Navbar = () => {
                 height={30}
                 className="mr-2 h-8 w-8 rounded-lg"
               />
-              КандидатАйКю
+              {t('brand')}
             </Link>
           </div>
 
@@ -86,12 +89,16 @@ const Navbar = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-gray-900 ${pathname === item.href ? "text-blue-600" : "text-gray-600"}`}
+                className={`text-sm font-medium transition-colors hover:text-gray-900 ${
+                  pathname === item.href ? "text-blue-600" : "text-gray-600"
+                }`}
                 aria-current={pathname === item.href ? "page" : undefined}
               >
                 {item.label}
               </Link>
             ))}
+
+            <LanguageSwitcher />
 
             {/* Add login button or user email */}
             {me ? (
@@ -99,7 +106,7 @@ const Navbar = () => {
             ) : (
               <Link href="/login">
                 <Button variant="outline" size="sm">
-                  Войти
+                  {t('login')}
                 </Button>
               </Link>
             )}
@@ -107,13 +114,15 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-4 sm:hidden">
+            <LanguageSwitcher />
+
             {/* Add login button or user email for mobile */}
             {me ? (
               <span className="text-sm font-medium text-gray-600">{me.email}</span>
             ) : (
               <Link href="/login">
                 <Button variant="outline" size="sm">
-                  Войти
+                  {t('login')}
                 </Button>
               </Link>
             )}

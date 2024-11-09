@@ -1,0 +1,132 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": {
+      "tryAgain": "Try Again"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "back": "Back",
+      "create": "Create",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "meta": {
+    "title": "CandidateIQ - Candidate Assessment System",
+    "description": "Create and manage candidate assessment forms"
+  },
+  "home": {
+    "hero": {
+      "title": "Create powerful candidate assessment forms",
+      "description": "A simple and effective way to create candidate assessment forms. Create, share and analyze results in one place.",
+      "cta": "Get Started"
+    },
+    "features": {
+      "title": "Everything you need to create effective forms",
+      "description": "Our form builder contains all the features needed to create professional forms and surveys.",
+      "items": {
+        "builder": {
+          "title": "Drag & Drop Builder",
+          "description": "Intuitive interface for creating forms in minutes"
+        },
+        "collaboration": {
+          "title": "Collaboration",
+          "description": "Share forms with your team and work together"
+        },
+        "access": {
+          "title": "Access Control",
+          "description": "Control who can view and submit responses"
+        },
+        "analytics": {
+          "title": "Analytics",
+          "description": "Get response analytics with powerful tools"
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to start?",
+      "description": "Join thousands of teams already using our form builder to collect and analyze data.",
+      "button": "Create your first form"
+    },
+    "terms": {
+      "title": "Terms of Service"
+    },
+    "privacy": {
+      "title": "Privacy Policy"
+    },
+    "copyright": "CandidateIQ. All rights reserved."
+  },
+  "forms": {
+    "list": {
+      "title": "My Forms",
+      "empty": "No forms created yet",
+      "createFirst": "Create Your First Form",
+      "createNew": "Create Form"
+    },
+    "create": {
+      "title": "Create New Form",
+      "form": {
+        "title": {
+          "label": "Form Title",
+          "placeholder": "Enter form title"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Enter form description"
+        }
+      }
+    },
+    "delete": {
+      "title": "Delete Form?",
+      "description": "This action cannot be undone. The form will be permanently deleted."
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "subtitle": "Page not found",
+    "description": "Sorry, we couldn't find the page you're looking for.",
+    "actions": {
+      "home": "Go to Home",
+      "back": "Go Back"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "sections": {
+      "userObligations": {
+        "title": "3. User Obligations",
+        "intro": "You agree to:",
+        "items": [
+          "Provide accurate information during registration",
+          "Not share your account access with third parties",
+          "Comply with all applicable laws and regulations",
+          "Not use the Service for illegal activities"
+        ]
+      },
+      "intellectualProperty": {
+        "title": "4. Intellectual Property",
+        "content": "All rights to the Service, including copyrights, trademarks, and other intellectual property rights, belong to CandidateIQ or its licensors. Users retain rights to their content but grant us a license to use it within the Service."
+      },
+      "liability": {
+        "title": "5. Liability",
+        "intro": "The Service is provided \"as is\". We are not liable for:",
+        "items": [
+          "Service interruptions",
+          "Data loss",
+          "Any indirect damages",
+          "Actions of third parties"
+        ]
+      }
+    }
+  },
+  "nav": {
+    "brand": "CandidateIQ",
+    "home": "Home",
+    "forms": "Forms",
+    "createForm": "Create Form",
+    "admin": "Admin Panel",
+    "login": "Login"
+  }
+}

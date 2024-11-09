@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Users, Lock, BarChart } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
+  const t = useTranslations("home");
   return (
     <div className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -12,15 +14,15 @@ export default function Home() {
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
             <div className="sm:text-center lg:col-span-6 lg:text-left">
               <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-                Создавайте мощные формы для оценки кандидатов
+                {t('hero.title')}
               </h1>
               <p className="mt-6 text-lg leading-8 text-muted-foreground">
-                Простой и эффективный способ создания форм для оценки кандидатов. Создавайте, делитесь и анализируйте результаты в одном месте.
+                {t('hero.description')}
               </p>
               <div className="mt-8 flex gap-x-4">
                 <Button asChild size="lg">
                   <Link href="/forms">
-                    Начать <ArrowRight />
+                    {t('hero.cta')} <ArrowRight />
                   </Link>
                 </Button>
               </div>
@@ -45,33 +47,33 @@ export default function Home() {
           <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Все необходимое для создания эффективных форм
+                {t('features.title')}
               </h2>
               <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground sm:mt-4">
-                Наш конструктор форм содержит все функции, необходимые для создания профессиональных форм и опросов.
+                {t('features.description')}
               </p>
             </div>
 
             <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               <Feature
                 icon={FileText}
-                title="Drag & Drop Конструктор"
-                description="Интуитивный интерфейс для создания форм за считанные минуты"
+                title={t('features.items.builder.title')}
+                description={t('features.items.builder.description')}
               />
               <Feature
                 icon={Users}
-                title="Совместная работа"
-                description="Делитесь формами с командой и работайте вместе"
+                title={t('features.items.collaboration.title')}
+                description={t('features.items.collaboration.description')}
               />
               <Feature
                 icon={Lock}
-                title="Контроль доступа"
-                description="Управляйте тем, кто может просматривать и отправлять ответы"
+                title={t('features.items.access.title')}
+                description={t('features.items.access.description')}
               />
               <Feature
                 icon={BarChart}
-                title="Аналитика"
-                description="Получайте аналитику по ответам с помощью мощных инструментов"
+                title={t('features.items.analytics.title')}
+                description={t('features.items.analytics.description')}
               />
             </div>
           </div>
@@ -83,10 +85,10 @@ export default function Home() {
             <div className="mx-auto max-w-xl lg:max-w-none">
               <div className="text-center">
                 <h2 className="text-2xl font-bold tracking-tight text-primary-foreground sm:text-3xl">
-                  Готовы начать?
+                  {t('cta.title')}
                 </h2>
                 <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-foreground/80">
-                  Присоединяйтесь к тысячам команд, которые уже используют наш конструктор форм для сбора и анализа данных.
+                  {t('cta.description')}
                 </p>
                 <div className="mt-8">
                   <Link href="/forms">
@@ -95,7 +97,7 @@ export default function Home() {
                       variant="secondary"
                       className="gap-2 text-primary"
                     >
-                      Создать первую форму
+                      {t('cta.button')}
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
@@ -114,16 +116,16 @@ export default function Home() {
               href="/privacy"
               className="text-sm text-muted-foreground hover:text-foreground"
             >
-              Политика конфиденциальности
+              {t('privacy.title')}
             </Link>
             <Link
               href="/terms"
               className="text-sm text-muted-foreground hover:text-foreground"
             >
-              Условия использования
+              {t('terms.title')}
             </Link>
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} КандидатАйКю. Все права защищены.
+              © {new Date().getFullYear()} {t('copyright')}
             </p>
           </div>
         </div>
