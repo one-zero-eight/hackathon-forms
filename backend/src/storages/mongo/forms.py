@@ -106,6 +106,8 @@ class FormNode(BaseSchema):
     Represents a single node in a form, containing content and a question.
     """
 
+    id: int
+    "Index in Form.nodes"
     content: Content
     "Content providing context, information, or instructions for the question."
     question: Union[SingleChoice, MultipleChoice, Scale, Input, Ranking, Matching] = Field(
