@@ -10,5 +10,5 @@ class UpsertAnswerReq(BaseSchema):
 
 
 class ListAnswersFilter(BaseSchema):
-    invite_id: PydanticObjectId
-    session_id: str
+    invite_id: PydanticObjectId | None = None
+    session_id: str | None = None

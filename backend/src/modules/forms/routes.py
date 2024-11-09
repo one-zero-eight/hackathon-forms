@@ -85,6 +85,6 @@ async def get_stats(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDEN
     raise NotImplementedError
 
 
-@router.get("/{form_id}/answers")
+@router.post("/{form_id}/answers")
 async def list_answers(form_id: PydanticObjectId, filter: ListAnswersFilter) -> list[Answer]:
     return await answer_repository.list_answers(form_id, filter)

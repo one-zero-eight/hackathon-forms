@@ -46,7 +46,13 @@ class AnswerRepository:
         return await Answer.find_one({"session_id": session_id, "form_id": form_id})
 
     async def list_answers(self, form_id: PydanticObjectId, filter: ListAnswersFilter) -> list[Answer]:
-        return await Answer.find({"session_id": filter.session_id, "invite_id": filter.invite_id}).to_list()
+        res = Answer.find()
+        if filter.invite_id is not None:
+            res = res.find({"invite_id": filter.invite_id})
+        if filter.session_id is not None:
+            res = res.find({"session_id": filter.session_id})
+
+        return await res.to_list()
 
 
 answer_repository: AnswerRepository = AnswerRepository()
