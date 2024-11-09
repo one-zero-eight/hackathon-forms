@@ -2,6 +2,8 @@ __all__ = ["User", "UserRole"]
 
 from enum import StrEnum
 
+from pymongo import IndexModel
+
 from src.pydantic_base import BaseSchema
 from src.storages.mongo.__base__ import CustomDocument
 
@@ -19,4 +21,5 @@ class UserSchema(BaseSchema):
 
 
 class User(UserSchema, CustomDocument):
-    pass
+    class Settings:
+        indexes = [IndexModel("email", unique=True)]

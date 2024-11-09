@@ -3,13 +3,13 @@ __all__ = ["UserRepository", "user_repository"]
 from beanie import PydanticObjectId
 
 from src.modules.users.schemas import CreateUser
-from src.storages.mongo.users import User
+from src.storages.mongo.users import User, UserRole
 
 
 # noinspection PyMethodMayBeStatic
 class UserRepository:
-    async def create(self, user: CreateUser) -> User:
-        created = User(**user.model_dump())
+    async def create_hr_user(self, user: CreateUser) -> User:
+        created = User(**user.model_dump(), role=UserRole.HR)
         return await created.insert()
 
     async def read(self, user_id: int) -> User | None:
