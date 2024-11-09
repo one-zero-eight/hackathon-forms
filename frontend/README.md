@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# КандидатАйКю - Система оценки кандидатов
 
-## Getting Started
+![Hackathon](https://img.shields.io/badge/hackathon-RT%20Championship-blue)
+![Team](https://img.shields.io/badge/team-students5-orange)
+![Status](https://img.shields.io/badge/status-in%20development-green)
 
-First, run the development server:
+> 🏆 Проект разработан в рамках хакатона "Квалификационный чемпионат RT"
+
+Веб-платформа для создания и управления формами оценки кандидатов, помогающая HR-специалистам автоматизировать процесс найма.
+
+![КандидатАйКю Превью](/public/form-builder-preview.png)
+
+## ✨ Ключевые особенности
+
+- 📝 Конструктор форм с drag-and-drop интерфейсом
+- 👥 Совместная работа HR-команды
+- 🔒 Гибкое управление доступом
+- 📊 Аналитика результатов
+- 🌙 Темная тема
+- 📱 Адаптивный дизайн
+
+## 🛠️ Технологии
+
+- **Frontend:** Next.js 14, TypeScript, Tailwind CSS
+- **UI компоненты:** shadcn/ui
+- **Управление данными:** Tanstack Query
+- **Drag & Drop:** DND Kit
+- **Валидация:** Zod
+
+## 🚀 Быстрый старт
+
+### Предварительные требования
+
+- Node.js 18+
+- npm
+
+### Установка
+
+1.Клонируйте репозиторий:
+
+```bash
+git clone https://github.com/Hackathon-qualify-championship-RT/students5/
+cd students5
+```
+
+2.Установите зависимости:
+
+```bash
+npm install
+```
+
+3.Создайте файл `.env.local` и добавьте необходимые переменные окружения:
+
+```bash
+NEXT_PUBLIC_API_URL=/backend
+```
+
+4.Запустите проект в режиме разработки:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000](http://localhost:3000) в браузере.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📖 Документация
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Структура проекта
 
-## Learn More
+### Основные команды
 
-To learn more about Next.js, take a look at the following resources:
+- `pnpm dev` - Запуск в режиме разработки
+- `pnpm build` - Сборка проекта
+- `pnpm start` - Запуск собранного проекта
+- `pnpm lint` - Проверка кода
+- `pnpm prettify` - Форматирование кода
+- `pnpm gen:api` - Генерация типов API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🤝 Вклад в проект
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Мы приветствуем вклад в развитие проекта! Пожалуйста, ознакомьтесь с нашими правилами:
 
-## Deploy on Vercel
+1. Форкните репозиторий
+2. Создайте ветку для вашей функции (`git checkout -b feature/amazing-feature`)
+3. Зафиксируйте изменения (`git commit -m 'Add amazing feature'`)
+4. Отправьте изменения в ваш форк (`git push origin feature/amazing-feature`)
+5. Откройте Pull Request
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 👥 Команда
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Участник 1](https://github.com/username1) - Frontend Developer
+- [Участник 2](https://github.com/username2) - Backend Developer
+- [Участник 3](https://github.com/username3) - UI/UX Designer
+- [Участник 4](https://github.com/username4) - Project Manager
+- [Участник 5](https://github.com/username5) - QA Engineer
+
+## 📞 Контакты
+
+- Email: support@kandidatiq.ru
+- [GitHub Issues](https://github.com/your-username/kandidatiq/issues)
+
+## 🙏 Благодарности
+
+Особая благодарность организаторам хакатона "Квалификационный чемпионат RT" за возможность реализовать этот проект.
