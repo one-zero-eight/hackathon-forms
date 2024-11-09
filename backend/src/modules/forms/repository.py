@@ -10,10 +10,10 @@ from src.storages.mongo.forms import Form
 
 class FormRepository:
     async def create(self, form: CreateFormReq) -> Form:
-        created = Form(created_at=datetime.datetime.now(datetime.UTC) ** form.model_dump())
+        created = Form(created_at=datetime.datetime.now(datetime.UTC), **form.model_dump())
         return await created.insert()
 
-    async def delete(self, form_id: PydanticObjectId, user_id: int) -> bool:
+    async def delete(self, form_id: PydanticObjectId, user_id: int) -> None:
         await Form.update(
             {
                 "_id": form_id,
