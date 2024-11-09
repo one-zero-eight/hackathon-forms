@@ -20,7 +20,7 @@ async def get_last_answer_state(req: Request) -> Answer:
     form_id = req.session.get("form_id")
     if session_id is None or form_id is None:
         raise HTTPException(status_code=404)
-    res = await answer_repository.get(form_id, session_id)
-    if res is None:
+    response = await answer_repository.get(form_id, session_id)
+    if response is None:
         raise HTTPException(status_code=404)
-    return res
+    return response
