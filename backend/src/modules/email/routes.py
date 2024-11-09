@@ -7,6 +7,8 @@ from fastapi import APIRouter, Body, HTTPException
 from pydantic import BaseModel, EmailStr
 from starlette.requests import Request
 
+from src.config import settings
+from src.config_schema import Environment
 from src.modules.email.repository import EmailFlowVerificationStatus, email_flow_repository
 from src.modules.users.repository import user_repository
 
@@ -44,6 +46,13 @@ async def end_email_flow(
     verification_code: Annotated[str, Body()],
     request: Request,
 ) -> EmailFlowResult:
+    if settings.environment == Environment.DEVELOPMENT:
+        if verification_code == "666666":
+            users = await user_repository.get_all()
+            if len(users):
+                request.session["uid"] = str(users[0].id)
+                return EmailFlowResult(status=EmailFlowVerificationStatus.SUCCESS, email=users[0].email)
+
     verification_result = await email_flow_repository.verify_flow(email_flow_id, verification_code)
 
     if verification_result.status == EmailFlowVerificationStatus.SUCCESS:

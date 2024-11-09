@@ -41,7 +41,6 @@ if settings.cors_allow_origins:
         allow_origin_regex=".*" if settings.environment == Environment.DEVELOPMENT else None,
     )
 
-same_site = "lax" if settings.environment == Environment.PRODUCTION else "none"
 session_cookie = "__Secure-session" if settings.environment == Environment.PRODUCTION else "session"
 app.add_middleware(
     SessionMiddleware,
@@ -49,8 +48,8 @@ app.add_middleware(
     session_cookie=session_cookie,
     max_age=14 * 24 * 60 * 60,  # 14 days, in seconds
     path=settings.app_root_path or "/",
-    same_site=same_site,
-    https_only=True,
+    same_site="lax",
+    https_only=True if settings.environment == Environment.PRODUCTION else False,
     domain=None,
 )
 

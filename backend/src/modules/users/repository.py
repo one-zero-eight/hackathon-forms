@@ -22,5 +22,8 @@ class UserRepository:
         exists = bool(await User.find(User.id == user_id, limit=1).count())
         return exists
 
+    async def get_all(self) -> list[User]:
+        return await User.find().to_list()
+
 
 user_repository: UserRepository = UserRepository()
