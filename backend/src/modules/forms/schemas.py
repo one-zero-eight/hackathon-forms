@@ -1,5 +1,5 @@
 from src.pydantic_base import BaseSchema
-from src.storages.mongo.forms import FormNode, FormSchema
+from src.storages.mongo.forms import FormNode
 
 
 class CreateFormReq(BaseSchema):
@@ -12,7 +12,7 @@ class CreateInviteReq(BaseSchema):
     one_time: bool = False
 
 
-class UpdateFormReq(FormSchema):
+class UpdateFormReq(BaseSchema):
     """
     Schema defining a form, which contains metadata and a series of nodes (questions).
     """

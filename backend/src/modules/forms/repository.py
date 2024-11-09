@@ -7,7 +7,7 @@ import random
 
 from beanie import PydanticObjectId
 
-from src.modules.forms.schemas import CreateFormReq, CreateInviteReq
+from src.modules.forms.schemas import CreateFormReq, CreateInviteReq, UpdateFormReq
 from src.storages.mongo import Invite
 from src.storages.mongo.forms import Form
 
@@ -66,9 +66,15 @@ class FormRepository:
     async def get_invites(self, form_id: PydanticObjectId) -> list[Invite]:
         return await Invite.find({"form_id": form_id}).to_list()
 
-    async def update(self, form_id: PydanticObjectId, user_id: PydanticObjectId) -> Form | None:
+    async def update(self, form_id: PydanticObjectId, user_id: PydanticObjectId, data: UpdateFormReq) -> Form | None:
         await Form.find_one({"_id": form_id}).update(
-            {"$set": {"updated_by": user_id, "updated_at": datetime.datetime.now(datetime.UTC)}},
+            {
+                "$set": {
+                    **data.model_dump(exclude_unset=True),
+                    "updated_by": user_id,
+                    "updated_at": datetime.datetime.now(datetime.UTC),
+                }
+            },
         )
         return await Form.find_one({"_id": form_id})
 
