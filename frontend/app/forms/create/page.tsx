@@ -102,9 +102,9 @@ export default function CreateFormPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <h1 className="mb-8 text-3xl font-bold">Create New Form</h1>
-
+    <div className="max-w-2xl mx-auto p-7">
+      <h1 className="text-3xl font-bold mb-8">Create New Form</h1>
+      
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
           <label
