@@ -1,0 +1,35 @@
+services:
+  # Nginx proxy
+  nginx:
+    image: nginx
+    restart: always
+    ports: [ "80:80" ]
+    volumes: [ "./nginx-server.conf:/etc/nginx/conf.d/default.conf:ro" ]
+
+  web:
+    # See Dockerfile in 'frontend' directory
+    build: ./frontend
+    restart: always
+
+  api:
+    # See Dockerfile in 'backend' directory
+    build: ./backend
+    restart: always
+    volumes:
+      - "./backend/settings.yaml:/code/settings.yaml:ro" # Read-only settings file
+    depends_on:
+      db:
+        condition: service_started
+
+  db:
+    # See more: https://registry.hub.docker.com/_/mongo
+    image: "mongo:7.0"
+    restart: always
+    volumes:
+      - "mongodb:/data/db"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-mongoadmin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-secret}
+
+volumes:
+  mongodb:

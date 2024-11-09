@@ -1,0 +1,6 @@
+services:
+  nginx:
+    image: nginx
+    network_mode: host
+    volumes: [ "./nginx-server-dev.conf:/etc/nginx/conf.d/default.conf:ro" ]
+    extra_hosts: [ "host.docker.internal:host-gateway" ]
