@@ -30,12 +30,7 @@ async def get_me(user_id: CURRENT_USER_ID_DEPENDENCY) -> User:
 
 
 @router.get("/", responses={200: {"description": "List of users"}})
-async def get_users(user_id: CURRENT_USER_ID_DEPENDENCY) -> list[User]:
-    user = await user_repository.read(user_id)
-
-    if user.role != UserRole.ADMIN:
-        raise NotEnoughPermissionsException()
-
+async def get_users(_: CURRENT_USER_ID_DEPENDENCY) -> list[User]:
     return await user_repository.get_all()
 
 
