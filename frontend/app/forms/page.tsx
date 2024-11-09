@@ -20,6 +20,7 @@ import { useState, useEffect } from "react"
 interface Form {
   id: number
   title: string
+  description?: string
   createdAt: string
 }
 
@@ -28,24 +29,25 @@ export default function FormsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchForms = async () => {
-      try {
-        setIsLoading(true)
-        const response = await fetch('/api/forms')
-        if (!response.ok) {
-          throw new Error('Failed to fetch forms')
-        }
-        const data = await response.json()
-        setForms(data)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch forms')
-      } finally {
-        setIsLoading(false)
+  const handleFetchForms = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      const response = await fetch('/api/forms')
+      if (!response.ok) {
+        throw new Error('Failed to fetch forms')
       }
+      const data = await response.json()
+      setForms(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch forms')
+    } finally {
+      setIsLoading(false)
     }
+  }
 
-    fetchForms()
+  useEffect(() => {
+    handleFetchForms()
   }, [])
 
   const handleDelete = async (formId: number) => {
@@ -58,27 +60,31 @@ export default function FormsPage() {
         throw new Error('Failed to delete form')
       }
 
-      // Optimistic update
-      setForms(forms.filter(form => form.id !== formId))
+      setForms(prevForms => prevForms.filter(form => form.id !== formId))
     } catch (err) {
-      console.error('Failed to delete form:', err)
-      // You might want to show an error toast here
+      setError(err instanceof Error ? err.message : 'Failed to delete form')
     }
   }
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex items-center justify-center min-h-[400px]" role="status" aria-label="Loading forms">
         <Loader2 className="h-8 w-8 animate-spin" />
+        <span className="sr-only">Loading forms...</span>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center" role="alert">
         <p className="text-destructive mb-4">{error}</p>
-        <Button onClick={() => window.location.reload()}>Try Again</Button>
+        <Button 
+          onClick={handleFetchForms}
+          aria-label="Retry loading forms"
+        >
+          Try Again
+        </Button>
       </div>
     )
   }
@@ -87,9 +93,15 @@ export default function FormsPage() {
     <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-3xl font-bold">Forms Management</h1>
-        <Link href="/forms/create">
-          <Button className="w-full sm:w-auto">
-            <Plus className="h-4 w-4 mr-2" />
+        <Link 
+          href="/forms/create"
+          className="w-full sm:w-auto"
+        >
+          <Button 
+            className="w-full sm:w-auto"
+            aria-label="Create new form"
+          >
+            <Plus className="h-4 w-4 mr-2" aria-hidden="true" />
             Create New Form
           </Button>
         </Link>
@@ -100,23 +112,34 @@ export default function FormsPage() {
           <CardContent>
             <p className="text-muted-foreground mb-4">No forms created yet</p>
             <Link href="/forms/create">
-              <Button>Create Your First Form</Button>
+              <Button aria-label="Create your first form">Create Your First Form</Button>
             </Link>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div 
+          className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          role="list"
+          aria-label="Forms list"
+        >
           {forms.map((form) => (
-            <Card key={form.id} className="flex flex-col">
+            <Card key={form.id} className="flex flex-col" role="listitem">
               <CardHeader>
                 <CardTitle className="line-clamp-2">{form.title}</CardTitle>
                 <CardDescription>
-                  Created on: {new Date(form.createdAt).toLocaleDateString()}
+                  {form.description && (
+                    <p className="line-clamp-2 mb-2">{form.description}</p>
+                  )}
+                  Created on: {form.createdAt ? new Date(form.createdAt).toLocaleDateString() : 'Unknown date'}
                 </CardDescription>
               </CardHeader>
               <CardContent className="mt-auto">
                 <div className="flex flex-wrap gap-2">
-                  <Link href={`/forms/${form.id}/edit`} className="flex-1">
+                  <Link 
+                    href={`/forms/${form.id}/edit`} 
+                    className="flex-1"
+                    aria-label={`Edit form: ${form.title}`}
+                  >
                     <Button variant="outline" className="w-full">Edit</Button>
                   </Link>
                   <AlertDialog>
@@ -125,8 +148,9 @@ export default function FormsPage() {
                         variant="ghost" 
                         size="icon" 
                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        aria-label={`Delete form: ${form.title}`}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4" aria-hidden="true" />
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>

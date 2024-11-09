@@ -55,13 +55,17 @@ export type FormNode = InputNode | SelectNode | MultipleChoiceNode | DateNode | 
 export interface FormData {
   id: string
   title: string
+  description?: string
   nodes: FormNode[]
+  createdAt: string
 }
 
 export const mockForms: FormData[] = [
   {
     id: "1",
     title: "Comprehensive Student Feedback Survey",
+    description: "A detailed survey to gather student feedback on learning preferences, academic experience, and course satisfaction. This form demonstrates various question types including text input, multiple choice, ratings, and concept matching.",
+    createdAt: "2024-01-15T12:00:00Z",
     nodes: [
       {
         type: "input",

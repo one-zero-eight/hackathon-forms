@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core'
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
@@ -197,23 +197,31 @@ function SortableNode({
     setNodeRef,
     transform,
     transition,
+    isDragging,
   } = useSortable({ id: node.id })
 
-  const style = {
+  const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
+    opacity: isDragging ? 0.5 : 1,
+    position: 'relative' as const,
+    zIndex: isDragging ? 1 : 0,
   }
 
   return (
-    <Card ref={setNodeRef} style={style} className="p-4">
+    <Card 
+      ref={setNodeRef} 
+      style={style} 
+      className={`p-4 ${isDragging ? 'shadow-lg ring-2 ring-primary/20' : ''} transition-shadow duration-200`}
+    >
       <div className="flex items-start gap-4">
         <button
-          className="mt-2 cursor-move"
+          className="mt-2 cursor-move touch-none"
           aria-label="Drag to reorder"
           {...attributes}
           {...listeners}
         >
-          <GripVertical className="h-5 w-5 text-muted-foreground" />
+          <GripVertical className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors" />
         </button>
         
         <div className="flex-1 space-y-4">
@@ -350,7 +358,11 @@ export default function EditFormPage() {
   }
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 8px movement required before drag starts
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -443,14 +455,16 @@ export default function EditFormPage() {
             items={formData?.nodes?.map(node => node.id) || []}
             strategy={verticalListSortingStrategy}
           >
-            {formData?.nodes?.map((node) => (
-              <SortableNode 
-                key={node.id} 
-                node={node}
-                onUpdate={handleUpdateNode}
-                onDelete={handleDeleteNode}
-              />
-            ))}
+            <div className="space-y-3">
+              {formData?.nodes?.map((node) => (
+                <SortableNode 
+                  key={node.id} 
+                  node={node}
+                  onUpdate={handleUpdateNode}
+                  onDelete={handleDeleteNode}
+                />
+              ))}
+            </div>
           </SortableContext>
         </DndContext>
 
