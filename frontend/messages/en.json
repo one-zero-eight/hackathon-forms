@@ -10,7 +10,8 @@
       "back": "Back",
       "create": "Create",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "deleteConfirm": "This action cannot be undone. The form will be permanently deleted."
     }
   },
   "meta": {
@@ -63,7 +64,8 @@
       "title": "My Forms",
       "empty": "No forms created yet",
       "createFirst": "Create Your First Form",
-      "createNew": "Create Form"
+      "createNew": "Create Form",
+      "createdOn": "Created on"
     },
     "create": {
       "title": "Create New Form",
@@ -75,20 +77,32 @@
         "description": {
           "label": "Description",
           "placeholder": "Enter form description"
+        }
+      },
+      "builder": {
+        "title": "Form Builder",
+        "addField": "Add Field",
+        "preview": "Preview",
+        "fields": {
+          "text": "Text Field",
+          "number": "Number Field",
+          "select": "Select Field",
+          "multiSelect": "Multi Select",
+          "date": "Date Field",
+          "time": "Time Field",
+          "email": "Email Field",
+          "phone": "Phone Field",
+          "textarea": "Text Area"
         },
-        "access": {
-          "label": "Access",
-          "private": "Private",
-          "public": "Public"
+        "validation": {
+          "required": "Required",
+          "optional": "Optional"
         },
-        "sharing": {
-          "label": "Share with",
-          "placeholder": "Enter email address",
-          "add": "Add",
-          "invalidEmail": "Please enter a valid email address",
-          "emailExists": "This email is already added"
-        },
-        "submit": "Create Form"
+        "actions": {
+          "save": "Save Form",
+          "cancel": "Cancel",
+          "delete": "Delete Field"
+        }
       }
     },
     "delete": {

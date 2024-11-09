@@ -22,8 +22,11 @@ import {
 import { $api } from "@/lib/api";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function FormsPage() {
+  const tCommon = useTranslations("common");
+  const tForms = useTranslations("forms");
   const { data: forms, isPending, error } = $api.useQuery("get", "/form/");
 
   const handleDelete = async (formId: string) => {};
@@ -33,10 +36,10 @@ export default function FormsPage() {
       <div
         className="flex min-h-[400px] items-center justify-center"
         role="status"
-        aria-label="Loading forms"
+        aria-label={tCommon("loading")}
       >
         <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="sr-only">Loading forms...</span>
+        <span className="sr-only">{tCommon("loading")}</span>
       </div>
     );
   }
@@ -52,7 +55,7 @@ export default function FormsPage() {
           onClick={() => window.location.reload()}
           aria-label="Retry loading forms"
         >
-          Try Again
+          {tCommon("error.tryAgain")}
         </Button>
       </div>
     );
@@ -61,11 +64,11 @@ export default function FormsPage() {
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-        <h1 className="text-2xl font-bold">Мои формы</h1>
+        <h1 className="text-2xl font-bold">{tForms("list.title")}</h1>
         <Button asChild>
           <Link href="/forms/create">
             <Plus className="mr-2" />
-            Создать форму
+            {tForms("list.createNew")}
           </Link>
         </Button>
       </div>
@@ -73,10 +76,12 @@ export default function FormsPage() {
       {forms.length === 0 ? (
         <Card className="p-8 text-center">
           <CardContent>
-            <p className="mb-4 text-muted-foreground">No forms created yet</p>
+            <p className="mb-4 text-muted-foreground">
+              {tForms("list.empty")}
+            </p>
             <Link href="/forms/create">
-              <Button aria-label="Create your first form">
-                Create Your First Form
+              <Button aria-label={tForms("list.createFirst")}>
+                {tForms("list.createFirst")}
               </Button>
             </Link>
           </CardContent>
@@ -85,7 +90,7 @@ export default function FormsPage() {
         <div
           className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
           role="list"
-          aria-label="Forms list"
+          aria-label={tForms("list.title")}
         >
           {forms.map((form) => (
             <Card
@@ -104,7 +109,7 @@ export default function FormsPage() {
                     </p>
                   )}
                   <p className="text-sm">
-                    Created on:{" "}
+                    {tForms("list.createdOn")}:{" "}
                     {form.created_at
                       ? new Date(form.created_at).toLocaleDateString()
                       : "Unknown date"}
@@ -116,10 +121,10 @@ export default function FormsPage() {
                   <Link
                     href={`/forms/${form.id}/edit`}
                     className="flex-1"
-                    aria-label={`Edit form: ${form.title}`}
+                    aria-label={tCommon("actions.edit")}
                   >
                     <Button variant="outline" className="h-9 w-full">
-                      Edit
+                      {tCommon("actions.edit")}
                     </Button>
                   </Link>
                   <AlertDialog>
@@ -135,19 +140,22 @@ export default function FormsPage() {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Удалить форму?</AlertDialogTitle>
+                          <AlertDialogTitle>
+                            {tCommon("actions.delete")}?
+                        </AlertDialogTitle>
                         <AlertDialogDescription>
-                          Это действие нельзя отменить. Форма будет удалена
-                          навсегда.
+                          {tCommon("actions.deleteConfirm")}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Отмена</AlertDialogCancel>
+                          <AlertDialogCancel>
+                          {tCommon("actions.cancel")}
+                        </AlertDialogCancel>
                         <AlertDialogAction
                           className="bg-destructive hover:bg-destructive/90"
                           onClick={() => handleDelete(form.id)}
                         >
-                          Удалить
+                          {tCommon("actions.delete")}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>

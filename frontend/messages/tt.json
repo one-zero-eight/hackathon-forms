@@ -10,7 +10,8 @@
       "back": "Артка",
       "create": "Төзү",
       "edit": "Үзгәртү",
-      "delete": "Бетерү"
+      "delete": "Бетерү",
+      "deleteConfirm": "Бу үкәлне төшөрү мөмкин түгел. Форма үзгәрешсез төшөрүләчәк."
     }
   },
   "meta": {
@@ -63,7 +64,8 @@
       "title": "Минем формалар",
       "empty": "Формалар әле төзелмәгән",
       "createFirst": "Беренче форманы төзегез",
-      "createNew": "Форма төзү"
+      "createNew": "Форма төзү",
+      "createdOn": "Төзелгән"
     },
     "create": {
       "title": "Яңа форма төзү",
@@ -75,20 +77,32 @@
         "description": {
           "label": "Тасвирлама",
           "placeholder": "Форма тасвирламасын кертегез"
+        }
+      },
+      "builder": {
+        "title": "Форма төзүче",
+        "addField": "Кыр өстәү",
+        "preview": "Алдан карау",
+        "fields": {
+          "text": "Текст кыры",
+          "number": "Сан кыры",
+          "select": "Сайлау кыры",
+          "multiSelect": "Күп сайлау",
+          "date": "Дата кыры",
+          "time": "Вакыт кыры",
+          "email": "Email кыры",
+          "phone": "Телефон кыры",
+          "textarea": "Текст өлкәсе"
         },
-        "access": {
-          "label": "Керү",
-          "private": "Шәхси",
-          "public": "Гавами"
+        "validation": {
+          "required": "Мәҗбүри",
+          "optional": "Өстәмә"
         },
-        "sharing": {
-          "label": "Уртаклашу",
-          "placeholder": "Email адресын кертегез",
-          "add": "Өстәү",
-          "invalidEmail": "Зинһар, дөрес email адресын кертегез",
-          "emailExists": "Бу email инде өстәлгән"
-        },
-        "submit": "Форма төзү"
+        "actions": {
+          "save": "Форманы саклау",
+          "cancel": "Баш тарту",
+          "delete": "Кырны бетерү"
+        }
       }
     },
     "delete": {
