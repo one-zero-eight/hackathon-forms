@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,54 +8,54 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 interface User {
-  id: number
-  email: string 
-  role: 'USER' | 'ADMIN'
+  id: number;
+  email: string;
+  role: "USER" | "ADMIN";
 }
 
 export default function AdminDashboard() {
-  const [isAddUserOpen, setIsAddUserOpen] = useState(false)
-  const [newUser, setNewUser] = useState<Omit<User, 'id'>>({
-    email: '',
-    role: 'USER'
-  })
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [newUser, setNewUser] = useState<Omit<User, "id">>({
+    email: "",
+    role: "USER",
+  });
 
   // Dummy data for initial layout
   const users: User[] = [
-    { id: 1, email: 'user1@example.com', role: 'USER' },
-    { id: 2, email: 'admin@example.com', role: 'ADMIN' },
-    { id: 3, email: 'user2@example.com', role: 'USER' },
-  ]
+    { id: 1, email: "user1@example.com", role: "USER" },
+    { id: 2, email: "admin@example.com", role: "ADMIN" },
+    { id: 3, email: "user2@example.com", role: "USER" },
+  ];
 
   const handleEmailChange = (email: string) => {
-    setNewUser(prev => ({ ...prev, email }))
-  }
+    setNewUser((prev) => ({ ...prev, email }));
+  };
 
-  const handleRoleChange = (role: User['role']) => {
-    setNewUser(prev => ({ ...prev, role }))
-  }
+  const handleRoleChange = (role: User["role"]) => {
+    setNewUser((prev) => ({ ...prev, role }));
+  };
 
   return (
     <div className="container mx-auto py-10">
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
         <Button onClick={() => setIsAddUserOpen(true)}>Add New User</Button>
       </div>
@@ -75,7 +75,10 @@ export default function AdminDashboard() {
               <TableRow key={user.id}>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
-                  <Select defaultValue={user.role} onValueChange={(value: User['role']) => {}}>
+                  <Select
+                    defaultValue={user.role}
+                    onValueChange={(value: User["role"]) => {}}
+                  >
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
@@ -105,8 +108,8 @@ export default function AdminDashboard() {
           <div className="space-y-4">
             <div>
               <label className="text-sm font-medium">Email</label>
-              <Input 
-                type="email" 
+              <Input
+                type="email"
                 placeholder="Enter email"
                 value={newUser.email}
                 onChange={(e) => handleEmailChange(e.target.value)}
@@ -114,9 +117,9 @@ export default function AdminDashboard() {
             </div>
             <div>
               <label className="text-sm font-medium">Role</label>
-              <Select 
+              <Select
                 defaultValue={newUser.role}
-                onValueChange={(value: User['role']) => handleRoleChange(value)}
+                onValueChange={(value: User["role"]) => handleRoleChange(value)}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -132,5 +135,5 @@ export default function AdminDashboard() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

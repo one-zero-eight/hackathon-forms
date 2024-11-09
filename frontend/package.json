@@ -6,10 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettify": "prettier --write .",
+    "prettier:check": "prettier --ignore-unknown --check ."
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@tanstack/react-query": "^5.59.20",
@@ -19,10 +23,13 @@
     "next": "15.0.3",
     "openapi-fetch": "^0.13.0",
     "openapi-typescript": "^7.4.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.2",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -33,6 +40,5 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  },
-  "packageManager": "pnpm@8.6.9+sha1.5c56677cdd07fc5262e35a00b04f97220dde7e8d"
+  }
 }
