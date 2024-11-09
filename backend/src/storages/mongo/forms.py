@@ -27,6 +27,15 @@ class Content(BaseSchema):
     "List of URLs pointing to media (e.g., images, videos) associated with the content."
 
 
+class DateSelector(BaseSchema):
+    question_type: Literal["date"]
+    select_date: bool = True
+    "Select date (one day)"
+    select_time: bool = False
+    "Select time (hour, minute)"
+    explanation: Explanation | None = None
+
+
 class SingleChoice(BaseSchema):
     """
     Model for a single-choice question in a form.
@@ -38,7 +47,7 @@ class SingleChoice(BaseSchema):
     "List of answer options to choose from."
     correct_answer: int | None = None
     "Index of the correct answer option (optional)."
-    explanation: Explanation
+    explanation: Explanation | None = None
 
 
 class MultipleChoice(BaseSchema):
@@ -52,7 +61,7 @@ class MultipleChoice(BaseSchema):
     "List of answer options, allowing multiple selections."
     correct_answer: list[int] | None = None
     "List of indices for the correct answers (optional)."
-    explanation: Explanation
+    explanation: Explanation | None = None
 
 
 class Scale(BaseSchema):
@@ -66,7 +75,7 @@ class Scale(BaseSchema):
     "List of scale labels, for example: ['Very Poor', 'Poor', 'Neutral', 'Good', 'Excellent']."
     correct_answer: list[int] | None = None
     "List of indices representing correct answers on the scale (optional)."
-    explanation: Explanation
+    explanation: Explanation | None = None
 
 
 class Input(BaseSchema):
@@ -80,7 +89,9 @@ class Input(BaseSchema):
     "Determines whether the input is a single-line field (False) or a textarea (True)."
     correct_answer: list[str] | None = None
     "List of acceptable correct answers as text (optional)."
-    explanation: Explanation
+    explanation: Explanation | None = None
+    regex: str | None = None
+    "Regex to validate input"
 
 
 class Ranking(BaseSchema):
@@ -94,7 +105,7 @@ class Ranking(BaseSchema):
     "List of options that must be ranked."
     correct_answer: list[int] | None = None
     "Correct order as a list of indices representing the ranking (optional)."
-    explanation: Explanation
+    explanation: Explanation | None = None
 
 
 class Matching(BaseSchema):
@@ -111,7 +122,7 @@ class Matching(BaseSchema):
     correct_answer: dict[int, int] | None = None
     """Dictionary where keys are indices of items in 'options_first' and values are indices of matched items in "
         "'options_second' (optional)."""
-    explanation: Explanation
+    explanation: Explanation | None = None
 
 
 class FormNode(BaseSchema):
@@ -123,9 +134,15 @@ class FormNode(BaseSchema):
     "Index in Form.nodes"
     content: Content
     "Content providing context, information, or instructions for the question."
-    question: Union[SingleChoice, MultipleChoice, Scale, Input, Ranking, Matching] = Field(
-        ..., discriminator="question_type"
-    )
+    question: Union[
+        DateSelector,
+        SingleChoice,
+        MultipleChoice,
+        Scale,
+        Input,
+        Ranking,
+        Matching,
+    ] = Field(..., discriminator="question_type")
     "The question to be presented, determined by the 'question_type' field."
     required: bool
     "Determines if the question is mandatory (True) or optional (False)."
