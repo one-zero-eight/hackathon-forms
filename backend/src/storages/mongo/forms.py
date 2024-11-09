@@ -1,10 +1,17 @@
 from datetime import datetime
 from typing import Literal, Union
 
+from beanie import PydanticObjectId
 from pydantic import Field
 
 from src.pydantic_base import BaseSchema
 from src.storages.mongo.__base__ import CustomDocument
+
+
+class Explanation(BaseSchema):
+    explanation: str
+    for_correct_answer_too: bool = False
+    "Show not only on incorrect but on correct answer too"
 
 
 class Content(BaseSchema):
@@ -31,6 +38,7 @@ class SingleChoice(BaseSchema):
     "List of answer options to choose from."
     correct_answer: int | None = None
     "Index of the correct answer option (optional)."
+    explanation: Explanation
 
 
 class MultipleChoice(BaseSchema):
@@ -44,6 +52,7 @@ class MultipleChoice(BaseSchema):
     "List of answer options, allowing multiple selections."
     correct_answer: list[int] | None = None
     "List of indices for the correct answers (optional)."
+    explanation: Explanation
 
 
 class Scale(BaseSchema):
@@ -57,6 +66,7 @@ class Scale(BaseSchema):
     "List of scale labels, for example: ['Very Poor', 'Poor', 'Neutral', 'Good', 'Excellent']."
     correct_answer: list[int] | None = None
     "List of indices representing correct answers on the scale (optional)."
+    explanation: Explanation
 
 
 class Input(BaseSchema):
@@ -70,6 +80,7 @@ class Input(BaseSchema):
     "Determines whether the input is a single-line field (False) or a textarea (True)."
     correct_answer: list[str] | None = None
     "List of acceptable correct answers as text (optional)."
+    explanation: Explanation
 
 
 class Ranking(BaseSchema):
@@ -83,6 +94,7 @@ class Ranking(BaseSchema):
     "List of options that must be ranked."
     correct_answer: list[int] | None = None
     "Correct order as a list of indices representing the ranking (optional)."
+    explanation: Explanation
 
 
 class Matching(BaseSchema):
@@ -99,6 +111,7 @@ class Matching(BaseSchema):
     correct_answer: dict[int, int] | None = None
     """Dictionary where keys are indices of items in 'options_first' and values are indices of matched items in "
         "'options_second' (optional)."""
+    explanation: Explanation
 
 
 class FormNode(BaseSchema):
@@ -133,15 +146,15 @@ class FormSchema(BaseSchema):
     "List of nodes, each representing a question with content, options, and configurations."
     created_at: datetime
     "Timestamp of when the form was created."
-    created_by: str
+    created_by: PydanticObjectId
     "Identifier of the user or system that created the form."
     updated_at: datetime | None = None
     "Timestamp of the last update made to the form (optional)."
-    updated_by: str | None = None
+    updated_by: PydanticObjectId | None = None
     "Identifier of the user who last updated the form (optional)."
     deleted_at: datetime | None = None
     "Timestamp of when the form was deleted (optional)."
-    deleted_by: str | None = None
+    deleted_by: PydanticObjectId | None = None
     "Identifier of the user who deleted the form (optional)."
 
 

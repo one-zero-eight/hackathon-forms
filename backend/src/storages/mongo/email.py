@@ -15,7 +15,6 @@ class EmailFlowSchema(BaseModel):
     verification_code: str | None = None
     verification_code_expires_at: datetime.datetime | None = None
     user_id: PydanticObjectId | None = None
-    client_id: str | None = None
 
 
 class EmailFlow(EmailFlowSchema, CustomDocument):
