@@ -40,6 +40,9 @@ class DateSelector(BaseSchema):
 class SingleChoice(BaseSchema):
     """
     Model for a single-choice question in a form.
+
+    Notes:
+        answer: int, with chosen index in self.options
     """
 
     question_type: Literal["select"]
@@ -54,6 +57,9 @@ class SingleChoice(BaseSchema):
 class MultipleChoice(BaseSchema):
     """
     Model for a multiple-choice question in a form.
+
+    Notes:
+        answer: list[int], with chosen indicies in self.options
     """
 
     question_type: Literal["multiple_choice"]
@@ -68,6 +74,9 @@ class MultipleChoice(BaseSchema):
 class Scale(BaseSchema):
     """
     Model for a scale-type question, allowing answers to be chosen from a specified scale.
+
+    Notes:
+        answer: int, with chosen index in self.scale
     """
 
     question_type: Literal["scale"]
@@ -82,6 +91,10 @@ class Scale(BaseSchema):
 class Contact(BaseSchema):
     """
     Contact-type question, allowing respondents to provide various contact details.
+
+    Notes:
+        answer: dict[str, str], with key (fullname, date_of_birth...) and user input as value.
+         {"fullname": "Иванов Иван Иваныч", "gender": "M", ...}
     """
 
     question_type: Literal["contact"]
@@ -111,7 +124,10 @@ class Contact(BaseSchema):
 
 class ListOfLinks(BaseSchema):
     """
-    List of links with optional notes"
+    List of links with optional notes
+
+    Notes:
+        answer: list[tuple[str, str]], with [(some_url, some_note or "")]
     """
 
     question_type: Literal["list_of_links"]
@@ -120,6 +136,9 @@ class ListOfLinks(BaseSchema):
 class Input(BaseSchema):
     """
     Model for an input-based question where respondents enter text.
+
+    Notes:
+        answer: str, just user input
     """
 
     question_type: Literal["input"]
@@ -135,20 +154,12 @@ class Input(BaseSchema):
     explanation: Explanation | None = None
 
 
-class IntInput(BaseSchema):
-    question_type: Literal["int_input"]
-    correct_answer: list[int] | None = None
-    "List of acceptable correct answers as text (optional)."
-    ge: int | None = None
-    le: int | None = None
-    name_of_column_in_export: str | None = None
-    "How column with this input will be named in exported CSV"
-    explanation: Explanation | None = None
-
-
 class Ranking(BaseSchema):
     """
     Model for a ranking-type question, where options are ranked in a specified order.
+
+    Notes:
+        answer: list[int], with ranking of options [option_3, option_5, option_1, ...]
     """
 
     question_type: Literal["ranking"]
@@ -163,6 +174,10 @@ class Ranking(BaseSchema):
 class Matching(BaseSchema):
     """
     Model for a matching-type question, where pairs are matched between two sets of options.
+
+    Notes:
+        answer: dict[int, int], with mapping between option sets
+         {options_first_1: options_second_4, options_first_3: options_second_2}
     """
 
     question_type: Literal["matching"]
@@ -193,7 +208,6 @@ class FormNode(BaseSchema):
         Ranking,
         Matching,
         Input,
-        IntInput,
         ListOfLinks,
         Contact,
         DateSelector,
