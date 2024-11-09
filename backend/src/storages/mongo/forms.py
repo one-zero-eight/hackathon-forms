@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from typing import Literal, Union
 
 from beanie import PydanticObjectId
@@ -33,6 +33,7 @@ class DateSelector(BaseSchema):
     "Select date (one day)"
     select_time: bool = False
     "Select time (hour, minute)"
+    correct_answer: datetime.date | datetime.datetime | None = None
     explanation: Explanation | None = None
 
 
@@ -78,6 +79,44 @@ class Scale(BaseSchema):
     explanation: Explanation | None = None
 
 
+class Contact(BaseSchema):
+    """
+    Contact-type question, allowing respondents to provide various contact details.
+    """
+
+    question_type: Literal["contact"]
+    fullname: bool = False
+    "Indicating if the respondent's full name should be collected"
+    date_of_birth: bool = False
+    "Indicating if the respondent's date of birth should be collected"
+    gender: bool = False
+    "Indicating if the respondent's gender should be collected"
+    phone: bool = False
+    "Indicating if the respondent's phone number should be collected"
+    email: bool = False
+    "Indicating if the respondent's email should be collected"
+    address: bool = False
+    "Indicating if the respondent's address should be collected"
+    telegram_alias: bool = False
+    "Indicating if the respondent's Telegram alias should be collected"
+    github: bool = False
+    "Indicating if the respondent's GitHub profile should be collected"
+    linkedin: bool = False
+    "Indicating if the respondent's LinkedIn profile should be collected"
+    portfolio: bool = False
+    "Indicating if the respondent's portfolio link should be collected"
+    website: bool = False
+    "Indicating if the respondent's personal website URL should be collected"
+
+
+class ListOfLinks(BaseSchema):
+    """
+    List of links with optional notes"
+    """
+
+    question_type: Literal["list_of_links"]
+
+
 class Input(BaseSchema):
     """
     Model for an input-based question where respondents enter text.
@@ -89,9 +128,22 @@ class Input(BaseSchema):
     "Determines whether the input is a single-line field (False) or a textarea (True)."
     correct_answer: list[str] | None = None
     "List of acceptable correct answers as text (optional)."
-    explanation: Explanation | None = None
     regex: str | None = None
     "Regex to validate input"
+    name_of_column_in_export: str | None = None
+    "How column with this input will be named in exported CSV"
+    explanation: Explanation | None = None
+
+
+class IntInput(BaseSchema):
+    question_type: Literal["int_input"]
+    correct_answer: list[int] | None = None
+    "List of acceptable correct answers as text (optional)."
+    ge: int | None = None
+    le: int | None = None
+    name_of_column_in_export: str | None = None
+    "How column with this input will be named in exported CSV"
+    explanation: Explanation | None = None
 
 
 class Ranking(BaseSchema):
@@ -135,13 +187,16 @@ class FormNode(BaseSchema):
     content: Content
     "Content providing context, information, or instructions for the question."
     question: Union[
-        DateSelector,
         SingleChoice,
         MultipleChoice,
         Scale,
-        Input,
         Ranking,
         Matching,
+        Input,
+        IntInput,
+        ListOfLinks,
+        Contact,
+        DateSelector,
     ] = Field(..., discriminator="question_type")
     "The question to be presented, determined by the 'question_type' field."
     required: bool
@@ -163,15 +218,15 @@ class FormSchema(BaseSchema):
     "List of nodes, each representing a question with content, options, and configurations."
     shared_with: list[PydanticObjectId] = []
     "List of user ids with which user shared the document"
-    created_at: datetime
+    created_at: datetime.datetime
     "Timestamp of when the form was created."
     created_by: PydanticObjectId
     "Identifier of the user or system that created the form."
-    updated_at: datetime | None = None
+    updated_at: datetime.datetime | None = None
     "Timestamp of the last update made to the form (optional)."
     updated_by: PydanticObjectId | None = None
     "Identifier of the user who last updated the form (optional)."
-    deleted_at: datetime | None = None
+    deleted_at: datetime.datetime | None = None
     "Timestamp of when the form was deleted (optional)."
     deleted_by: PydanticObjectId | None = None
     "Identifier of the user who deleted the form (optional)."
