@@ -74,3 +74,9 @@ async def get_invites(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPEND
     _ = await can_edit_form_guard(form_id, user_id)
     data = await form_repository.get_invites(form_id)
     return data
+
+
+@router.get("/{form_id}/statistics/")
+async def get_stats(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDENCY):
+    _ = await can_edit_form_guard(form_id, user_id)
+    raise NotImplementedError
