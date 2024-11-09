@@ -1,6 +1,5 @@
 __all__ = ["router"]
 
-
 from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException
 
@@ -27,6 +26,15 @@ async def can_edit_form_guard(form_id: PydanticObjectId, user_id: PydanticObject
         elif user.id == form.created_by:
             return form
     raise HTTPException(status_code=403)
+
+
+@router.get("/")
+async def get_forms(user_id: CURRENT_USER_ID_DEPENDENCY) -> list[Form]:
+    user = await user_repository.read(user_id)
+    if user.role in (UserRole.ADMIN, UserRole.MANAGER):
+        return await form_repository.get_all()
+    else:
+        return await form_repository.get_all_for_user(user_id)
 
 
 @router.get("/{form_id}")

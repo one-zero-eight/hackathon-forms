@@ -82,5 +82,11 @@ class FormRepository:
     async def get(self, form_id: PydanticObjectId) -> Form | None:
         return await Form.find_one({"_id": form_id})
 
+    async def get_all(self) -> list[Form]:
+        return await Form.find().to_list()
+
+    async def get_all_for_user(self, user_id: PydanticObjectId) -> list[Form]:
+        return await Form.find({"created_by": user_id}).to_list()
+
 
 form_repository: FormRepository = FormRepository()

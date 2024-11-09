@@ -27,4 +27,4 @@ class AnswerSchema(BaseSchema):
 
 class Answer(AnswerSchema, CustomDocument):
     class Settings:
-        indexes = [IndexModel(("invite_link", "session_id"), unique=True)]
+        indexes = [IndexModel(("invite_id", "form_id", "session_id"), unique=True)]
