@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.59.20",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.456.0",
     "next": "15.0.3",
+    "openapi-fetch": "^0.13.0",
+    "openapi-typescript": "^7.4.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.4",
@@ -27,5 +30,6 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@8.6.9+sha1.5c56677cdd07fc5262e35a00b04f97220dde7e8d"
 }
