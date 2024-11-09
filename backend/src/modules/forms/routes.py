@@ -28,6 +28,8 @@ async def can_edit_form_guard(form_id: PydanticObjectId, user_id: PydanticObject
             return form
         elif user.id == form.created_by:
             return form
+        elif user.id in form.shared_with:
+            return form
     raise HTTPException(status_code=403)
 
 

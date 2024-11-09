@@ -161,6 +161,8 @@ class FormSchema(BaseSchema):
     "Optional description providing additional context for the form."
     nodes: list[FormNode]
     "List of nodes, each representing a question with content, options, and configurations."
+    shared_with: list[PydanticObjectId] = []
+    "List of user ids with which user shared the document"
     created_at: datetime
     "Timestamp of when the form was created."
     created_by: PydanticObjectId
