@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 interface User {
   id: number;
@@ -32,6 +33,7 @@ interface User {
 }
 
 export default function AdminDashboard() {
+  const t = useTranslations('admin.users');
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [newUser, setNewUser] = useState<Omit<User, "id">>({
     email: "",
@@ -54,20 +56,19 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto p-6">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Панель администратора</h1>
-        <Button onClick={() => setIsAddUserOpen(true)}>Добавить пользователя</Button>
+        <h1 className="text-2xl font-bold">{t('title')}</h1>
+        <Button onClick={() => setIsAddUserOpen(true)}>{t('addUser')}</Button>
       </div>
 
-      {/* Users Table */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Электронная почта</TableHead>
-              <TableHead>Роль</TableHead>
-              <TableHead>Действия</TableHead>
+              <TableHead>{t('email')}</TableHead>
+              <TableHead>{t('role')}</TableHead>
+              <TableHead>{t('actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -75,23 +76,20 @@ export default function AdminDashboard() {
               <TableRow key={user.id}>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
-                  <Select
-                    defaultValue={user.role}
-                    onValueChange={(value: User["role"]) => {}}
-                  >
+                  <Select defaultValue={user.role}>
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="HR">HR</SelectItem>
-                      <SelectItem value="MANAGER">Менеджер</SelectItem>
-                      <SelectItem value="ADMIN">Администратор</SelectItem>
+                      <SelectItem value="HR">{t('roles.HR')}</SelectItem>
+                      <SelectItem value="MANAGER">{t('roles.MANAGER')}</SelectItem>
+                      <SelectItem value="ADMIN">{t('roles.ADMIN')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </TableCell>
                 <TableCell>
                   <Button variant="outline" size="sm">
-                    Сохранить изменения
+                    {t('dialog.edit.saveChanges')}
                   </Button>
                 </TableCell>
               </TableRow>
@@ -104,20 +102,20 @@ export default function AdminDashboard() {
       <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Добавить нового пользователя</DialogTitle>
+            <DialogTitle>{t('dialog.add.title')}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium">Электронная почта</label>
+              <label className="text-sm font-medium">{t('dialog.add.emailLabel')}</label>
               <Input
                 type="email"
-                placeholder="Введите email"
+                placeholder={t('dialog.add.emailPlaceholder')}
                 value={newUser.email}
                 onChange={(e) => handleEmailChange(e.target.value)}
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Роль</label>
+              <label className="text-sm font-medium">{t('dialog.add.roleLabel')}</label>
               <Select
                 defaultValue={newUser.role}
                 onValueChange={(value: User["role"]) => handleRoleChange(value)}
@@ -126,13 +124,13 @@ export default function AdminDashboard() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="HR">HR</SelectItem>
-                  <SelectItem value="MANAGER">Менеджер</SelectItem>
-                  <SelectItem value="ADMIN">Администратор</SelectItem>
+                  <SelectItem value="HR">{t('roles.HR')}</SelectItem>
+                  <SelectItem value="MANAGER">{t('roles.MANAGER')}</SelectItem>
+                  <SelectItem value="ADMIN">{t('roles.ADMIN')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Button className="w-full">Добавить пользователя</Button>
+            <Button className="w-full">{t('dialog.add.submit')}</Button>
           </div>
         </DialogContent>
       </Dialog>

@@ -99,5 +99,32 @@
     "createForm": "Форма төзү",
     "admin": "Админ панеле",
     "login": "Керү"
+  },
+  "admin": {
+    "title": "Админ панеле",
+    "users": {
+      "title": "Кулланучыларны идарә итү",
+      "addUser": "Кулланучы өстәү",
+      "email": "Email",
+      "role": "Роль",
+      "actions": "Гамәлләр",
+      "roles": {
+        "HR": "HR",
+        "MANAGER": "Менеджер",
+        "ADMIN": "Администратор"
+      },
+      "dialog": {
+        "add": {
+          "title": "Яңа кулланучы өстәү",
+          "emailLabel": "Электрон почта",
+          "emailPlaceholder": "Email кертегез",
+          "roleLabel": "Роль",
+          "submit": "Кулланучы өстәү"
+        },
+        "edit": {
+          "saveChanges": "Үзгәрешләрне саклау"
+        }
+      }
+    }
   }
 } 

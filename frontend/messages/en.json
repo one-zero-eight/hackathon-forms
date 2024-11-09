@@ -128,5 +128,32 @@
     "createForm": "Create Form",
     "admin": "Admin Panel",
     "login": "Login"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "users": {
+      "title": "Users Management",
+      "addUser": "Add User",
+      "email": "Email",
+      "role": "Role",
+      "actions": "Actions",
+      "roles": {
+        "HR": "HR",
+        "MANAGER": "Manager",
+        "ADMIN": "Administrator"
+      },
+      "dialog": {
+        "add": {
+          "title": "Add New User",
+          "emailLabel": "Email",
+          "emailPlaceholder": "Enter email",
+          "roleLabel": "Role",
+          "submit": "Add User"
+        },
+        "edit": {
+          "saveChanges": "Save Changes"
+        }
+      }
+    }
   }
 }
