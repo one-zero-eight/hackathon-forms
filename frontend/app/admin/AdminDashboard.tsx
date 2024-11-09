@@ -56,8 +56,8 @@ export default function AdminDashboard() {
   return (
     <div className="container mx-auto py-10">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <Button onClick={() => setIsAddUserOpen(true)}>Add New User</Button>
+        <h1 className="text-2xl font-bold">Панель администратора</h1>
+        <Button onClick={() => setIsAddUserOpen(true)}>Добавить пользователя</Button>
       </div>
 
       {/* Users Table */}
@@ -65,9 +65,9 @@ export default function AdminDashboard() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>Электронная почта</TableHead>
+              <TableHead>Роль</TableHead>
+              <TableHead>Действия</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -84,14 +84,14 @@ export default function AdminDashboard() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="HR">HR</SelectItem>
-                      <SelectItem value="MANAGER">Manager</SelectItem>
-                      <SelectItem value="ADMIN">Admin</SelectItem>
+                      <SelectItem value="MANAGER">Менеджер</SelectItem>
+                      <SelectItem value="ADMIN">Администратор</SelectItem>
                     </SelectContent>
                   </Select>
                 </TableCell>
                 <TableCell>
                   <Button variant="outline" size="sm">
-                    Save Changes
+                    Сохранить изменения
                   </Button>
                 </TableCell>
               </TableRow>
@@ -104,20 +104,20 @@ export default function AdminDashboard() {
       <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add New User</DialogTitle>
+            <DialogTitle>Добавить нового пользователя</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium">Email</label>
+              <label className="text-sm font-medium">Электронная почта</label>
               <Input
                 type="email"
-                placeholder="Enter email"
+                placeholder="Введите email"
                 value={newUser.email}
                 onChange={(e) => handleEmailChange(e.target.value)}
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Role</label>
+              <label className="text-sm font-medium">Роль</label>
               <Select
                 defaultValue={newUser.role}
                 onValueChange={(value: User["role"]) => handleRoleChange(value)}
@@ -127,12 +127,12 @@ export default function AdminDashboard() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="HR">HR</SelectItem>
-                  <SelectItem value="MANAGER">Manager</SelectItem>
-                  <SelectItem value="ADMIN">Admin</SelectItem>
+                  <SelectItem value="MANAGER">Менеджер</SelectItem>
+                  <SelectItem value="ADMIN">Администратор</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Button className="w-full">Add User</Button>
+            <Button className="w-full">Добавить пользователя</Button>
           </div>
         </DialogContent>
       </Dialog>
