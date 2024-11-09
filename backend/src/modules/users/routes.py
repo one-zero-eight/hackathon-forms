@@ -1,5 +1,6 @@
 import pymongo.errors
-from fastapi import APIRouter
+from beanie import PydanticObjectId
+from fastapi import APIRouter, HTTPException
 
 from src.api.dependencies import CURRENT_USER_ID_DEPENDENCY
 from src.api.exceptions import Duplicate, IncorrectCredentialsException, NotEnoughPermissionsException
@@ -26,6 +27,36 @@ async def get_me(user_id: CURRENT_USER_ID_DEPENDENCY) -> User:
 
     user = await user_repository.read(user_id)
     return user
+
+
+@router.get("/", responses={200: {"description": "List of users"}})
+async def get_users(user_id: CURRENT_USER_ID_DEPENDENCY) -> list[User]:
+    user = await user_repository.read(user_id)
+
+    if user.role != UserRole.ADMIN:
+        raise NotEnoughPermissionsException()
+
+    return await user_repository.get_all()
+
+
+@router.post("/promote")
+async def promote(user_id: CURRENT_USER_ID_DEPENDENCY, target_user_id: PydanticObjectId, role: UserRole) -> User:
+    user = await user_repository.read(user_id)
+
+    if user.role != UserRole.ADMIN or role == UserRole.ADMIN:
+        raise NotEnoughPermissionsException()
+    target_user = await user_repository.read(target_user_id)
+    if not target_user:
+        raise HTTPException(status_code=404)
+
+    if target_user.role == UserRole.ADMIN:
+        raise HTTPException(status_code=409)
+
+    target_user = await user_repository.promote(target_user_id, role=role)
+    if target_user is None:
+        raise HTTPException(status_code=404)
+
+    return target_user
 
 
 @router.post(

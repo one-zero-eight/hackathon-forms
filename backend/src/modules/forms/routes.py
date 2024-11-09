@@ -48,6 +48,12 @@ async def create_form(data: CreateFormReq, user_id: CURRENT_USER_ID_DEPENDENCY) 
     return data
 
 
+@router.delete("/{form_id}")
+async def delete_form(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDENCY) -> None:
+    _ = await can_edit_form_guard(form_id, user_id)
+    await form_repository.delete(form_id, user_id=user_id)
+
+
 @router.post("/{form_id}/invite/")
 async def create_invite(
     form_id: PydanticObjectId, data: CreateInviteReq, user_id: CURRENT_USER_ID_DEPENDENCY

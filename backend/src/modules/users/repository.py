@@ -15,6 +15,14 @@ class UserRepository:
     async def read(self, user_id: PydanticObjectId) -> User | None:
         return await User.get(user_id)
 
+    async def promote(self, user_id: PydanticObjectId, role: UserRole) -> User | None:
+        user = await User.find_one({"_id": user_id})
+        if not user:
+            return None
+        user.role = role
+        await user.save()
+        return user
+
     async def read_by_email(self, email: str) -> User | None:
         return await User.find_one({"email": email})
 

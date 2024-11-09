@@ -67,16 +67,8 @@ class FormRepository:
         return await Invite.find({"form_id": form_id}).to_list()
 
     async def delete(self, form_id: PydanticObjectId, user_id: int) -> None:
-        await Form.update(
-            {
-                "_id": form_id,
-            },
-            {
-                "$set": {
-                    "deleted_by": user_id,
-                    "deleted_at": datetime.datetime.now(datetime.UTC),
-                }
-            },
+        await Form.find({"_id": form_id}).update(
+            {"$set": {"deleted_by": user_id, "deleted_at": datetime.datetime.now(datetime.UTC)}},
         )
 
     async def get(self, form_id: PydanticObjectId) -> Form | None:
