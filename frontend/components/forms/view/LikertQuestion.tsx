@@ -1,14 +1,9 @@
 import { LikertFormNode } from "@/components/forms/view/FormContext";
-import { useState } from "react";
-
-export interface LikertQuestionProps {
-  question: string;
-  onChange: (value: number) => void;
-  value?: number;
-}
+import { useFormResponse } from "@/components/forms/view/FormResponsesContext";
 
 export function LikertQuestion({ node }: { node: LikertFormNode }) {
-  const [value, setValue] = useState<number | undefined>(undefined);
+  const { response, setResponse } = useFormResponse<number>(node.id);
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">{node.title}</h3>
@@ -19,8 +14,8 @@ export function LikertQuestion({ node }: { node: LikertFormNode }) {
               type="radio"
               name={node.title}
               value={i}
-              checked={value === i}
-              onChange={() => setValue(i)}
+              checked={response === i}
+              onChange={() => setResponse(i)}
               className="h-4 w-4"
             />
             <span className="text-center text-sm">{option}</span>

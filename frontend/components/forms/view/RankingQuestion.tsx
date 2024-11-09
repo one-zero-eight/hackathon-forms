@@ -1,21 +1,21 @@
 import { RankingFormNode } from "@/components/forms/view/FormContext";
+import { useFormResponse } from "@/components/forms/view/FormResponsesContext";
 import {
-  DndContext,
   closestCenter,
+  DndContext,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
+import { useMemo } from "react";
 
 type RankingItem = {
   id: string;
@@ -23,7 +23,13 @@ type RankingItem = {
   text: string;
 };
 
-const SortableItem = ({ item, index }: { item: RankingItem; index: number }) => {
+const SortableItem = ({
+  item,
+  index,
+}: {
+  item: RankingItem;
+  index: number;
+}) => {
   const {
     attributes,
     listeners,
@@ -54,34 +60,47 @@ const SortableItem = ({ item, index }: { item: RankingItem; index: number }) => 
 };
 
 export function RankingQuestion({ node }: { node: RankingFormNode }) {
-  const [items, setItems] = useState<RankingItem[]>(
-    node.options.map((text, index) => ({
-      id: `${index}-${text}`,
-      origIndex: index,
-      text,
-    }))
+  const { response, setResponse } = useFormResponse<number[]>(node.id);
+
+  const startItems: RankingItem[] = useMemo(
+    () =>
+      node.options.map((text, index) => ({
+        id: `${index}-${text}`,
+        origIndex: index,
+        text,
+      })),
+    [node.options],
   );
+  const actualItems = useMemo(() => {
+    if (!response || response.length !== startItems.length) {
+      return startItems;
+    } else {
+      return response.map((index) => startItems[index]);
+    }
+  }, [response, startItems]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
-    
+
     if (!over || active.id === over.id) {
       return;
     }
 
-    setItems((items) => {
-      const oldIndex = items.findIndex((item) => item.id === active.id);
-      const newIndex = items.findIndex((item) => item.id === over.id);
-      
-      return arrayMove(items, oldIndex, newIndex);
-    });
+    const oldIndex = actualItems.findIndex((item) => item.id === active.id);
+    const newIndex = actualItems.findIndex((item) => item.id === over.id);
+
+    const newItems = [...actualItems];
+    newItems.splice(oldIndex, 1);
+    newItems.splice(newIndex, 0, actualItems[oldIndex]);
+
+    setResponse(newItems.map((item) => item.origIndex));
   };
 
   return (
@@ -92,9 +111,12 @@ export function RankingQuestion({ node }: { node: RankingFormNode }) {
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={items} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={actualItems}
+          strategy={verticalListSortingStrategy}
+        >
           <div className="space-y-2">
-            {items.map((item, index) => (
+            {actualItems.map((item, index) => (
               <SortableItem key={item.id} item={item} index={index} />
             ))}
           </div>

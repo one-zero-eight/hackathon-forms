@@ -1,4 +1,5 @@
 import { MatchingFormNode } from "@/components/forms/view/FormContext";
+import { useFormResponse } from "@/components/forms/view/FormResponsesContext";
 import {
   Select,
   SelectContent,
@@ -6,13 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 
 export function MatchingQuestion({ node }: { node: MatchingFormNode }) {
-  const [value, setValue] = useState<Record<string, string>>({});
+  const { response, setResponse } = useFormResponse<Record<string, string>>(
+    node.id,
+  );
 
   const handleMatch = (left: string, right: string) => {
-    setValue((prev) => ({ ...prev, [left]: right }));
+    setResponse({
+      ...response,
+      [left]: right,
+    });
   };
 
   return (
@@ -23,7 +28,7 @@ export function MatchingQuestion({ node }: { node: MatchingFormNode }) {
           <div key={i} className="flex items-center space-x-4">
             <span className="w-1/3">{left}</span>
             <Select
-              value={value[left]}
+              value={response?.[left] ?? ""}
               onValueChange={(selected) => handleMatch(left, selected)}
             >
               <SelectTrigger className="w-full">

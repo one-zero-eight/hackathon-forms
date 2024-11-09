@@ -1,4 +1,5 @@
 import { SelectFormNode } from "@/components/forms/view/FormContext";
+import { useFormResponse } from "@/components/forms/view/FormResponsesContext";
 import {
   Select,
   SelectContent,
@@ -6,15 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 
 export function SelectQuestion({ node }: { node: SelectFormNode }) {
-  const [value, setValue] = useState<string | undefined>(undefined);
+  const { response, setResponse } = useFormResponse<string>(node.id);
 
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">{node.title}</h3>
-      <Select onValueChange={setValue} value={value}>
+      <Select value={response} onValueChange={setResponse}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>

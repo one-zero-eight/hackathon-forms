@@ -1,5 +1,5 @@
 import { MultipleChoiceFormNode } from "@/components/forms/view/FormContext";
-import { useState } from "react";
+import { useFormResponse } from "@/components/forms/view/FormResponsesContext";
 
 export interface MultipleChoiceQuestionProps {
   question: string;
@@ -13,13 +13,13 @@ export function MultipleChoiceQuestion({
 }: {
   node: MultipleChoiceFormNode;
 }) {
-  const [value, setValue] = useState<string[]>([]);
+  const { response, setResponse } = useFormResponse<string[]>(node.id);
 
   const toggleOption = (option: string) => {
-    if (value.includes(option)) {
-      setValue(value.filter((v) => v !== option));
+    if (response?.includes(option)) {
+      setResponse(response.filter((value) => value !== option));
     } else {
-      setValue([...value, option]);
+      setResponse([...(response ?? []), option]);
     }
   };
 
@@ -31,7 +31,7 @@ export function MultipleChoiceQuestion({
           <label key={option} className="flex items-center space-x-2">
             <input
               type="checkbox"
-              checked={value.includes(option)}
+              checked={response?.includes(option) ?? false}
               onChange={() => toggleOption(option)}
               className="h-4 w-4 rounded border-gray-300"
             />
