@@ -1,5 +1,5 @@
-import { RankingFormNode } from "@/components/forms/view/FormContext";
 import { useFormResponse } from "@/components/forms/view/FormResponsesContext";
+import { apiTypes } from "@/lib/api";
 import {
   closestCenter,
   DndContext,
@@ -59,17 +59,23 @@ const SortableItem = ({
   );
 };
 
-export function RankingQuestion({ node }: { node: RankingFormNode }) {
+export function RankingQuestion({
+  node,
+  question,
+}: {
+  node: apiTypes.SchemaFormNodeOutput;
+  question: apiTypes.SchemaRanking;
+}) {
   const { response, setResponse } = useFormResponse<number[]>(node.id);
 
   const startItems: RankingItem[] = useMemo(
     () =>
-      node.options.map((text, index) => ({
+      question.options.map((text, index) => ({
         id: `${index}-${text}`,
         origIndex: index,
         text,
       })),
-    [node.options],
+    [question.options],
   );
   const actualItems = useMemo(() => {
     if (!response || response.length !== startItems.length) {
@@ -104,24 +110,21 @@ export function RankingQuestion({ node }: { node: RankingFormNode }) {
   };
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-medium">{node.title}</h3>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={actualItems}
+        strategy={verticalListSortingStrategy}
       >
-        <SortableContext
-          items={actualItems}
-          strategy={verticalListSortingStrategy}
-        >
-          <div className="space-y-2">
-            {actualItems.map((item, index) => (
-              <SortableItem key={item.id} item={item} index={index} />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
-    </div>
+        <div className="space-y-2">
+          {actualItems.map((item, index) => (
+            <SortableItem key={item.id} item={item} index={index} />
+          ))}
+        </div>
+      </SortableContext>
+    </DndContext>
   );
 }

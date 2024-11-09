@@ -10,8 +10,8 @@ type Response = number | number[] | string | string[] | any;
 
 export type FormResponsesType = {
   responses: Record<string, Response>;
-  setResponse: (id: string, value: Response) => void;
-  clearResponse: (id: string) => void;
+  setResponse: (id: number, value: Response) => void;
+  clearResponse: (id: number) => void;
 };
 
 export const FormResponsesContext = createContext<
@@ -19,18 +19,18 @@ export const FormResponsesContext = createContext<
 >(undefined);
 
 export function FormResponsesProvider({ children }: PropsWithChildren) {
-  const [responses, setResponses] = useState<Record<string, string | string[]>>(
+  const [responses, setResponses] = useState<Record<number, string | string[]>>(
     {},
   );
 
-  const setResponse = (id: string, value: string | string[]) => {
+  const setResponse = (id: number, value: string | string[]) => {
     setResponses((prev) => ({
       ...prev,
       [id]: value,
     }));
   };
 
-  const clearResponse = (id: string) => {
+  const clearResponse = (id: number) => {
     setResponses((prev) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [id]: _, ...rest } = prev;
@@ -55,7 +55,7 @@ export function FormResponsesProvider({ children }: PropsWithChildren) {
 }
 
 export function useFormResponse<T extends Response>(
-  id: string,
+  id: number,
 ): {
   response: T | undefined;
   setResponse: (value: T) => void;

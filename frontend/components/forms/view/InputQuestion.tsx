@@ -1,20 +1,35 @@
-import { InputFormNode } from "@/components/forms/view/FormContext";
 import { useFormResponse } from "@/components/forms/view/FormResponsesContext";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { apiTypes } from "@/lib/api";
 
-export function InputQuestion({ node }: { node: InputFormNode }) {
+export function InputQuestion({
+  node,
+  question,
+}: {
+  node: apiTypes.SchemaFormNodeOutput;
+  question: apiTypes.SchemaInput;
+}) {
   const { response, setResponse } = useFormResponse<string>(node.id);
 
-  return (
-    <div className="grid items-center gap-1.5">
-      {node.label && <Label>{node.label}</Label>}
+  if (question.textarea) {
+    return (
+      <Textarea
+        placeholder="Введите ответ"
+        required={node.required}
+        value={response ?? ""}
+        onChange={(e) => setResponse(e.target.value)}
+      />
+    );
+  } else {
+    return (
       <Input
-        placeholder={node.placeholder}
+        placeholder="Введите ответ"
+        required={node.required}
         type="text"
         value={response ?? ""}
         onChange={(e) => setResponse(e.target.value)}
       />
-    </div>
-  );
+    );
+  }
 }
