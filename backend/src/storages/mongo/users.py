@@ -14,7 +14,7 @@ class UserRole(StrEnum):
 
 class UserSchema(BaseSchema):
     name: str | None = None
-    telegram_user: dict | None = None
+    email: str
     role: UserRole
 
 
