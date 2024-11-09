@@ -78,6 +78,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/form/by-invite/{key}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Use Invite */
+    post: operations["forms_use_invite"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/form/{form_id}": {
     parameters: {
       query?: never;
@@ -395,13 +412,18 @@ export interface components {
        * @example 5eb7cf5a86d9755df3a6c593
        */
       id: string;
-      /** Link */
-      link: string;
+      /** Key */
+      key: string;
       /**
        * Created At
        * Format: date-time
        */
       created_at: string;
+      /**
+       * Created By
+       * @example 5eb7cf5a86d9755df3a6c593
+       */
+      created_by: string;
       /**
        * Form Id
        * @description Form for which link is created
@@ -752,6 +774,37 @@ export interface operations {
       };
     };
   };
+  forms_use_invite: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        key: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
   forms_get_form: {
     parameters: {
       query?: never;
@@ -851,7 +904,9 @@ export interface operations {
     parameters: {
       query?: never;
       header?: never;
-      path?: never;
+      path: {
+        form_id: string;
+      };
       cookie?: never;
     };
     requestBody: {

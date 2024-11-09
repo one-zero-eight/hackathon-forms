@@ -1,112 +1,109 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Loader2 } from 'lucide-react'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@/components/ui/input-otp'
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { $api } from "@/lib/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [otp, setOtp] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [showOtpInput, setShowOtpInput] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [verification_code, setVerification_code] = useState("");
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
+  const queryClient = useQueryClient();
 
-    try {
-      setIsLoading(true)
-      setError(null)
-      
-    //   const response = await fetch('/api/auth/request-otp', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ email }),
-    //   })
+  const {
+    mutate: login,
+    isPending: loginIsPending,
+    error: loginError,
+    data: loginData,
+    isSuccess: loginIsSuccess,
+  } = $api.useMutation("post", "/email/login");
 
-    //   if (!response.ok) {
-    //     throw new Error('Failed to send OTP')
-    //   }
+  const {
+    mutate: verifyCode,
+    isPending: verifyIsPending,
+    error: verifyError,
+  } = $api.useMutation("post", "/email/validate-code-for-users", {
+    onSuccess: () => {
+      queryClient.clear();
+      router.push("/forms");
+    },
+  });
 
-      setShowOtpInput(true)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send OTP')
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const handleEmailSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (!email) return;
+    login({ body: { email } });
+  };
 
-  const handleOtpSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!otp) return
-
-    try {
-      setIsLoading(true)
-      setError(null)
-
-      const response = await fetch('/api/auth/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Invalid OTP')
-      }
-
-      router.push('/dashboard')
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to verify OTP')
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const handleOtpSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    const email_flow_id = loginData?.email_flow_id;
+    if (!email_flow_id || !verification_code) return;
+    verifyCode({ body: { email_flow_id, verification_code } });
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      if (!showOtpInput) {
-        handleEmailSubmit(e)
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (!loginIsSuccess) {
+        handleEmailSubmit();
       } else {
-        handleOtpSubmit(e)
+        handleOtpSubmit();
       }
     }
-  }
+  };
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)] items-center justify-center px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-[400px]">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold tracking-tight">
-            Welcome back
+            Добро пожаловать
           </CardTitle>
           <CardDescription>
-            {!showOtpInput 
-              ? 'Please enter your email to receive an OTP'
-              : 'Enter the OTP sent to your email'
-            }
+            {!loginIsSuccess
+              ? "Введите вашу почту, чтобы получить код доступа"
+              : "Введите код, который мы отправили на вашу почту"}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {error && (
+          {(loginError || verifyError) && (
             <div className="mb-4 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-              {error}
+              {loginError?.detail?.toString() ||
+                verifyError?.detail?.toString() ||
+                "Произошла ошибка"}
             </div>
           )}
 
-          <form onSubmit={showOtpInput ? handleOtpSubmit : handleEmailSubmit} className="space-y-4">
-            {!showOtpInput ? (
+          <form
+            onSubmit={loginIsSuccess ? handleOtpSubmit : handleEmailSubmit}
+            className="space-y-4"
+          >
+            {!loginIsSuccess ? (
               <div className="space-y-2">
-                <label 
-                  htmlFor="email" 
+                <label
+                  htmlFor="email"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Email address
+                  Электронная почта
                 </label>
                 <Input
                   id="email"
@@ -114,26 +111,26 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Enter your email"
+                  placeholder="Введите email"
                   required
-                  disabled={isLoading}
+                  disabled={loginIsPending}
                   aria-label="Email address"
                   className="h-10"
                 />
               </div>
             ) : (
               <div className="space-y-2">
-                <label 
-                  htmlFor="otp" 
+                <label
+                  htmlFor="otp"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  One-Time Password
+                  Код доступа
                 </label>
                 <InputOTP
                   maxLength={6}
-                  value={otp}
-                  onChange={(value) => setOtp(value)}
-                  disabled={isLoading}
+                  value={verification_code}
+                  onChange={(value) => setVerification_code(value)}
+                  disabled={loginIsPending}
                   aria-label="One-Time Password"
                 >
                   <InputOTPGroup>
@@ -154,15 +151,17 @@ export default function LoginPage() {
             <Button
               type="submit"
               className="w-full"
-              disabled={isLoading}
+              disabled={loginIsPending || verifyIsPending}
               size="lg"
             >
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {!showOtpInput ? 'Send OTP' : 'Verify OTP'}
+              {(loginIsPending || verifyIsPending) && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              {!loginIsSuccess ? "Получить код" : "Отправить код"}
             </Button>
           </form>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
