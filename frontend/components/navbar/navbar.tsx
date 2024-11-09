@@ -1,20 +1,36 @@
 "use client";
 
+import { useMe } from "@/lib/api/auth";
+import { UserRole } from "@/lib/api/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const me = useMe();
 
   const navigationItems = [
-    { label: "Home", href: "/" },
-    { label: "Forms", href: "/forms" },
-    { label: "Create Form", href: "/forms/create" },
-    { label: "Admin", href: "/admin" },
-  ];
+    { label: "Главная", href: "/" },
+    {
+      label: "Формы",
+      href: "/forms",
+      roles: [UserRole.hr, UserRole.manager, UserRole.admin],
+    },
+    {
+      label: "Создать форму",
+      href: "/forms/create",
+      roles: [UserRole.hr, UserRole.manager, UserRole.admin],
+    },
+    { label: "Админ-панель", href: "/admin", roles: [UserRole.admin] },
+  ].filter((item) => {
+    if (item.roles) {
+      return me && item.roles.includes(me.role);
+    }
+    return true;
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,19 +52,19 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? "bg-white/60 backdrop-blur-xl shadow-sm" 
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/60 shadow-sm backdrop-blur-xl"
           : "bg-white/40 backdrop-blur-sm"
       }`}
     >
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="flex justify-between h-14">
+      <div className="mx-auto max-w-5xl px-4">
+        <div className="flex h-14 justify-between">
           {/* Logo/Brand */}
           <div className="flex items-center">
-            <Link 
+            <Link
               href="/"
-              className="text-lg font-semibold text-gray-900 hover:text-gray-600 transition-colors"
+              className="text-lg font-semibold text-gray-900 transition-colors hover:text-gray-600"
               aria-label="Home"
             >
               КандидатАйКю
@@ -61,8 +77,7 @@ const Navbar = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-gray-900
-                  ${pathname === item.href ? "text-blue-600" : "text-gray-600"}`}
+                className={`text-sm font-medium transition-colors hover:text-gray-900 ${pathname === item.href ? "text-blue-600" : "text-gray-600"}`}
                 aria-current={pathname === item.href ? "page" : undefined}
               >
                 {item.label}
@@ -71,10 +86,10 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="sm:hidden flex items-center">
+          <div className="flex items-center sm:hidden">
             <button
               type="button"
-              className="text-gray-600 hover:text-gray-900 transition-colors p-2 rounded-md hover:bg-gray-100"
+              className="rounded-md p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
               aria-controls="mobile-menu"
               aria-expanded={isMobileMenuOpen}
               onClick={handleMenuToggle}
@@ -110,23 +125,23 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`sm:hidden absolute w-full bg-white/90 backdrop-blur-xl shadow-lg transition-all duration-200
-          ${isMobileMenuOpen 
-            ? "opacity-100 translate-y-0" 
-            : "opacity-0 -translate-y-2 pointer-events-none"
-          }`}
+        className={`absolute w-full bg-white/90 shadow-lg backdrop-blur-xl transition-all duration-200 sm:hidden ${
+          isMobileMenuOpen
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-2 opacity-0"
+        }`}
         id="mobile-menu"
       >
-        <div className="px-4 py-3 space-y-3">
+        <div className="space-y-3 px-4 py-3">
           {navigationItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`block text-sm font-medium transition-colors hover:text-gray-900 p-2 rounded-md
-                ${pathname === item.href 
-                  ? "text-blue-600 bg-blue-50" 
+              className={`block rounded-md p-2 text-sm font-medium transition-colors hover:text-gray-900 ${
+                pathname === item.href
+                  ? "bg-blue-50 text-blue-600"
                   : "text-gray-600 hover:bg-gray-50"
-                }`}
+              }`}
               aria-current={pathname === item.href ? "page" : undefined}
               onClick={() => setIsMobileMenuOpen(false)}
             >
