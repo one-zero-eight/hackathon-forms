@@ -12,6 +12,7 @@ class UserRole(StrEnum):
     HR = "hr"
     MANAGER = "manager"
     ADMIN = "admin"
+    BANNED = "banned"
 
 
 class UserSchema(BaseSchema):

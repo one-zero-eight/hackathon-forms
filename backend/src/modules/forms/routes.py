@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 
 from src.api.dependencies import CURRENT_USER_ID_DEPENDENCY
 from src.modules.forms.repository import form_repository
-from src.modules.forms.schemas import CreateFormReq, CreateInviteReq
+from src.modules.forms.schemas import CreateFormReq, CreateInviteReq, UpdateFormReq
 from src.modules.users.repository import user_repository
 from src.storages.mongo import Invite
 from src.storages.mongo.forms import Form
@@ -46,6 +46,12 @@ async def get_form(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDENC
 async def create_form(data: CreateFormReq, user_id: CURRENT_USER_ID_DEPENDENCY) -> Form:
     data = await form_repository.create(data, created_by=user_id)
     return data
+
+
+@router.put("/{form_id}")
+async def update_form(form_id: PydanticObjectId, data: UpdateFormReq, user_id: CURRENT_USER_ID_DEPENDENCY) -> None:
+    _ = await can_edit_form_guard(form_id, user_id)
+    return await form_repository.update(form_id, user_id=user_id, data=data)
 
 
 @router.delete("/{form_id}")
