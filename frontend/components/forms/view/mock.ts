@@ -28,10 +28,6 @@ export const formData: apiTypes.SchemaForm = {
         medias: [
           "https://storage.googleapis.com/cms-storage-bucket/70760bf1e88b184bb1bc.png",
         ],
-        explanation: {
-          explanation: "",
-          for_correct_answer_too: false,
-        },
       },
       question: {
         question_type: SingleChoiceQuestion_type.select,
@@ -59,10 +55,6 @@ export const formData: apiTypes.SchemaForm = {
         title: "Flutter Widgets",
         md_content: "Let's test your knowledge about Flutter widget types.",
         medias: [],
-        explanation: {
-          explanation: "",
-          for_correct_answer_too: false,
-        },
       },
       question: {
         question_type: MultipleChoiceQuestion_type.multiple_choice,
@@ -90,10 +82,6 @@ export const formData: apiTypes.SchemaForm = {
         title: "Hot Reload in Flutter",
         md_content: "Explain what Hot Reload is in Flutter development.",
         medias: [],
-        explanation: {
-          explanation: "",
-          for_correct_answer_too: false,
-        },
       },
       question: {
         question_type: InputQuestion_type.input,
@@ -119,10 +107,6 @@ export const formData: apiTypes.SchemaForm = {
         md_content:
           "Rank the following state management solutions from simplest to most complex.",
         medias: [],
-        explanation: {
-          explanation: "",
-          for_correct_answer_too: false,
-        },
       },
       question: {
         question_type: RankingQuestion_type.ranking,
@@ -145,10 +129,6 @@ export const formData: apiTypes.SchemaForm = {
         md_content:
           "Match the Flutter architecture components with their descriptions.",
         medias: [],
-        explanation: {
-          explanation: "",
-          for_correct_answer_too: false,
-        },
       },
       question: {
         question_type: MatchingQuestion_type.matching,
