@@ -1,5 +1,6 @@
 import { ChoicesWrapper } from "@/components/forms/edit/ChoicesWrapper";
 import { useEditableForm } from "@/components/forms/edit/EditableFormContext";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -16,16 +17,14 @@ export function SingleChoiceQuestion({
   node: apiTypes.SchemaFormNodeOutput;
   question: apiTypes.SchemaSingleChoice;
 }) {
-  const { handleUpdateNode } = useEditableForm();
+  const { updateNodeQuestion } = useEditableForm();
   return (
     <ChoicesWrapper node={node} question={question}>
+      <Label className="text-muted-foreground">Correct answer</Label>
       <Select
         value={(question.correct_answer ?? "") as string}
         onValueChange={(value) => {
-          handleUpdateNode(node.id, {
-            // @ts-expect-error error
-            question: { ...question, correct_answer: value },
-          });
+          updateNodeQuestion(node.id, { correct_answer: value });
         }}
       >
         <SelectTrigger className="mt-2">

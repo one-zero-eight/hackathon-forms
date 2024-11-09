@@ -1,5 +1,6 @@
 import { ChoicesWrapper } from "@/components/forms/edit/ChoicesWrapper";
 import { useEditableForm } from "@/components/forms/edit/EditableFormContext";
+import { Label } from "@/components/ui/label";
 import { apiTypes } from "@/lib/api";
 import {
   closestCenter,
@@ -26,7 +27,7 @@ export function RankingQuestion({
   node: apiTypes.SchemaFormNodeOutput;
   question: apiTypes.SchemaRanking;
 }) {
-  const { handleUpdateNode } = useEditableForm();
+  const { updateNodeQuestion } = useEditableForm();
 
   const rankingSensors = useSensors(
     useSensor(PointerSensor, {
@@ -41,6 +42,7 @@ export function RankingQuestion({
 
   return (
     <ChoicesWrapper node={node} question={question}>
+      <Label className="text-muted-foreground">Correct answer</Label>
       <div className="mt-2 space-y-2">
         <p className="text-sm text-muted-foreground">
           Correct order (drag to reorder):
@@ -67,13 +69,9 @@ export function RankingQuestion({
               return;
 
             const newOptions = arrayMove(question.options, oldIndex, newIndex);
-            handleUpdateNode(node.id, {
-              question: {
-                ...question,
-                options: newOptions,
-                // @ts-expect-error error
-                correct_answer: newOptions,
-              },
+            updateNodeQuestion(node.id, {
+              options: newOptions,
+              correct_answer: newOptions,
             });
           }}
         >

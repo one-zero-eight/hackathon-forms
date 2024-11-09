@@ -1,4 +1,6 @@
 import { ChoicesWrapper } from "@/components/forms/edit/ChoicesWrapper";
+import { useEditableForm } from "@/components/forms/edit/EditableFormContext";
+import { Label } from "@/components/ui/label";
 import { apiTypes } from "@/lib/api";
 
 export function MultipleChoiceQuestion({
@@ -8,30 +10,27 @@ export function MultipleChoiceQuestion({
   node: apiTypes.SchemaFormNodeOutput;
   question: apiTypes.SchemaMultipleChoice;
 }) {
+  const { updateNodeQuestion } = useEditableForm();
   return (
     <ChoicesWrapper node={node} question={question}>
+      <Label className="text-muted-foreground">Correct answer</Label>
       <div className="mt-2 space-y-2">
         {question.options?.map((option, index) => (
           <label key={index} className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={
-                Array.isArray(node.question.correct_answer) &&
-                (node.question.correct_answer as string[]).includes(option)
+                Array.isArray(question.correct_answer) &&
+                question.correct_answer.includes(index)
               }
               onChange={(e) => {
-                const currentAnswers = Array.isArray(
-                  node.question.correct_answer,
-                )
-                  ? node.question.correct_answer
+                const currentAnswers = Array.isArray(question.correct_answer)
+                  ? question.correct_answer
                   : [];
                 const newAnswers = e.target.checked
-                  ? [...currentAnswers, option]
-                  : currentAnswers.filter((answer) => answer !== option);
-                // @ts-expect-error error
-                handleUpdateNode(node.id, {
-                  question: { ...question, correct_answer: newAnswers },
-                });
+                  ? [...currentAnswers, index]
+                  : currentAnswers.filter((answer) => answer !== index);
+                updateNodeQuestion(node.id, { correct_answer: newAnswers });
               }}
               className="h-4 w-4 rounded border-gray-300"
             />

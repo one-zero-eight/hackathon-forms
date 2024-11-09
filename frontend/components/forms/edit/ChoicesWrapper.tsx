@@ -1,6 +1,7 @@
 import { useEditableForm } from "@/components/forms/edit/EditableFormContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { apiTypes } from "@/lib/api";
 import { Trash2 } from "lucide-react";
 import { PropsWithChildren } from "react";
@@ -16,9 +17,10 @@ export function ChoicesWrapper({
     | apiTypes.SchemaMultipleChoice
     | apiTypes.SchemaRanking;
 }>) {
-  const { handleUpdateNode } = useEditableForm();
+  const { updateNodeQuestion } = useEditableForm();
   return (
     <div className="space-y-2">
+      <Label className="text-muted-foreground">Answer options</Label>
       {question.options?.map((option, index) => (
         <div key={index} className="flex gap-2">
           <Input
@@ -26,9 +28,7 @@ export function ChoicesWrapper({
             onChange={(e) => {
               const newOptions = [...(question.options || [])];
               newOptions[index] = e.target.value;
-              handleUpdateNode(node.id, {
-                question: { ...question, options: newOptions },
-              });
+              updateNodeQuestion(node.id, { options: newOptions });
             }}
             placeholder={`Option ${index + 1}`}
           />
@@ -39,9 +39,7 @@ export function ChoicesWrapper({
               const newOptions = question.options?.filter(
                 (_, i) => i !== index,
               );
-              handleUpdateNode(node.id, {
-                question: { ...question, options: newOptions },
-              });
+              updateNodeQuestion(node.id, { options: newOptions });
             }}
           >
             <Trash2 className="h-4 w-4" />
@@ -52,9 +50,7 @@ export function ChoicesWrapper({
         variant="outline"
         onClick={() => {
           const newOptions = [...(question.options || []), "New Option"];
-          handleUpdateNode(node.id, {
-            question: { ...question, options: newOptions },
-          });
+          updateNodeQuestion(node.id, { options: newOptions });
         }}
       >
         Add Option

@@ -1,13 +1,13 @@
-import { Providers } from "./_providers";
+import { CookieBanner } from "@/components/cookie-banner";
+import Navbar from "@/components/navbar/navbar";
+import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, getTranslations } from "next-intl/server";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from '@/components/navbar/navbar'
-import { CookieBanner } from "@/components/cookie-banner";
-import { NextIntlClientProvider } from "next-intl";
-import { getTranslations, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
+import { Providers } from "./_providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,40 +20,42 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
-  const t = await getTranslations({ locale, namespace: 'meta' });
-  
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: "meta" });
+
   return {
-    title: t('title'),
-    description: t('description'),
+    title: t("title"),
+    description: t("description"),
   };
 }
 
 export default async function RootLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
   const { locale } = params;
-  
+
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
 
   const messages = await getMessages();
-  
+
   return (
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <Navbar />
-            <main className="pt-14">
-              {children}
-            </main>
+            <main className="pt-20">{children}</main>
             <CookieBanner />
           </Providers>
         </NextIntlClientProvider>

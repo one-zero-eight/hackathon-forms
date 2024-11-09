@@ -1,24 +1,39 @@
 import { FormResponsesContext } from "@/components/forms/view/FormResponsesContext";
 import { $api, apiTypes } from "@/lib/api";
 import { InputQuestion_type } from "@/lib/api/types";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
   PropsWithChildren,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
 type EditableFormContextType = {
   editableForm: apiTypes.SchemaForm | undefined;
-  replaceForm: (newForm: apiTypes.SchemaForm) => void;
-  handleUpdateNode: (
+  isPending: boolean;
+  isSaving: boolean;
+  error: unknown;
+  formIsEdited: boolean;
+  setEditableForm: (form: apiTypes.SchemaForm) => void;
+  updateForm: (updates: Partial<apiTypes.SchemaForm>) => void;
+  updateNode: (
     nodeId: number,
     updates: Partial<apiTypes.SchemaFormNodeOutput>,
   ) => void;
-  handleAddNode: () => void;
-  handleDeleteNode: (nodeId: number) => void;
-  handleSaveForm: () => void;
+  updateNodeContent: (
+    nodeId: number,
+    updates: Partial<apiTypes.SchemaFormNodeOutput["content"]>,
+  ) => void;
+  updateNodeQuestion: (
+    nodeId: number,
+    updates: Partial<apiTypes.SchemaFormNodeOutput["question"]>,
+  ) => void;
+  addNode: () => void;
+  deleteNode: (nodeId: number) => void;
+  saveForm: () => void;
 };
 
 export const EditableFormContext = createContext<
@@ -30,8 +45,10 @@ export function EditableFormProvider({
   children,
 }: PropsWithChildren<{ id: string }>) {
   const [editableForm, setEditableForm] = useState<apiTypes.SchemaForm>();
+  const [formIsEdited, setFormIsEdited] = useState(false);
 
-  const { data } = $api.useQuery(
+  const queryClient = useQueryClient();
+  const { data, isPending, error } = $api.useQuery(
     "get",
     "/form/{form_id}",
     { params: { path: { form_id: id } } },
@@ -45,26 +62,75 @@ export function EditableFormProvider({
   useEffect(() => {
     if (data) {
       setEditableForm(data);
+      setFormIsEdited(false);
     }
   }, [data]);
 
-  const handleSaveForm = async () => {};
+  const { mutate: saveMutate, isPending: isSaving } = $api.useMutation(
+    "put",
+    "/form/{form_id}",
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: $api.queryOptions("put", "/form/{form_id}", {
+            params: { path: { form_id: id } },
+            body: {},
+          }).queryKey,
+        });
+      },
+    },
+  );
 
-  const handleUpdateNode = (
+  const saveForm = async () => {
+    if (!editableForm) return;
+    saveMutate({
+      params: { path: { form_id: id } },
+      body: editableForm,
+    });
+  };
+
+  const updateForm = (updates: Partial<apiTypes.SchemaForm>) => {
+    if (!editableForm) return;
+    setEditableForm({ ...editableForm, ...updates });
+    setFormIsEdited(true);
+  };
+
+  const updateNode = (
     nodeId: number,
     updates: Partial<apiTypes.SchemaFormNodeOutput>,
   ) => {
     if (!editableForm?.nodes) return;
-
     setEditableForm({
       ...editableForm,
       nodes: editableForm.nodes.map((node) =>
         node.id === nodeId ? { ...node, ...updates } : node,
       ),
     });
+    setFormIsEdited(true);
   };
 
-  const handleAddNode = () => {
+  const updateNodeContent = (
+    nodeId: number,
+    updates: Partial<apiTypes.SchemaFormNodeOutput["content"]>,
+  ) => {
+    if (!editableForm?.nodes) return;
+    updateNode(nodeId, {
+      content: { ...editableForm.nodes[nodeId].content, ...updates },
+    });
+  };
+
+  const updateNodeQuestion = (
+    nodeId: number,
+    updates: Partial<apiTypes.SchemaFormNodeOutput["question"]>,
+  ) => {
+    if (!editableForm?.nodes) return;
+    updateNode(nodeId, {
+      // @ts-expect-error error
+      question: { ...editableForm.nodes[nodeId].question, ...updates },
+    });
+  };
+
+  const addNode = () => {
     if (!editableForm) return;
 
     const newNode: apiTypes.SchemaFormNodeOutput = {
@@ -87,29 +153,37 @@ export function EditableFormProvider({
       ...editableForm,
       nodes: [...(editableForm.nodes || []), newNode],
     });
+    setFormIsEdited(true);
   };
 
-  const handleDeleteNode = (nodeId: number) => {
+  const deleteNode = (nodeId: number) => {
     if (!editableForm?.nodes) return;
 
     setEditableForm({
       ...editableForm,
       nodes: editableForm.nodes.filter((node) => node.id !== nodeId),
     });
+    setFormIsEdited(true);
   };
 
-  const replaceForm = (newForm: apiTypes.SchemaForm) => {
-    setEditableForm(newForm);
-  };
-
-  const contextData = {
-    editableForm: editableForm,
-    replaceForm,
-    handleUpdateNode,
-    handleAddNode,
-    handleDeleteNode,
-    handleSaveForm,
-  };
+  const contextData = useMemo(
+    () => ({
+      editableForm,
+      isPending,
+      isSaving,
+      error,
+      formIsEdited,
+      setEditableForm,
+      updateForm,
+      updateNode,
+      updateNodeContent,
+      updateNodeQuestion,
+      addNode,
+      deleteNode,
+      saveForm,
+    }),
+    [editableForm, isSaving, isPending, error, formIsEdited],
+  );
 
   return (
     <EditableFormContext.Provider value={contextData}>

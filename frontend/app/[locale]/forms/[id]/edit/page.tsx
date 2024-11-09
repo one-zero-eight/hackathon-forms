@@ -39,6 +39,7 @@ import {
   ClipboardList,
   Eye,
   GripVertical,
+  Loader2,
   MessageSquare,
   Settings,
   Trash2,
@@ -57,7 +58,8 @@ const NODE_TYPES = [
 ] as const;
 
 function SortableNode({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
-  const { handleUpdateNode, handleDeleteNode } = useEditableForm();
+  const { updateNodeContent, updateNodeQuestion, deleteNode } =
+    useEditableForm();
 
   const {
     attributes,
@@ -97,8 +99,8 @@ function SortableNode({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
             <Input
               value={node.content.title || ""}
               onChange={(e) =>
-                handleUpdateNode(node.id, {
-                  content: { ...node.content, title: e.target.value },
+                updateNodeContent(node.id, {
+                  title: e.target.value,
                 })
               }
               placeholder="Question title"
@@ -108,13 +110,9 @@ function SortableNode({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
             <Select
               value={node.question.question_type}
               onValueChange={(value) =>
-                handleUpdateNode(node.id, {
-                  question: {
-                    ...node.question,
-                    // @ts-expect-error error
-                    question_type:
-                      value as apiTypes.SchemaFormNodeOutput["question"]["question_type"],
-                  },
+                updateNodeQuestion(node.id, {
+                  question_type:
+                    value as apiTypes.SchemaFormNodeOutput["question"]["question_type"],
                 })
               }
             >
@@ -133,7 +131,7 @@ function SortableNode({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => handleDeleteNode?.(node.id)}
+              onClick={() => deleteNode(node.id)}
               className="text-destructive"
             >
               <Trash2 className="h-5 w-5" />
@@ -148,7 +146,7 @@ function SortableNode({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
 }
 
 function SettingsTab() {
-  const { editableForm, replaceForm } = useEditableForm();
+  const { editableForm, updateForm } = useEditableForm();
   if (!editableForm) return;
 
   return (
@@ -160,9 +158,7 @@ function SettingsTab() {
             id="formTitle"
             placeholder="Введите название формы"
             value={editableForm?.title || ""}
-            onChange={(e) =>
-              replaceForm?.({ ...editableForm, title: e.target.value })
-            }
+            onChange={(e) => updateForm({ title: e.target.value })}
             className="mt-1"
           />
         </div>
@@ -173,9 +169,7 @@ function SettingsTab() {
             id="formDescription"
             placeholder="Введите описание формы"
             value={editableForm?.description || ""}
-            onChange={(e) =>
-              replaceForm?.({ ...editableForm, description: e.target.value })
-            }
+            onChange={(e) => updateForm({ description: e.target.value })}
             className="mt-1"
           />
         </div>
@@ -185,7 +179,7 @@ function SettingsTab() {
 }
 
 function QuestionsTab() {
-  const { editableForm, replaceForm, handleAddNode } = useEditableForm();
+  const { editableForm, updateForm, addNode } = useEditableForm();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -211,8 +205,7 @@ function QuestionsTab() {
       (node) => node.id === over.id,
     );
 
-    replaceForm?.({
-      ...editableForm,
+    updateForm({
       nodes: arrayMove(editableForm.nodes, oldIndex, newIndex),
     });
   };
@@ -236,7 +229,7 @@ function QuestionsTab() {
         </SortableContext>
       </DndContext>
 
-      <Button onClick={handleAddNode} variant="outline" className="w-full">
+      <Button onClick={addNode} variant="outline" className="w-full">
         Добавить вопрос
       </Button>
     </div>
@@ -256,96 +249,103 @@ function AnswersTab() {
 }
 
 export default function EditFormPage() {
-  const router = useRouter();
   const params = useParams();
+  return (
+    <EditableFormProvider id={params.id as string}>
+      <EditFormPage_ />
+    </EditableFormProvider>
+  );
+}
+
+function EditFormPage_() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("questions");
+  const { editableForm, formIsEdited, isPending, error, saveForm, isSaving } =
+    useEditableForm();
 
-  // if (isPending) {
-  //   return (
-  //     <div className="flex min-h-[400px] items-center justify-center">
-  //       <Loader2 className="h-8 w-8 animate-spin text-primary" />
-  //     </div>
-  //   );
-  // }
-  //
-  // if (error) {
-  //   return (
-  //     <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
-  //       <p className="mb-4 text-destructive">{error}</p>
-  //       <Button onClick={() => window.location.reload()}>Try Again</Button>
-  //     </div>
-  //   );
-  // }
+  if (isPending) {
+    return (
+      <div className="flex min-h-[400px] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
-  // if (!formData) {
-  //   return (
-  //     <Card className="mx-auto mt-8 max-w-md p-8 text-center">
-  //       <p className="mb-4 text-muted-foreground">Form not found</p>
-  //       <Button onClick={() => router.push("/forms")}>Back to Forms</Button>
-  //     </Card>
-  //   );
-  // }
+  if (error) {
+    return (
+      <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
+        <p className="mb-4 text-destructive">{String(error)}</p>
+        <Button onClick={() => window.location.reload()}>Try Again</Button>
+      </div>
+    );
+  }
+
+  if (!editableForm) {
+    return (
+      <Card className="mx-auto mt-8 max-w-md p-8 text-center">
+        <p className="mb-4 text-muted-foreground">Form not found</p>
+        <Button onClick={() => router.push("/forms")}>Back to Forms</Button>
+      </Card>
+    );
+  }
 
   return (
-    <div className="container mx-auto space-y-6 px-4">
-      <EditableFormProvider id={params.id as string}>
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="space-y-6"
-        >
-          <div className="flex items-center justify-between">
-            <TabsList className="grid w-[400px] grid-cols-3">
-              <TabsTrigger
-                value="questions"
-                className="flex items-center gap-2"
-              >
-                <ClipboardList className="h-4 w-4" />
-                Вопросы
-              </TabsTrigger>
-              <TabsTrigger value="answers" className="flex items-center gap-2">
-                <MessageSquare className="h-4 w-4" />
-                Ответы
-              </TabsTrigger>
-              <TabsTrigger value="settings" className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
-                Настройки
-              </TabsTrigger>
-            </TabsList>
+    <div className="container mx-auto space-y-6 p-6">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-6"
+      >
+        <div className="flex items-center justify-between">
+          <TabsList className="grid w-[400px] grid-cols-3">
+            <TabsTrigger value="questions" className="flex items-center gap-2">
+              <ClipboardList className="h-4 w-4" />
+              Вопросы
+            </TabsTrigger>
+            <TabsTrigger value="answers" className="flex items-center gap-2">
+              <MessageSquare className="h-4 w-4" />
+              Ответы
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              Настройки
+            </TabsTrigger>
+          </TabsList>
 
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                onClick={() => router.push(`/forms/${params.id}`)}
-                className="flex items-center gap-2"
-              >
-                <Eye className="h-4 w-4" />
-                Preview
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => router.push(`/forms/${editableForm.id}`)}
+              className="flex items-center gap-2"
+            >
+              <Eye className="h-4 w-4" />
+              Preview
+            </Button>
+
+            {formIsEdited && (
+              <Button onClick={saveForm} disabled={isSaving}>
+                {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Save Changes
               </Button>
-
-              {/*<Button onClick={handleSaveForm} disabled={isSaving}>*/}
-              {/*  {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}*/}
-              {/*  Save Changes*/}
-              {/*</Button>*/}
-            </div>
+            )}
           </div>
+        </div>
 
-          <TabsContent value="questions" className="space-y-4">
-            <h1 className="text-2xl font-bold">Questions</h1>
-            <QuestionsTab />
-          </TabsContent>
+        <TabsContent value="questions" className="space-y-4">
+          <h1 className="text-2xl font-bold">Questions</h1>
+          <QuestionsTab />
+        </TabsContent>
 
-          <TabsContent value="answers">
-            <h1 className="text-2xl font-bold">Answers</h1>
-            <AnswersTab />
-          </TabsContent>
+        <TabsContent value="answers">
+          <h1 className="text-2xl font-bold">Answers</h1>
+          <AnswersTab />
+        </TabsContent>
 
-          <TabsContent value="settings">
-            <h1 className="text-2xl font-bold">Settings</h1>
-            <SettingsTab />
-          </TabsContent>
-        </Tabs>
-      </EditableFormProvider>
+        <TabsContent value="settings">
+          <h1 className="text-2xl font-bold">Settings</h1>
+          <SettingsTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

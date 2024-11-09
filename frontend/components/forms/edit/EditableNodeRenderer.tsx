@@ -22,6 +22,9 @@ const nodeComponents: Record<
   multiple_choice: MultipleChoiceQuestion,
   ranking: RankingQuestion,
   matching: MatchingQuestion,
+  contact: () => null,
+  list_of_links: () => null,
+  date: () => null,
 };
 
 export function EditableNodeRenderer({
@@ -29,35 +32,37 @@ export function EditableNodeRenderer({
 }: {
   node: apiTypes.SchemaFormNodeOutput;
 }) {
-  const { handleUpdateNode } = useEditableForm();
+  const { updateNodeQuestion } = useEditableForm();
   const QuestionComponent = nodeComponents[node.question.question_type];
   return (
     <div className="mt-4 space-y-4 border-t pt-6">
       <ContentEditor node={node} />
 
       <div>
-        <Label className="text-muted-foreground">Correct Answer</Label>
         <QuestionComponent node={node} question={node.question} />
 
-        <div>
-          <Label className="text-muted-foreground">Answer Explanation</Label>
-          <Textarea
-            value={node.question.explanation.explanation || ""}
-            onChange={(e) =>
-              handleUpdateNode(node.id, {
-                question: {
-                  ...node.question,
-                  explanation: {
-                    explanation: e.target.value,
-                    for_correct_answer_too: true,
-                  },
-                },
-              })
-            }
-            placeholder="Add an explanation for this answer..."
-            className="mt-2"
-          />
-        </div>
+        {node.question.question_type !== "list_of_links" &&
+          node.question.question_type !== "contact" &&
+          node.question.explanation && (
+            <div>
+              <Label className="text-muted-foreground">
+                Answer Explanation
+              </Label>
+              <Textarea
+                value={node.question.explanation.explanation || ""}
+                onChange={(e) =>
+                  updateNodeQuestion(node.id, {
+                    explanation: {
+                      explanation: e.target.value,
+                      for_correct_answer_too: true,
+                    },
+                  })
+                }
+                placeholder="Add an explanation for this answer..."
+                className="mt-2"
+              />
+            </div>
+          )}
       </div>
     </div>
   );

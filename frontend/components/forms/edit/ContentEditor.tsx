@@ -1,3 +1,5 @@
+import { useEditableForm } from "@/components/forms/edit/EditableFormContext";
+import { Textarea } from "@/components/ui/textarea";
 import { apiTypes } from "@/lib/api";
 
 export function ContentEditor({
@@ -5,10 +7,23 @@ export function ContentEditor({
 }: {
   node: apiTypes.SchemaFormNodeOutput;
 }) {
+  const { updateNodeContent } = useEditableForm();
   return (
     <div className="space-y-3">
-      <h3>{node.content.title}</h3>
-      <p>{node.content.md_content}</p>
+      <Textarea
+        placeholder="Введите вопрос"
+        required={true}
+        value={node.content.title ?? ""}
+        onChange={(e) => updateNodeContent(node.id, { title: e.target.value })}
+      />
+      <Textarea
+        placeholder="Введите описание"
+        required={false}
+        value={node.content.md_content ?? ""}
+        onChange={(e) =>
+          updateNodeContent(node.id, { md_content: e.target.value })
+        }
+      />
       {node.content.medias.map((media, i) => (
         <div key={i}>
           <img src={media} alt="media" />

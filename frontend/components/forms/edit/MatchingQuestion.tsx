@@ -19,9 +19,10 @@ export function MatchingQuestion({
   node: apiTypes.SchemaFormNodeOutput;
   question: apiTypes.SchemaMatching;
 }) {
-  const { handleUpdateNode } = useEditableForm();
+  const { updateNodeQuestion } = useEditableForm();
   return (
     <div className="space-y-4">
+      <Label className="text-muted-foreground">Correct answer</Label>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Left Items</Label>
@@ -32,9 +33,7 @@ export function MatchingQuestion({
                 onChange={(e) => {
                   const newLeft = [...(question.options_first || [])];
                   newLeft[index] = e.target.value;
-                  handleUpdateNode(node.id, {
-                    question: { ...question, options_first: newLeft },
-                  });
+                  updateNodeQuestion(node.id, { options_first: newLeft });
                 }}
                 placeholder={`Left ${index + 1}`}
               />
@@ -45,9 +44,7 @@ export function MatchingQuestion({
                   const newLeft = question.options_first?.filter(
                     (_, i) => i !== index,
                   );
-                  handleUpdateNode(node.id, {
-                    question: { ...question, options_first: newLeft },
-                  });
+                  updateNodeQuestion(node.id, { options_first: newLeft });
                 }}
               >
                 <Trash2 className="h-4 w-4" />
@@ -58,9 +55,7 @@ export function MatchingQuestion({
             variant="outline"
             onClick={() => {
               const newLeft = [...(question.options_first || []), ""];
-              handleUpdateNode(node.id, {
-                question: { ...question, options_first: newLeft },
-              });
+              updateNodeQuestion(node.id, { options_first: newLeft });
             }}
           >
             Add Left Item
@@ -76,9 +71,7 @@ export function MatchingQuestion({
                 onChange={(e) => {
                   const newRight = [...(question.options_second || [])];
                   newRight[index] = e.target.value;
-                  handleUpdateNode(node.id, {
-                    question: { ...question, options_second: newRight },
-                  });
+                  updateNodeQuestion(node.id, { options_second: newRight });
                 }}
                 placeholder={`Right ${index + 1}`}
               />
@@ -89,9 +82,7 @@ export function MatchingQuestion({
                   const newRight = question.options_second?.filter(
                     (_, i) => i !== index,
                   );
-                  handleUpdateNode(node.id, {
-                    question: { ...question, options_second: newRight },
-                  });
+                  updateNodeQuestion(node.id, { options_second: newRight });
                 }}
               >
                 <Trash2 className="h-4 w-4" />
@@ -102,9 +93,7 @@ export function MatchingQuestion({
             variant="outline"
             onClick={() => {
               const newRight = [...(question.options_second || []), ""];
-              handleUpdateNode(node.id, {
-                question: { ...question, options_second: newRight },
-              });
+              updateNodeQuestion(node.id, { options_second: newRight });
             }}
           >
             Add Right Item
@@ -126,10 +115,7 @@ export function MatchingQuestion({
                   ? [...question.correct_answer]
                   : new Array(question.options_first?.length).fill(undefined);
                 currentAnswers[index] = value;
-                handleUpdateNode(node.id, {
-                  // @ts-expect-error error
-                  question: { ...question, correct_answer: currentAnswers },
-                });
+                updateNodeQuestion(node.id, { correct_answer: currentAnswers });
               }}
             >
               <SelectTrigger>
