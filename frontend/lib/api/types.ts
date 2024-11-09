@@ -86,7 +86,7 @@ export interface paths {
       cookie?: never;
     };
     /** Get Form */
-    get: operations["get_form"];
+    get: operations["forms_get_form"];
     put?: never;
     post?: never;
     delete?: never;
@@ -105,7 +105,25 @@ export interface paths {
     get?: never;
     put?: never;
     /** Create Form */
-    post: operations["create_form"];
+    post: operations["forms_create_form"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/form/{form_id}/invite/": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Invites */
+    get: operations["forms_get_invites"];
+    put?: never;
+    /** Create Invite */
+    post: operations["forms_create_invite"];
     delete?: never;
     options?: never;
     head?: never;
@@ -116,10 +134,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    /** Body_create_form */
-    Body_create_form: {
-      req: components["schemas"]["CreateFormReq"];
-    };
     /** Body_end_email_flow */
     Body_end_email_flow: {
       /**
@@ -159,7 +173,6 @@ export interface components {
        * @default []
        */
       medias: string[];
-      explanation: components["schemas"]["Explanation"];
     };
     /** CreateFormReq */
     CreateFormReq: {
@@ -167,10 +180,19 @@ export interface components {
       title: string;
       /** Description */
       description?: string | null;
-      /** Nodes */
+      /**
+       * Nodes
+       * @default []
+       */
       nodes: components["schemas"]["FormNode-Input"][];
-      /** Created By */
-      created_by: string;
+    };
+    /** CreateInviteReq */
+    CreateInviteReq: {
+      /**
+       * One Time
+       * @default false
+       */
+      one_time: boolean;
     };
     /** CreateUser */
     CreateUser: {
@@ -243,6 +265,7 @@ export interface components {
       /**
        * Created By
        * @description Identifier of the user or system that created the form.
+       * @example 5eb7cf5a86d9755df3a6c593
        */
       created_by: string;
       /**
@@ -361,6 +384,47 @@ export interface components {
        */
       correct_answer?: string[] | null;
       explanation: components["schemas"]["Explanation"];
+    };
+    /** Invite */
+    Invite: {
+      /**
+       * Id
+       * Format: objectid
+       * @description MongoDB document ObjectID
+       * @default None
+       * @example 5eb7cf5a86d9755df3a6c593
+       */
+      id: string;
+      /** Link */
+      link: string;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+      /**
+       * Form Id
+       * @description Form for which link is created
+       * @example 5eb7cf5a86d9755df3a6c593
+       */
+      form_id: string;
+      /**
+       * One Time
+       * @default false
+       */
+      one_time: boolean;
+      /**
+       * Used By
+       * @description List of session ids
+       * @default []
+       */
+      used_by: string[];
+      /**
+       * Active
+       * @description Is active
+       * @default true
+       */
+      active: boolean;
     };
     /**
      * Matching
@@ -517,13 +581,13 @@ export interface components {
   headers: never;
   pathItems: never;
 }
-export type SchemaBodyCreateForm = components["schemas"]["Body_create_form"];
 export type SchemaBodyEndEmailFlow =
   components["schemas"]["Body_end_email_flow"];
 export type SchemaBodyStartEmailFlow =
   components["schemas"]["Body_start_email_flow"];
 export type SchemaContent = components["schemas"]["Content"];
 export type SchemaCreateFormReq = components["schemas"]["CreateFormReq"];
+export type SchemaCreateInviteReq = components["schemas"]["CreateInviteReq"];
 export type SchemaCreateUser = components["schemas"]["CreateUser"];
 export type SchemaEmailFlowReference =
   components["schemas"]["EmailFlowReference"];
@@ -537,6 +601,7 @@ export type SchemaFormNodeOutput = components["schemas"]["FormNode-Output"];
 export type SchemaHttpValidationError =
   components["schemas"]["HTTPValidationError"];
 export type SchemaInput = components["schemas"]["Input"];
+export type SchemaInvite = components["schemas"]["Invite"];
 export type SchemaMatching = components["schemas"]["Matching"];
 export type SchemaMultipleChoice = components["schemas"]["MultipleChoice"];
 export type SchemaRanking = components["schemas"]["Ranking"];
@@ -687,7 +752,7 @@ export interface operations {
       };
     };
   };
-  get_form: {
+  forms_get_form: {
     parameters: {
       query?: never;
       header?: never;
@@ -718,7 +783,7 @@ export interface operations {
       };
     };
   };
-  create_form: {
+  forms_create_form: {
     parameters: {
       query?: never;
       header?: never;
@@ -727,7 +792,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["Body_create_form"];
+        "application/json": components["schemas"]["CreateFormReq"];
       };
     };
     responses: {
@@ -738,6 +803,70 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["Form"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  forms_get_invites: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        form_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Invite"][];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  forms_create_invite: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateInviteReq"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Invite"];
         };
       };
       /** @description Validation Error */
