@@ -25,7 +25,9 @@ cp backend/settings.example.yaml backend/settings.yaml
 
 Обновите следующие настройки в новом файле `./backend/settings.yaml`:
 
-- TODO
+- smtp -> username - ваша почта на yandex.ru
+- smtp -> password - пароль от почты на yandex.ru
+- first_user -> email
 
 ##### Шаг 4.
 
@@ -35,4 +37,7 @@ cp backend/settings.example.yaml backend/settings.yaml
 docker compose -f docker-compose.yaml up --build
 ```
 
-После запуска, проект будет доступен по пути: [http://localhost](http://localhost)
+После запуска, проект будет доступен по пути: [http://localhost:8000](http://localhost:8000)
+
+Входить нужно с почтой, указанной в `./backend/settings.yaml` (first_user -> email).
+Если проблемы с доставкой письма, можно использовать тестовый код `666666` (используется только для демонстрации).

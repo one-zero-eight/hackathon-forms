@@ -1,16 +1,16 @@
 $schema: "./settings.schema.yaml"
 app_root_path: /backend
 database_uri: mongodb://mongoadmin:secret@db:27017/db?authSource=admin
-session_secret_key: "YOUR_SECRET_KEY"
+session_secret_key: "random_key"
 minio:
   endpoint: "minio:9000"
-  bucket: "candidate-iq"
   access_key: "minioadmin"
   secret_key: "minioadmin"
 smtp:
-  host: "YOUR_SMTP_HOST"
+  host: smtp.yandex.ru
+  port: 587
   username: "YOUR_SMTP_USERNAME"
   password: "YOUR_SMTP_PASSWORD"
 first_user:
-  email: "YOUR_EMAIL_FOR_LOGIN"
+  email: "example@yandex.ru"
   name: "Admin"
