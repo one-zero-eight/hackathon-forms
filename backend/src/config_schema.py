@@ -32,8 +32,6 @@ class MinioSettings(SettingBase):
     "URL of the target service."
     secure: bool = False
     "Use https connection to the service."
-    bucket: str = "search"
-    "Name of the bucket in the service."
     access_key: str = Field(..., examples=["minioadmin"])
     "Access key (user ID) of a user account in the service."
     secret_key: SecretStr = Field(..., examples=["password"])

@@ -2,8 +2,6 @@ from minio import Minio
 
 from src.config import settings
 
-BUCKET_NAME = settings.minio.bucket
-
 minio_client = Minio(
     settings.minio.endpoint,
     access_key=settings.minio.access_key,
