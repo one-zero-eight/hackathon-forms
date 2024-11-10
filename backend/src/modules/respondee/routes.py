@@ -9,6 +9,7 @@ from starlette.requests import Request
 from src.modules.forms.repository import form_repository
 from src.modules.respondee.repository import answer_repository
 from src.modules.respondee.schemas import UpsertAnswerReq
+from src.storages.mongo import Invite
 from src.storages.mongo.answers import Answer
 from src.storages.mongo.forms import Form
 
@@ -16,7 +17,7 @@ router = APIRouter(prefix="/as-respondee", tags=["Respondee"])
 
 
 @router.post("/form/by-invite/{key}")
-async def use_invite(key: str, request: Request):
+async def use_invite(key: str, request: Request) -> Invite:
     request.session["session_id"] = request.session.get("session_id") or str(uuid4())
 
     invite = await form_repository.use_invite(key, session_id=request.session["session_id"])
@@ -24,6 +25,7 @@ async def use_invite(key: str, request: Request):
         raise HTTPException(status_code=404)
     request.session["form_id"] = str(invite.form_id)
     request.session["invite_id"] = str(invite.id)
+    return invite
 
 
 async def can_interact_guard(form_id: PydanticObjectId, request: Request) -> Form:
