@@ -15,7 +15,7 @@ git clone https://github.com/Hackathon-qualify-championship-RT/students5.git
 
 ##### Шаг 2.
 
-Скопируйте файл настроек `./backend/settings.example.yaml` -> `./backend.settings.yaml`:
+Скопируйте файл настроек `./backend/settings.example.yaml` -> `./backend/settings.yaml`:
 
 ```
 cp backend/settings.example.yaml backend/settings.yaml
