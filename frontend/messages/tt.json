@@ -170,6 +170,7 @@
   "admin": {
     "title": "Админ панеле",
     "users": {
+      "name": "Исем",
       "title": "Кулланучыларны идарә итү",
       "addUser": "Кулланучы өстәү",
       "email": "Email",
@@ -178,13 +179,16 @@
       "roles": {
         "HR": "HR",
         "MANAGER": "Менеджер",
-        "ADMIN": "Администратор"
+        "ADMIN": "Администратор",
+        "BANNED": "Тыелган"
       },
       "dialog": {
         "add": {
           "title": "Яңа кулланучы өстәү",
           "emailLabel": "Электрон почта",
           "emailPlaceholder": "Email кертегез",
+          "nameLabel": "Исем",
+          "namePlaceholder": "Исем кертегез",
           "roleLabel": "Роль",
           "submit": "Кулланучы өстәү"
         },

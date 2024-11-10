@@ -25,35 +25,87 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
+import { components } from "@/lib/api/types";
+import { $api } from "@/lib/api";
+import { useMe } from "@/lib/api/auth";
+import { Loader2 } from "lucide-react";
 
-interface User {
-  id: number;
+type User = components["schemas"]["User"];
+type UserRole = components["schemas"]["UserRole"];
+
+type NewUser = {
   email: string;
-  role: "HR" | "MANAGER" | "ADMIN";
-}
+  role: UserRole;
+  name?: string;
+};
 
 export default function AdminDashboard() {
   const t = useTranslations('admin.users');
+  const me = useMe();
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
-  const [newUser, setNewUser] = useState<Omit<User, "id">>({
+  const [newUser, setNewUser] = useState<NewUser>({
     email: "",
-    role: "HR",
+    role: "hr",
+    name: ""
   });
 
-  // Dummy data for initial layout
-  const users: User[] = [
-    { id: 1, email: "user1@example.com", role: "HR" },
-    { id: 2, email: "admin@example.com", role: "ADMIN" },
-    { id: 3, email: "user2@example.com", role: "HR" },
-  ];
+  // Fetch users list
+  const { data: users, isLoading: isLoadingUsers } = $api.useQuery("get", "/users/", {});
 
+  // Create new HR user mutation
+  const { mutate: createUser, isPending: isCreatingUser } = $api.useMutation("post", "/users/new-hr");
+
+  // Update user role mutation  
+  const { mutate: updateUserRole, isPending: isUpdatingRole } = $api.useMutation("post", "/users/promote");
+
+  // Handle form input changes
   const handleEmailChange = (email: string) => {
-    setNewUser((prev) => ({ ...prev, email }));
+    setNewUser(prev => ({ ...prev, email }));
   };
 
-  const handleRoleChange = (role: User["role"]) => {
-    setNewUser((prev) => ({ ...prev, role }));
+  const handleNameChange = (name: string) => {
+    setNewUser(prev => ({ ...prev, name }));
   };
+
+  const handleRoleChange = (role: UserRole) => {
+    setNewUser(prev => ({ ...prev, role }));
+  };
+
+  // Handle new user submission
+  const handleSubmit = () => {
+    createUser({
+      body: {
+        email: newUser.email,
+        name: newUser.name || null
+      }
+    }, {
+      onSuccess: () => {
+        setIsAddUserOpen(false);
+        setNewUser({ email: "", role: "hr", name: "" });
+      }
+    });
+  };
+
+  // Handle role change
+  const handleRoleUpdate = (userId: string, newRole: UserRole) => {
+    updateUserRole({
+      params: {
+        query: {
+          target_user_id: userId,
+          role: newRole
+        }
+      }
+    });
+  };
+
+  // Show loading state while fetching users
+  if (isLoadingUsers) {
+    return (
+      <div className="flex h-[200px] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-6">
@@ -67,30 +119,35 @@ export default function AdminDashboard() {
           <TableHeader>
             <TableRow>
               <TableHead>{t('email')}</TableHead>
+              <TableHead>{t('name')}</TableHead>
               <TableHead>{t('role')}</TableHead>
               <TableHead>{t('actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {users?.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>{user.email}</TableCell>
+                <TableCell>{user.name || "-"}</TableCell>
                 <TableCell>
-                  <Select defaultValue={user.role}>
+                  <Select 
+                    defaultValue={user.role}
+                    onValueChange={(value: UserRole) => handleRoleUpdate(user.id, value)}
+                    disabled={user.id === me?.id} // Prevent changing own role
+                  >
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="HR">{t('roles.HR')}</SelectItem>
-                      <SelectItem value="MANAGER">{t('roles.MANAGER')}</SelectItem>
-                      <SelectItem value="ADMIN">{t('roles.ADMIN')}</SelectItem>
+                      <SelectItem value="hr">{t('roles.HR')}</SelectItem>
+                      <SelectItem value="manager">{t('roles.MANAGER')}</SelectItem>
+                      <SelectItem value="admin">{t('roles.ADMIN')}</SelectItem>
+                      <SelectItem value="banned">{t('roles.BANNED')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </TableCell>
                 <TableCell>
-                  <Button variant="outline" size="sm">
-                    {t('dialog.edit.saveChanges')}
-                  </Button>
+                  {isUpdatingRole && <Loader2 className="h-4 w-4 animate-spin" />}
                 </TableCell>
               </TableRow>
             ))}
@@ -115,22 +172,42 @@ export default function AdminDashboard() {
               />
             </div>
             <div>
+              <label className="text-sm font-medium">{t('dialog.add.nameLabel')}</label>
+              <Input
+                type="text"
+                placeholder={t('dialog.add.namePlaceholder')}
+                value={newUser.name}
+                onChange={(e) => handleNameChange(e.target.value)}
+              />
+            </div>
+            <div>
               <label className="text-sm font-medium">{t('dialog.add.roleLabel')}</label>
               <Select
                 defaultValue={newUser.role}
-                onValueChange={(value: User["role"]) => handleRoleChange(value)}
+                onValueChange={(value: UserRole) => handleRoleChange(value)}
               >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="HR">{t('roles.HR')}</SelectItem>
-                  <SelectItem value="MANAGER">{t('roles.MANAGER')}</SelectItem>
-                  <SelectItem value="ADMIN">{t('roles.ADMIN')}</SelectItem>
+                  <SelectItem value="hr">{t('roles.HR')}</SelectItem>
+                  <SelectItem value="manager">{t('roles.MANAGER')}</SelectItem>
+                  <SelectItem value="admin">{t('roles.ADMIN')}</SelectItem>
+                  <SelectItem value="banned">{t('roles.BANNED')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Button className="w-full">{t('dialog.add.submit')}</Button>
+            <Button 
+              className="w-full" 
+              onClick={handleSubmit}
+              disabled={isCreatingUser}
+            >
+              {isCreatingUser ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                t('dialog.add.submit')
+              )}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

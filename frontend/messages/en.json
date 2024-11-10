@@ -247,18 +247,22 @@
       "title": "Users Management",
       "addUser": "Add User",
       "email": "Email",
+      "name": "Name",
       "role": "Role",
       "actions": "Actions",
       "roles": {
         "HR": "HR",
-        "MANAGER": "Manager",
-        "ADMIN": "Administrator"
+        "MANAGER": "Manager", 
+        "ADMIN": "Administrator",
+        "BANNED": "Banned"
       },
       "dialog": {
         "add": {
           "title": "Add New User",
           "emailLabel": "Email",
           "emailPlaceholder": "Enter email",
+          "nameLabel": "Name",
+          "namePlaceholder": "Enter name",
           "roleLabel": "Role",
           "submit": "Add User"
         },

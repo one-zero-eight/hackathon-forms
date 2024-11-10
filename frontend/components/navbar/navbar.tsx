@@ -20,7 +20,7 @@ const Navbar = () => {
     { label: t("home"), href: "/" },
     {
       label: t("forms"),
-      href: "/forms",
+      href: "/forms", 
       roles: ["hr", "manager", "admin"],
     },
     {
@@ -56,19 +56,19 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-50 w-full transition-all duration-300 ${
         isScrolled
           ? "bg-white/60 shadow-sm backdrop-blur-xl"
           : "bg-white/40 backdrop-blur-sm"
       }`}
     >
-      <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex h-14 justify-between">
+      <div className="mx-auto w-full max-w-[1920px] px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex h-14 items-center justify-between">
           {/* Logo/Brand */}
-          <div className="flex items-center">
+          <div className="flex flex-shrink-0 items-center">
             <Link
               href="/"
-              className="flex items-center text-lg font-semibold text-gray-900 transition-colors hover:text-gray-600"
+              className="flex items-center text-base font-semibold text-gray-900 transition-colors hover:text-gray-600 sm:text-lg"
               aria-label="Home"
             >
               <Image
@@ -76,19 +76,19 @@ const Navbar = () => {
                 alt="KandidatAI"
                 width={30}
                 height={30}
-                className="mr-2 h-8 w-8 rounded-lg"
+                className="mr-2 h-6 w-6 rounded-lg sm:h-8 sm:w-8"
               />
-              {t("brand")}
+              <span className="hidden xs:inline">{t("brand")}</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden sm:flex sm:items-center sm:gap-6">
+          <div className="hidden flex-1 items-center justify-center sm:flex sm:gap-4 md:gap-6">
             {navigationItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-gray-900 ${
+                className={`whitespace-nowrap text-sm font-medium transition-colors hover:text-gray-900 ${
                   pathname === item.href ? "text-blue-600" : "text-gray-600"
                 }`}
                 aria-current={pathname === item.href ? "page" : undefined}
@@ -96,12 +96,14 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
+          </div>
 
+          {/* Desktop Right Section */}
+          <div className="hidden items-center gap-4 sm:flex">
             <LanguageSwitcher />
 
-            {/* Add login button or user email */}
             {me ? (
-              <span className="text-sm font-medium text-gray-600">
+              <span className="max-w-[200px] truncate text-sm font-medium text-gray-600">
                 {me.email}
               </span>
             ) : (
@@ -113,18 +115,17 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center gap-4 sm:hidden">
+          {/* Mobile Menu Button & Controls */}
+          <div className="flex items-center gap-3 sm:hidden">
             <LanguageSwitcher />
 
-            {/* Add login button or user email for mobile */}
             {me ? (
-              <span className="text-sm font-medium text-gray-600">
+              <span className="max-w-[120px] truncate text-xs font-medium text-gray-600">
                 {me.email}
               </span>
             ) : (
               <Link href="/login">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="text-xs">
                   {t("login")}
                 </Button>
               </Link>
@@ -132,7 +133,7 @@ const Navbar = () => {
 
             <button
               type="button"
-              className="rounded-md p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+              className="rounded-md p-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
               aria-controls="mobile-menu"
               aria-expanded={isMobileMenuOpen}
               onClick={handleMenuToggle}
@@ -175,7 +176,7 @@ const Navbar = () => {
         }`}
         id="mobile-menu"
       >
-        <div className="space-y-3 px-4 py-3">
+        <div className="space-y-2 px-4 py-3">
           {navigationItems.map((item) => (
             <Link
               key={item.href}
