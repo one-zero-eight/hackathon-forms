@@ -1,5 +1,4 @@
 services:
-  # Nginx proxy
   nginx:
     image: nginx
     restart: always
@@ -7,13 +6,17 @@ services:
     volumes: [ "./nginx-server.conf:/etc/nginx/conf.d/default.conf:ro" ]
 
   web:
-    # See Dockerfile in 'frontend' directory
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     restart: always
-
+    volumes:
+      - "./settings.yaml:/code/settings.yaml:ro" # Read-only settings file
+ 
   api:
-    # See Dockerfile in 'backend' directory
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     restart: always
     volumes:
       - "./backend/settings.yaml:/code/settings.yaml:ro" # Read-only settings file
@@ -29,7 +32,19 @@ services:
       - "mongodb:/data/db"
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-mongoadmin}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-secret}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-adminsecret}
+  
+  minio:
+    # See more: https://registry.hub.docker.com/minio/minio
+    image: "minio/minio:RELEASE.2024-05-10T01-41-38Z"
+    restart: always
+    volumes:
+      - "minio:/data"
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-adminsecret} 
 
 volumes:
   mongodb:
+  minio:
