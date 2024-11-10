@@ -4,8 +4,8 @@ session_secret_key: "YOUR_SECRET_KEY"
 minio:
   endpoint: "127.0.0.1:9000"
   bucket: "candidate-iq"
-  access_key: "YOUR_KEY"
-  secret_key: "SECREY_KEY"
+  access_key: "minioadmin"
+  secret_key: "minioadmin"
 smtp:
   host: "YOUR_SMTP_HOST"
   username: "YOUR_SMTP_USERNAME"
