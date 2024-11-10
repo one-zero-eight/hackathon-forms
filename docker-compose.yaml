@@ -9,6 +9,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    environment:
+      - NEXT_PUBLIC_API_URL=/backend
     restart: always
  
   api:
@@ -20,6 +22,8 @@ services:
       - "./backend/settings.yaml:/code/settings.yaml:ro" # Read-only settings file
     depends_on:
       db:
+        condition: service_started
+      minio:
         condition: service_started
 
   db:
@@ -41,7 +45,7 @@ services:
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-password} 
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin} 
 
 volumes:
   mongodb:
