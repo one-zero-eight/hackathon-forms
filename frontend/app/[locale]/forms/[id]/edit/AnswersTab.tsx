@@ -11,6 +11,8 @@ import { $api } from "@/lib/api";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { DownloadIcon } from "lucide-react";
 
 export function AnswersTab() {
   const t = useTranslations();
@@ -36,9 +38,20 @@ export function AnswersTab() {
     return <div>{String(answersError)}</div>;
   }
 
+  const handleDownload = () => {
+    const formId = editableForm?.id ?? "";
+    const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/form/${formId}/answers.xlsx`;
+    window.location.href = downloadUrl;
+  };
+
   return (
     <div className="space-y-4 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{t("forms.edit.tabs.answers")}</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{t("forms.edit.tabs.answers")}</h1>
+        <Button onClick={handleDownload} className="flex items-center space-x-2">
+          <DownloadIcon className="w-5 h-5" />
+        </Button>
+      </div>
 
       <Select value={inviteLink ?? ""} onValueChange={setInviteLink}>
         <SelectTrigger className="w-full max-w-md">
