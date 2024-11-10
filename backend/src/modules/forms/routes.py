@@ -4,11 +4,11 @@ import datetime
 import json
 from collections import Counter, defaultdict
 from io import BytesIO
-from typing import Any, TypedDict
+from typing import Annotated, Any, TypedDict
 
 import pandas as pd
 from beanie import PydanticObjectId
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import TypeAdapter, ValidationError
 from starlette.responses import StreamingResponse
 
@@ -176,7 +176,7 @@ async def get_stats(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDEN
 
 @router.get("/{form_id}/answers")
 async def list_answers(
-    form_id: PydanticObjectId, filter: ListAnswersFilter, user_id: CURRENT_USER_ID_DEPENDENCY
+    form_id: PydanticObjectId, filter: Annotated[ListAnswersFilter, Query()], user_id: CURRENT_USER_ID_DEPENDENCY
 ) -> list[Answer]:
     _ = await can_edit_form_guard(form_id, user_id)
     return await answer_repository.list_answers(form_id, filter)
