@@ -29,10 +29,10 @@ cp backend/settings.example.yaml backend/settings.yaml
 
 ##### Шаг 4.
 
-Запустите проект:
+Запустите проект (из корневой папки проекта):
 
 ```
-docker compose up
+docker compose -f docker-compose.yaml up --build
 ```
 
 После запуска, проект будет доступен по пути: [http://localhost](http://localhost)

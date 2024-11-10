@@ -30,7 +30,7 @@ services:
       - "mongodb:/data/db"
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-mongoadmin}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-adminsecret}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-secret}
   
   minio:
     # See more: https://registry.hub.docker.com/minio/minio
@@ -41,7 +41,7 @@ services:
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-adminsecret} 
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-password} 
 
 volumes:
   mongodb:
