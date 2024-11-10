@@ -17,7 +17,6 @@ interface CreateFormData {
 
 export default function CreateFormPage() {
   const t = useTranslations("forms.create");
-  const tCommon = useTranslations("common");
 
   const router = useRouter();
   const [formData, setFormData] = useState<CreateFormData>({

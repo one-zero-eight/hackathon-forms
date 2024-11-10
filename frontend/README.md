@@ -1,14 +1,14 @@
 # КандидатАйКю - Система оценки кандидатов
 
 ![Hackathon](https://img.shields.io/badge/hackathon-RT%20Championship-blue)
-![Team](https://img.shields.io/badge/team-students5-orange)
-![Status](https://img.shields.io/badge/status-in%20development-green)
+![Team](https://img.shields.io/badge/team-students5-green)
+![Status](https://img.shields.io/badge/status-done-green)
 
 > 🏆 Проект разработан в рамках хакатона "Квалификационный чемпионат RT"
 
 Веб-платформа для создания и управления формами оценки кандидатов, помогающая HR-специалистам автоматизировать процесс найма.
 
-![КандидатАйКю Превью](/public/form-builder-preview.png)
+![КандидатАйКю Превью](/public/screenshot.webp)
 
 ## ✨ Ключевые особенности
 

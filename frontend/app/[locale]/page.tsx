@@ -30,11 +30,11 @@ export default function Home() {
             <div className="mt-12 lg:col-span-6 lg:mt-0">
               <div className="relative">
                 <Image
-                  src="/form-builder-preview.png"
+                  src="/screenshot.webp"
                   alt="Form Builder Preview"
                   width={800}
                   height={600}
-                  className="rounded-lg shadow-xl"
+                  className=""
                   priority
                 />
               </div>
