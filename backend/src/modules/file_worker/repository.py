@@ -6,6 +6,10 @@ from src.modules.file_worker.client import minio_client
 
 
 class FileWorker:
+    def create_bucket(self):
+        if not minio_client.bucket_exists(bucket_name="candidate-iq"):
+            minio_client.make_bucket("candidate-iq")
+
     async def upload_file(self, filename: str, file_data: bytes, file_size: int) -> str:
         res = minio_client.put_object(
             bucket_name="candidate-iq", object_name=filename, data=io.BytesIO(file_data), length=file_size
