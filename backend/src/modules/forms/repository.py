@@ -20,7 +20,7 @@ class FormRepository:
     async def get_active_invite_keys(self) -> list[str]:
         links = await Invite.find({"active": True}).aggregate([{"$project": {"key": 1}}]).to_list()
 
-        return [link["keys"] for link in links]
+        return [link["key"] for link in links]
 
     def generate_key_for_invite(self, form_id: PydanticObjectId, banned: set[str] = None) -> str:
         banned = banned or set()  # Use an empty set if no banned links are provided

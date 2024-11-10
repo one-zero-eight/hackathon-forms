@@ -22,4 +22,4 @@ class InviteSchema(BaseSchema):
 
 class Invite(InviteSchema, CustomDocument):
     class Settings:
-        indexes = [IndexModel("invite_link", unique=True, partialFilterExpression={"active": True})]
+        indexes = [IndexModel("key", unique=True, partialFilterExpression={"active": True})]
