@@ -35,4 +35,4 @@ cp backend/settings.example.yaml backend/settings.yaml
 docker compose up
 ```
 
-После запуска, проект будет доступен по пути: http://localhost
+После запуска, проект будет доступен по пути: [http://localhost](http://localhost)
