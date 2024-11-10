@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -20,6 +22,7 @@ interface CookiePreferences {
 }
 
 export function CookieBanner() {
+  const t = useTranslations('cookies')
   const [isVisible, setIsVisible] = useState(false)
   const [showPreferences, setShowPreferences] = useState(false)
   const [preferences, setPreferences] = useState<CookiePreferences>({
@@ -64,10 +67,10 @@ export function CookieBanner() {
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/80 p-4 backdrop-blur-sm">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
           <p className="text-sm text-muted-foreground">
-            Мы используем файлы cookie для улучшения работы сайта. Вы можете настроить использование cookie или принять все.{' '}
-            <a href="/privacy" className="underline hover:text-foreground">
-              Подробнее о cookie
-            </a>
+            {t('banner.description')}{' '}
+            <Link href="/privacy" className="underline hover:text-foreground">
+              {t('banner.learnMore')}
+            </Link>
           </p>
           <div className="flex gap-2">
             <Button 
@@ -75,13 +78,13 @@ export function CookieBanner() {
               onClick={() => setShowPreferences(true)}
               className="shrink-0"
             >
-              Настроить
+              {t('banner.customize')}
             </Button>
             <Button 
               onClick={acceptAllCookies} 
               className="shrink-0"
             >
-              Принять все
+              {t('banner.acceptAll')}
             </Button>
           </div>
         </div>
@@ -90,26 +93,26 @@ export function CookieBanner() {
       <Dialog open={showPreferences} onOpenChange={setShowPreferences}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Настройки Cookie</DialogTitle>
+            <DialogTitle>{t('preferences.title')}</DialogTitle>
             <DialogDescription>
-              Выберите, какие типы cookie вы разрешаете использовать на сайте.
+              {t('preferences.description')}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Необходимые</Label>
+                <Label>{t('preferences.necessary.title')}</Label>
                 <p className="text-sm text-muted-foreground">
-                  Требуются для работы сайта
+                  {t('preferences.necessary.description')}
                 </p>
               </div>
               <Switch checked disabled />
             </div>
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Аналитические</Label>
+                <Label>{t('preferences.analytics.title')}</Label>
                 <p className="text-sm text-muted-foreground">
-                  Помогают улучшать сайт
+                  {t('preferences.analytics.description')}
                 </p>
               </div>
               <Switch
@@ -121,9 +124,9 @@ export function CookieBanner() {
             </div>
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Функциональные</Label>
+                <Label>{t('preferences.functional.title')}</Label>
                 <p className="text-sm text-muted-foreground">
-                  Расширенные функции сайта
+                  {t('preferences.functional.description')}
                 </p>
               </div>
               <Switch
@@ -135,10 +138,10 @@ export function CookieBanner() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={savePreferences}>Сохранить настройки</Button>
+            <Button onClick={savePreferences}>{t('preferences.save')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
   )
-} 
+}

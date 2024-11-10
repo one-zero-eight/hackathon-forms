@@ -20,8 +20,10 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ArrowDown, ArrowUp, GripVertical } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function QuestionsTab() {
+  const t = useTranslations();
   const { editableForm, moveNode, addNode } = useEditableForm();
 
   const sensors = useSensors(
@@ -49,7 +51,7 @@ export function QuestionsTab() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Questions</h1>
+      <h1 className="text-2xl font-bold">{t("forms.edit.tabs.questions")}</h1>
 
       <DndContext
         sensors={sensors}
@@ -69,13 +71,14 @@ export function QuestionsTab() {
       </DndContext>
 
       <Button onClick={addNode} variant="outline" className="w-full">
-        Добавить вопрос
+        {t("forms.create.builder.addField")}
       </Button>
     </div>
   );
 }
 
 function QuestionCard({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
+  const t = useTranslations();
   const { editableForm, moveNode } = useEditableForm();
 
   const {
@@ -115,7 +118,7 @@ function QuestionCard({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
               "mt-2",
               currentIndex === 0 ? "hidden" : "cursor-pointer",
             )}
-            aria-label="Move above"
+            aria-label={t("common.actions.moveUp")}
             onClick={() => moveNode(node.id, currentIndex - 1)}
             disabled={currentIndex === 0}
           >
@@ -123,7 +126,7 @@ function QuestionCard({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
           </button>
           <button
             className="mt-2 cursor-move touch-none"
-            aria-label="Drag to reorder"
+            aria-label={t("common.actions.dragToReorder")}
             {...attributes}
             {...listeners}
           >
@@ -136,7 +139,7 @@ function QuestionCard({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
                 ? "hidden"
                 : "cursor-pointer",
             )}
-            aria-label="Move below"
+            aria-label={t("common.actions.moveDown")}
             onClick={() => moveNode(node.id, currentIndex + 1)}
             disabled={currentIndex === (editableForm?.nodes?.length ?? 1) - 1}
           >

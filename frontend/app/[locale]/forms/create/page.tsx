@@ -5,6 +5,11 @@ import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type FormPermission = "public" | "private";
 
@@ -105,62 +110,57 @@ export default function CreateFormPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-7">
-      <h1 className="mb-8 text-3xl font-bold">{t("title")}</h1>
+    <div className="flex items-center justify-center py-8">
+      <div className="container max-w-2xl">
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("title")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="title">{t("form.title.label")}</Label>
+                <Input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  required
+                  minLength={3}
+                  maxLength={100}
+                  placeholder={t("form.title.placeholder")}
+                  aria-label={t("form.title.label")}
+                />
+              </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-2">
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700"
-          >
-            {t("form.title.label")}
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            required
-            minLength={3}
-            maxLength={100}
-            className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-            placeholder={t("form.title.placeholder")}
-            aria-label={t("form.title.label")}
-          />
-        </div>
+              <div className="space-y-2">
+                <Label htmlFor="description">{t("form.description.label")}</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  rows={4}
+                  placeholder={t("form.description.placeholder")}
+                  aria-label={t("form.description.label")}
+                />
+              </div>
 
-        <div className="space-y-2">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
-          >
-            {t("form.description.label")}
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            rows={4}
-            className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-            placeholder={t("form.description.placeholder")}
-            aria-label={t("form.description.label")}
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isPending}
-          className="w-full rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:opacity-50"
-        >
-          {isPending && (
-            <Loader2 className="mr-2 inline h-4 w-4 animate-spin" />
-          )}
-          {t("form.submit")}
-        </button>
-      </form>
+              <Button 
+                type="submit" 
+                disabled={isPending}
+                className="w-full"
+              >
+                {isPending && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {t("form.submit")}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

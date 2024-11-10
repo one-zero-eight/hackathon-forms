@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/select";
 import { $api } from "@/lib/api";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export function AnswersTab() {
+  const t = useTranslations();
   const { editableForm } = useEditableForm();
   const [inviteLink, setInviteLink] = useState<string | null>(null);
   const { data: answers } = $api.useQuery("post", "/form/{form_id}/answers", {
@@ -25,14 +27,14 @@ export function AnswersTab() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Answers</h1>
+      <h1 className="text-2xl font-bold">{t("forms.edit.tabs.answers")}</h1>
 
       <Select value={inviteLink ?? ""} onValueChange={setInviteLink}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select an option" />
+          <SelectValue placeholder={t("common.actions.select")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="-">All</SelectItem>
+          <SelectItem value="-">{t("common.actions.all")}</SelectItem>
           {invites?.map((invite) => (
             <SelectItem key={invite.id} value={invite.id}>
               {invite.id}
@@ -43,15 +45,15 @@ export function AnswersTab() {
 
       {answers?.length === 0 ? (
         <Card className="p-6">
-          <h2 className="mb-2 text-xl font-semibold">Ответы на форму</h2>
-          <p className="text-muted-foreground">Пока нет ответов</p>
+          <h2 className="mb-2 text-xl font-semibold">{t("forms.answers.title")}</h2>
+          <p className="text-muted-foreground">{t("forms.answers.noAnswers")}</p>
         </Card>
       ) : (
         <div className="space-y-4">
           {answers?.map((answer) => (
             <Card key={answer.id} className="p-6">
-              <p>Submitted at: {answer.updated_at}</p>
-              <p>Invite link: {answer.invite_id}</p>
+              <p>{t("forms.answers.submittedAt")}: {answer.updated_at}</p>
+              <p>{t("forms.answers.inviteLink")}: {answer.invite_id}</p>
               <RenderAnswers responses={answer.answers} />
             </Card>
           ))}

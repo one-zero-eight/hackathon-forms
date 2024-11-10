@@ -13,21 +13,23 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { $api, apiTypes } from "@/lib/api";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 export function SettingsTab() {
+  const t = useTranslations("forms.edit");
   const { editableForm, updateForm } = useEditableForm();
   if (!editableForm) return;
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Settings</h1>
+      <h1 className="text-2xl font-bold">{t("tabs.settings")}</h1>
       <Card className="p-6">
         <div className="space-y-4">
           <div>
-            <Label htmlFor="formTitle">Название формы</Label>
+            <Label htmlFor="formTitle">{t("form.title.label")}</Label>
             <Input
               id="formTitle"
-              placeholder="Введите название формы"
+              placeholder={t("form.title.placeholder")}
               value={editableForm?.title || ""}
               onChange={(e) => updateForm({ title: e.target.value })}
               className="mt-1"
@@ -35,10 +37,10 @@ export function SettingsTab() {
           </div>
 
           <div>
-            <Label htmlFor="formDescription">Описание</Label>
+            <Label htmlFor="formDescription">{t("form.description.label")}</Label>
             <Textarea
               id="formDescription"
-              placeholder="Введите описание формы"
+              placeholder={t("form.description.placeholder")}
               value={editableForm?.description || ""}
               onChange={(e) => updateForm({ description: e.target.value })}
               className="mt-1"
@@ -53,6 +55,7 @@ export function SettingsTab() {
 }
 
 function InviteLinksManager() {
+  const t = useTranslations("forms.edit.invites");
   const { editableForm } = useEditableForm();
 
   const queryClient = useQueryClient();
@@ -82,7 +85,7 @@ function InviteLinksManager() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Invite links</h1>
+      <h1 className="text-2xl font-bold">{t("title")}</h1>
       <Card className="p-6">
         <div className="space-y-4">
           {invites?.map((invite) => (
@@ -104,7 +107,7 @@ function InviteLinksManager() {
             }
             className="btn btn-primary"
           >
-            Create new invite link
+            {t("createNew")}
           </Button>
         </div>
       </Card>
@@ -113,6 +116,7 @@ function InviteLinksManager() {
 }
 
 function PermissionManager() {
+  const t = useTranslations("forms.edit.permissions");
   const { editableForm, updateForm } = useEditableForm();
   const { data: users } = $api.useQuery("get", "/users/");
 
@@ -135,7 +139,7 @@ function PermissionManager() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Other HRs permissions</h1>
+      <h1 className="text-2xl font-bold">{t("title")}</h1>
       <Card className="p-6">
         <div className="space-y-4">
           {editableForm?.shared_with?.map((userId, i) => {
@@ -143,14 +147,14 @@ function PermissionManager() {
             return (
               <div key={i} className="flex flex-row items-center gap-4">
                 <p className="font-medium">{user?.email}</p>
-                <Button onClick={() => removeSharedWith(userId)}>Remove</Button>
+                <Button onClick={() => removeSharedWith(userId)}>{t("remove")}</Button>
               </div>
             );
           })}
         </div>
         <Select onValueChange={addSharedWith} value="">
           <SelectTrigger className="w-fit">
-            <SelectValue placeholder="Add new user" />
+            <SelectValue placeholder={t("addNewUser")} />
           </SelectTrigger>
           <SelectContent>
             {users?.map((user) => (

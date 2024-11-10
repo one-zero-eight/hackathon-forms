@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { AnswersTab } from "./AnswersTab";
 import { QuestionsTab } from "./QuestionsTab";
 import { SettingsTab } from "./SettingsTab";
@@ -30,6 +31,8 @@ export default function EditFormPage() {
 }
 
 function EditFormPage_() {
+  const t = useTranslations("forms.edit");
+  const commonT = useTranslations("common");
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("questions");
   const { editableForm, formIsEdited, isPending, error, saveForm, isSaving } =
@@ -47,7 +50,7 @@ function EditFormPage_() {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
         <p className="mb-4 text-destructive">{String(error)}</p>
-        <Button onClick={() => window.location.reload()}>Try Again</Button>
+        <Button onClick={() => window.location.reload()}>{commonT("error.tryAgain")}</Button>
       </div>
     );
   }
@@ -55,8 +58,8 @@ function EditFormPage_() {
   if (!editableForm) {
     return (
       <Card className="mx-auto mt-8 max-w-md p-8 text-center">
-        <p className="mb-4 text-muted-foreground">Form not found</p>
-        <Button onClick={() => router.push("/forms")}>Back to Forms</Button>
+        <p className="mb-4 text-muted-foreground">{t("formNotFound")}</p>
+        <Button onClick={() => router.push("/forms")}>{commonT("actions.back")}</Button>
       </Card>
     );
   }
@@ -72,15 +75,15 @@ function EditFormPage_() {
           <TabsList className="grid w-[400px] grid-cols-3">
             <TabsTrigger value="questions" className="flex items-center gap-2">
               <ClipboardList className="h-4 w-4" />
-              Вопросы
+              {t("tabs.questions")}
             </TabsTrigger>
             <TabsTrigger value="answers" className="flex items-center gap-2">
               <MessageSquare className="h-4 w-4" />
-              Ответы
+              {t("tabs.answers")}
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
-              Настройки
+              {t("tabs.settings")}
             </TabsTrigger>
           </TabsList>
 
@@ -91,13 +94,13 @@ function EditFormPage_() {
               className="flex items-center gap-2"
             >
               <Eye className="h-4 w-4" />
-              Preview
+              {t("preview")}
             </Button>
 
             {formIsEdited && (
               <Button onClick={saveForm} disabled={isSaving}>
                 {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Save Changes
+                {commonT("actions.save")}
               </Button>
             )}
           </div>

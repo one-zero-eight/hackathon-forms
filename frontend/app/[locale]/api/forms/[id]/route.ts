@@ -3,10 +3,10 @@ import { mockForms } from '../mockDb'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-    const id = params.id
+    const id = context.params.id
     const form = mockForms.find(form => form.id === id)
     
     if (!form) {
@@ -27,10 +27,10 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-    const id = params.id
+    const id = context.params.id
     const formIndex = mockForms.findIndex(form => form.id === id)
     
     if (formIndex === -1) {
@@ -55,4 +55,4 @@ export async function PUT(
       { status: 500 }
     )
   }
-} 
+}

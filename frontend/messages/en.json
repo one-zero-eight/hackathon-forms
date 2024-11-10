@@ -5,18 +5,49 @@
       "tryAgain": "Try Again"
     },
     "actions": {
-      "cancel": "Cancel",
+      "cancel": "Cancel", 
       "save": "Save",
       "back": "Back",
       "create": "Create",
       "edit": "Edit",
       "delete": "Delete",
-      "deleteConfirm": "This action cannot be undone. The form will be permanently deleted."
+      "deleteConfirm": "This action cannot be undone. The form will be permanently deleted.",
+      "select": "Select",
+      "all": "All",
+      "moveUp": "Move Up",
+      "moveDown": "Move Down",
+      "dragToReorder": "Drag to reorder",
+      "remove": "Remove"
     }
   },
   "meta": {
     "title": "CandidateIQ - Candidate Assessment System",
     "description": "Create and manage candidate assessment forms"
+  },
+  "cookies": {
+    "banner": {
+      "description": "We use cookies to enhance your browsing experience and analyze our traffic. Please choose your preferences below.",
+      "learnMore": "Learn more",
+      "customize": "Customize",
+      "acceptAll": "Accept All"
+    },
+    "preferences": {
+      "title": "Cookie Preferences",
+      "description": "Manage your cookie preferences. Some cookies are essential for the website to function and cannot be disabled.",
+      "necessary": {
+        "title": "Essential Cookies",
+        "description": "Required for the website to function properly. These cannot be disabled."
+      },
+      "analytics": {
+        "title": "Analytics Cookies",
+        "description": "Help us understand how visitors interact with our website."
+      },
+      "functional": {
+        "title": "Functional Cookies",
+        "description": "Enable enhanced functionality and personalization."
+      },
+      "save": "Save Preferences"
+    }
   },
   "home": {
     "hero": {
@@ -33,7 +64,7 @@
           "description": "Intuitive interface for creating forms in minutes"
         },
         "collaboration": {
-          "title": "Collaboration",
+          "title": "Collaboration", 
           "description": "Share forms with your team and work together"
         },
         "access": {
@@ -79,7 +110,6 @@
           "placeholder": "Enter form description"
         },
         "submit": "Create Form"
-
       },
       "builder": {
         "title": "Form Builder",
@@ -87,7 +117,7 @@
         "preview": "Preview",
         "fields": {
           "text": "Text Field",
-          "number": "Number Field",
+          "number": "Number Field", 
           "select": "Select Field",
           "multiSelect": "Multi Select",
           "date": "Date Field",
@@ -107,9 +137,42 @@
         }
       }
     },
+    "edit": {
+      "formNotFound": "Form not found",
+      "preview": "Preview",
+      "tabs": {
+        "questions": "Questions",
+        "answers": "Answers", 
+        "settings": "Settings"
+      },
+      "form": {
+        "title": {
+          "label": "Form Title",
+          "placeholder": "Enter form title"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Enter form description"
+        }
+      },
+      "invites": {
+        "title": "Invite Links",
+        "createNew": "Create New Link"
+      },
+      "permissions": {
+        "title": "Permissions",
+        "addNewUser": "Add New User"
+      }
+    },
     "delete": {
       "title": "Delete Form?",
       "description": "This action cannot be undone. The form will be permanently deleted."
+    },
+    "answers": {
+      "title": "Form Answers",
+      "noAnswers": "No answers submitted yet",
+      "submittedAt": "Submitted at",
+      "inviteLink": "Invite link"
     }
   },
   "notFound": {
@@ -124,6 +187,14 @@
   "terms": {
     "title": "Terms of Service",
     "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "Welcome to CandidateIQ. By using our service, you agree to these terms. Please read them carefully."
+      },
+      "serviceDescription": {
+        "title": "2. Service Description",
+        "content": "CandidateIQ provides a platform for creating and managing candidate assessment forms. Our services include form creation, sharing, and analytics tools."
+      },
       "userObligations": {
         "title": "3. User Obligations",
         "intro": "You agree to:",
@@ -147,13 +218,25 @@
           "Any indirect damages",
           "Actions of third parties"
         ]
+      },
+      "dataProtection": {
+        "title": "6. Data Protection",
+        "content": "We process personal data in accordance with our Privacy Policy and applicable data protection laws. By using our Service, you consent to such processing."
+      },
+      "termination": {
+        "title": "7. Termination",
+        "content": "We reserve the right to terminate or suspend access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms."
+      },
+      "changes": {
+        "title": "8. Changes to Terms",
+        "content": "We reserve the right to modify these terms at any time. We will notify users of any material changes. Your continued use of the Service constitutes acceptance of the modified terms."
       }
     }
   },
   "nav": {
     "brand": "CandidateIQ",
     "home": "Home",
-    "forms": "Forms",
+    "forms": "Forms", 
     "createForm": "Create Form",
     "admin": "Admin Panel",
     "login": "Login"
@@ -183,6 +266,75 @@
           "saveChanges": "Save Changes"
         }
       }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "CandidateIQ (hereinafter - \"we\", \"our\" or \"platform\") is committed to protecting your privacy. This policy describes how we collect, use and protect your personal data in accordance with the General Data Protection Regulation (GDPR)."
+      },
+      "dataCollection": {
+        "title": "2. Data Collection",
+        "intro": "We collect the following types of data:",
+        "items": [
+          "Profile information (name, email)",
+          "Platform usage data",
+          "Technical data (IP address, browser type)",
+          "Cookies and similar technologies"
+        ]
+      },
+      "dataProcessing": {
+        "title": "3. Data Processing",
+        "intro": "We process your data for the following purposes:",
+        "items": [
+          "Providing platform access",
+          "Improving user experience",
+          "Ensuring security",
+          "Compliance with legal requirements"
+        ]
+      },
+      "userRights": {
+        "title": "4. User Rights",
+        "intro": "You have the right to:",
+        "items": [
+          "Access your data",
+          "Correct inaccurate data",
+          "Delete your data",
+          "Restrict data processing",
+          "Withdraw processing consent"
+        ]
+      },
+      "security": {
+        "title": "5. Security Measures",
+        "intro": "We implement the following measures to protect your data:",
+        "items": [
+          "Data encryption during transmission and storage",
+          "Regular security audits",
+          "Strict access control",
+          "Regular staff training"
+        ]
+      },
+      "contact": {
+        "title": "6. Contact Information",
+        "intro": "For questions about personal data processing, you can contact our Data Protection Officer:",
+        "dpo": "Data Protection Officer",
+        "email": "Email: dpo@candidateiq.com",
+        "phone": "Phone: +1 (XXX) XXX-XX-XX"
+      },
+      "cookies": {
+        "title": "7. Cookie Policy",
+        "intro": "We use the following types of cookies:",
+        "items": [
+          "Essential website cookies",
+          "Analytics cookies",
+          "Functional cookies"
+        ]
+      }
+    },
+    "actions": {
+      "backToHome": "Back to Home"
     }
   }
 }
