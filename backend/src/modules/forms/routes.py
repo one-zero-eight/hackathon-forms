@@ -3,11 +3,14 @@ __all__ = ["router"]
 import datetime
 import json
 from collections import Counter, defaultdict
+from io import BytesIO
 from typing import Any, TypedDict
 
+import pandas as pd
 from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException
 from pydantic import TypeAdapter, ValidationError
+from starlette.responses import StreamingResponse
 
 from src.api.dependencies import CURRENT_USER_ID_DEPENDENCY
 from src.logging_ import logger
@@ -177,3 +180,37 @@ async def list_answers(
 ) -> list[Answer]:
     _ = await can_edit_form_guard(form_id, user_id)
     return await answer_repository.list_answers(form_id, filter)
+
+
+@router.get("/{form_id}/answers.xlsx")
+async def list_answers_in_xlsx(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDENCY):
+    form = await can_edit_form_guard(form_id, user_id)
+    answers = await answer_repository.list_answers(form_id, ListAnswersFilter())
+    data = [
+        {
+            **answer.answers,  # Unpacking answer details
+            "updated_at": answer.updated_at.replace(tzinfo=None) if answer.updated_at.tzinfo else answer.updated_at,
+        }
+        for answer in answers
+    ]
+
+    # Convert to DataFrame
+    df = pd.DataFrame(data)
+
+    column_titles = {i: node.content.title if node.content.title else str(i) for i, node in enumerate(form.nodes)}
+    df.rename(columns=column_titles, inplace=True)
+
+    # Step 4: Save to in-memory buffer as an Excel file
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
+        df.to_excel(writer, index=False)
+    output.seek(0)  # Reset pointer to the beginning of the file
+
+    # Step 5: Serve file as a downloadable response
+    response = StreamingResponse(
+        output,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response.headers["Content-Disposition"] = f"attachment; filename=answers_{form_id}.xlsx"
+
+    return response
