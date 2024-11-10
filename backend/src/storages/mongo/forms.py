@@ -49,7 +49,7 @@ class SingleChoice(BaseSchema):
     "Indicates the type of question as 'select' for single-choice."
     options: list[str]
     "List of answer options to choose from."
-    correct_answer: int | None = None
+    correct_answer: str | None = None
     "Index of the correct answer option (optional)."
     explanation: Explanation | None = None
 
@@ -83,7 +83,7 @@ class Scale(BaseSchema):
     "Indicates the type of question as 'scale'."
     scale: list[str]
     "List of scale labels, for example: ['Very Poor', 'Poor', 'Neutral', 'Good', 'Excellent']."
-    correct_answer: list[int] | None = None
+    correct_answer: str | None = None
     "List of indices representing correct answers on the scale (optional)."
     explanation: Explanation | None = None
 
@@ -145,7 +145,7 @@ class Input(BaseSchema):
     "Indicates the type of question as 'input'."
     textarea: bool = False
     "Determines whether the input is a single-line field (False) or a textarea (True)."
-    correct_answer: list[str] | None = None
+    correct_answer: str | None = None
     "List of acceptable correct answers as text (optional)."
     regex: str | None = None
     "Regex to validate input"
@@ -166,7 +166,7 @@ class Ranking(BaseSchema):
     "Indicates the type of question as 'ranking'."
     options: list[str]
     "List of options that must be ranked."
-    correct_answer: list[int] | None = None
+    correct_answer: list[str] | None = None
     "Correct order as a list of indices representing the ranking (optional)."
     explanation: Explanation | None = None
 
@@ -186,7 +186,7 @@ class Matching(BaseSchema):
     "List of items in the first group to be matched."
     options_second: list[str]
     "List of items in the second group to be matched."
-    correct_answer: dict[int, int] | None = None
+    correct_answer: list[str] | None = None
     """Dictionary where keys are indices of items in 'options_first' and values are indices of matched items in "
         "'options_second' (optional)."""
     explanation: Explanation | None = None

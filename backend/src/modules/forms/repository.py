@@ -83,6 +83,9 @@ class FormRepository:
             {"$set": {"deleted_by": user_id, "deleted_at": datetime.datetime.now(datetime.UTC)}},
         )
 
+    async def get_by_title(self, title: str) -> Form:
+        return await Form.find_one({"title": title})
+
     async def get(self, form_id: PydanticObjectId) -> Form | None:
         return await Form.find_one({"_id": form_id})
 
