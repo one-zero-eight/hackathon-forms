@@ -12,6 +12,12 @@ class UserRepository:
         created = User(**user.model_dump(), role=UserRole.HR)
         return await created.insert()
 
+    async def create_admin_if_not_exist(self, email: str, name: str) -> User:
+        user = await User.find_one({"email": email})
+        if user is None:
+            user = await User(email=email, name=name, role=UserRole.ADMIN).insert()
+        return user
+
     async def read(self, user_id: PydanticObjectId) -> User | None:
         return await User.get(user_id)
 

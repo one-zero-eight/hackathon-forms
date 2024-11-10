@@ -13,6 +13,7 @@ from pymongo.errors import ConnectionFailure
 from src.config import settings
 from src.logging_ import logger
 from src.modules.file_worker.repository import file_worker_repository
+from src.modules.users.repository import user_repository
 from src.storages.mongo import document_models
 
 
@@ -45,6 +46,7 @@ async def lifespan(_app: FastAPI):
     # Application startup
     motor_client = await setup_database()
     file_worker_repository.create_bucket()
+    await user_repository.create_admin_if_not_exist(settings.first_user.email, settings.first_user.name)
     yield
 
     # -- Application shutdown --

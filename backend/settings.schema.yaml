@@ -6,6 +6,20 @@ $defs:
     - production
     title: Environment
     type: string
+  FirstUser:
+    additionalProperties: false
+    properties:
+      email:
+        title: Email
+        type: string
+      name:
+        title: Name
+        type: string
+    required:
+    - email
+    - name
+    title: FirstUser
+    type: object
   MinioSettings:
     additionalProperties: false
     properties:
@@ -19,18 +33,6 @@ $defs:
         description: Use https connection to the service.
         title: Secure
         type: boolean
-      region:
-        anyOf:
-        - type: string
-        - type: 'null'
-        default: null
-        description: Region of the service.
-        title: Region
-      bucket:
-        default: search
-        description: Name of the bucket in the service.
-        title: Bucket
-        type: string
       access_key:
         description: Access key (user ID) of a user account in the service.
         examples:
@@ -127,9 +129,12 @@ properties:
     description: SMTP settings
   minio:
     $ref: '#/$defs/MinioSettings'
+  first_user:
+    $ref: '#/$defs/FirstUser'
 required:
 - session_secret_key
 - database_uri
 - minio
+- first_user
 title: Settings
 type: object

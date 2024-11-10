@@ -38,6 +38,11 @@ class MinioSettings(SettingBase):
     "Secret key (password) for the user account."
 
 
+class FirstUser(SettingBase):
+    email: str
+    name: str
+
+
 class Settings(SettingBase):
     """
     Settings for the application.
@@ -57,6 +62,7 @@ class Settings(SettingBase):
     smtp: SMTP | None = None
     "SMTP settings"
     minio: MinioSettings
+    first_user: FirstUser
 
     @classmethod
     def from_yaml(cls, path: Path) -> "Settings":
