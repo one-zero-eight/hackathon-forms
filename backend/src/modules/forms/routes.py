@@ -171,7 +171,7 @@ async def get_stats(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDEN
     return Stats(total_answers=len(answers), total_questions=len(nodes), by_nodes=by_nodes)
 
 
-@router.post("/{form_id}/answers")
+@router.get("/{form_id}/answers")
 async def list_answers(
     form_id: PydanticObjectId, filter: ListAnswersFilter, user_id: CURRENT_USER_ID_DEPENDENCY
 ) -> list[Answer]:
