@@ -143,7 +143,14 @@
       "title": "Җаваплар",
       "noAnswers": "Җаваплар әле юк",
       "submittedAt": "Җибәрелгән вакыт",
-      "inviteLink": "Чакыру сылтамасы"
+      "inviteLink": "Чакыру сылтамасы",
+      "sessionId": "Сессия ID",
+      "invalidFormat": "Ялгыш җавап форматы",
+      "unsupportedType": "Ярдәм ителмәгән төр",
+      "matching": {
+        "item": "Элемент",
+        "matchedWith": "Тур килгән"
+      }
     },
     "delete": {
       "title": "Форманы бетерергәме?",

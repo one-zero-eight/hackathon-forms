@@ -172,7 +172,14 @@
       "title": "Form Answers",
       "noAnswers": "No answers submitted yet",
       "submittedAt": "Submitted at",
-      "inviteLink": "Invite link"
+      "inviteLink": "Invite link",
+      "sessionId": "Session ID",
+      "invalidFormat": "Invalid format",
+      "unsupportedType": "Unsupported type",
+      "matching": {
+        "item": "Item",
+        "matchedWith": "Matched With"
+      }
     }
   },
   "notFound": {

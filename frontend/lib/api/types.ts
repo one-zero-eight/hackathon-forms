@@ -208,10 +208,27 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
         /** List Answers */
-        post: operations["forms_list_answers"];
+        get: operations["forms_list_answers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/form/{form_id}/answers.xlsx": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Answers In Xlsx */
+        get: operations["forms_list_answers_in_xlsx"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -372,6 +389,18 @@ export interface components {
              * Format: binary
              */
             file: string;
+        };
+        /** ByNode */
+        ByNode: {
+            node: components["schemas"]["FormNode-Output"];
+            /** Answers */
+            answers: unknown[];
+            /** With No Answer */
+            with_no_answer: number;
+            /** Counter */
+            counter: {
+                [key: string]: number;
+            };
         };
         /**
          * Contact
@@ -763,13 +792,6 @@ export interface components {
              */
             active: boolean;
         };
-        /** ListAnswersFilter */
-        ListAnswersFilter: {
-            /** Invite Id */
-            invite_id?: string | null;
-            /** Session Id */
-            session_id?: string | null;
-        };
         /**
          * ListOfLinks
          * @description List of links with optional notes
@@ -918,6 +940,17 @@ export interface components {
             correct_answer?: number | null;
             explanation?: components["schemas"]["Explanation"] | null;
         };
+        /** Stats */
+        Stats: {
+            /** Total Answers */
+            total_answers: number;
+            /** Total Questions */
+            total_questions: number;
+            /** By Nodes */
+            by_nodes: {
+                [key: string]: components["schemas"]["ByNode"];
+            };
+        };
         /**
          * UpdateFormReq
          * @description Schema defining a form, which contains metadata and a series of nodes (questions).
@@ -985,6 +1018,7 @@ export type SchemaAnswer = components['schemas']['Answer'];
 export type SchemaBodyEmailEndEmailFlow = components['schemas']['Body_email_end_email_flow'];
 export type SchemaBodyEmailStartEmailFlow = components['schemas']['Body_email_start_email_flow'];
 export type SchemaBodyFileworkerUploadFile = components['schemas']['Body_fileworker_upload_file'];
+export type SchemaByNode = components['schemas']['ByNode'];
 export type SchemaContact = components['schemas']['Contact'];
 export type SchemaContent = components['schemas']['Content'];
 export type SchemaCreateFormReq = components['schemas']['CreateFormReq'];
@@ -1001,13 +1035,13 @@ export type SchemaFormNodeOutput = components['schemas']['FormNode-Output'];
 export type SchemaHttpValidationError = components['schemas']['HTTPValidationError'];
 export type SchemaInput = components['schemas']['Input'];
 export type SchemaInvite = components['schemas']['Invite'];
-export type SchemaListAnswersFilter = components['schemas']['ListAnswersFilter'];
 export type SchemaListOfLinks = components['schemas']['ListOfLinks'];
 export type SchemaMatching = components['schemas']['Matching'];
 export type SchemaMultipleChoice = components['schemas']['MultipleChoice'];
 export type SchemaRanking = components['schemas']['Ranking'];
 export type SchemaScale = components['schemas']['Scale'];
 export type SchemaSingleChoice = components['schemas']['SingleChoice'];
+export type SchemaStats = components['schemas']['Stats'];
 export type SchemaUpdateFormReq = components['schemas']['UpdateFormReq'];
 export type SchemaUpsertAnswerReq = components['schemas']['UpsertAnswerReq'];
 export type SchemaUser = components['schemas']['User'];
@@ -1489,7 +1523,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["Stats"];
                 };
             };
             /** @description Validation Error */
@@ -1505,18 +1539,17 @@ export interface operations {
     };
     forms_list_answers: {
         parameters: {
-            query?: never;
+            query?: {
+                invite_id?: string | null;
+                session_id?: string | null;
+            };
             header?: never;
             path: {
                 form_id: string;
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ListAnswersFilter"];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
@@ -1525,6 +1558,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Answer"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    forms_list_answers_in_xlsx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
@@ -1555,7 +1619,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["Invite"];
                 };
             };
             /** @description Validation Error */

@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prettify": "prettier --write .",
     "prettier:check": "prettier --ignore-unknown --check .",
-    "gen:api": "npx openapi-typescript http://192.168.193.19:8000/openapi.json -o ./lib/api/types.ts --root-types"
+    "gen:api": "npx openapi-typescript http://10.91.4.111:8000/openapi.json -o ./lib/api/types.ts --root-types"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
