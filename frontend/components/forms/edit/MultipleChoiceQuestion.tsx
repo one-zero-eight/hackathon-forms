@@ -12,7 +12,7 @@ export function MultipleChoiceQuestion({
 }) {
   const { updateNodeQuestion } = useEditableForm();
   return (
-    <ChoicesWrapper node={node} question={question}>
+    <ChoicesWrapper node={node} questionOptions={question.options ?? []}>
       <Label className="text-muted-foreground">Correct answer</Label>
       <div className="mt-2 space-y-2">
         {question.options?.map((option, index) => (

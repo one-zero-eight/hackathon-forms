@@ -22,10 +22,11 @@ export function MatchingQuestion({
   const { updateNodeQuestion } = useEditableForm();
   return (
     <div className="space-y-4">
-      <Label className="text-muted-foreground">Correct answer</Label>
+      <Label className="text-muted-foreground">Answer options</Label>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Left Items</Label>
+          <br />
           {question.options_first?.map((item, index) => (
             <div key={index} className="flex gap-2">
               <Input
@@ -64,6 +65,7 @@ export function MatchingQuestion({
 
         <div className="space-y-2">
           <Label>Right Items</Label>
+          <br />
           {question.options_second?.map((item, index) => (
             <div key={index} className="flex gap-2">
               <Input
@@ -100,6 +102,7 @@ export function MatchingQuestion({
           </Button>
         </div>
       </div>
+      <Label className="text-muted-foreground">Correct answers</Label>
       <div className="mt-2 space-y-2">
         {question.options_first?.map((leftItem, index) => (
           <div key={index} className="flex items-center gap-2">
@@ -124,8 +127,8 @@ export function MatchingQuestion({
               <SelectContent>
                 {question.options_second
                   ?.filter((rightItem) => rightItem.trim() !== "")
-                  .map((rightItem) => (
-                    <SelectItem key={rightItem} value={rightItem}>
+                  .map((rightItem, i) => (
+                    <SelectItem key={i} value={rightItem}>
                       {rightItem}
                     </SelectItem>
                   ))}

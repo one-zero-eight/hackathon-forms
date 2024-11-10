@@ -41,12 +41,11 @@ export function RankingQuestion({
   );
 
   return (
-    <ChoicesWrapper node={node} question={question}>
-      <Label className="text-muted-foreground">Correct answer</Label>
+    <ChoicesWrapper node={node} questionOptions={question.options ?? []}>
+      <Label className="text-muted-foreground">
+        Correct order (drag to reorder):
+      </Label>
       <div className="mt-2 space-y-2">
-        <p className="text-sm text-muted-foreground">
-          Correct order (drag to reorder):
-        </p>
         <DndContext
           sensors={rankingSensors}
           collisionDetection={closestCenter}
@@ -70,7 +69,6 @@ export function RankingQuestion({
 
             const newOptions = arrayMove(question.options, oldIndex, newIndex);
             updateNodeQuestion(node.id, {
-              options: newOptions,
               correct_answer: newOptions,
             });
           }}

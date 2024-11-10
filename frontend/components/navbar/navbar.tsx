@@ -1,35 +1,34 @@
 "use client";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { Button } from "@/components/ui/button";
 import { useMe } from "@/lib/api/auth";
-import { UserRole } from "@/lib/api/types";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { LanguageSwitcher } from "@/components/language-switcher";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const me = useMe();
-  const t = useTranslations('nav');
+  const t = useTranslations("nav");
 
   const navigationItems = [
-    { label: t('home'), href: "/" },
+    { label: t("home"), href: "/" },
     {
-      label: t('forms'),
+      label: t("forms"),
       href: "/forms",
-      roles: [UserRole.hr, UserRole.manager, UserRole.admin],
+      roles: ["hr", "manager", "admin"],
     },
     {
-      label: t('createForm'),
+      label: t("createForm"),
       href: "/forms/create",
-      roles: [UserRole.hr, UserRole.manager, UserRole.admin],
+      roles: ["hr", "manager", "admin"],
     },
-    { label: t('admin'), href: "/admin", roles: [UserRole.admin] },
+    { label: t("admin"), href: "/admin", roles: ["admin"] },
   ].filter((item) => {
     if (item.roles) {
       return me && item.roles.includes(me.role);
@@ -79,7 +78,7 @@ const Navbar = () => {
                 height={30}
                 className="mr-2 h-8 w-8 rounded-lg"
               />
-              {t('brand')}
+              {t("brand")}
             </Link>
           </div>
 
@@ -102,11 +101,13 @@ const Navbar = () => {
 
             {/* Add login button or user email */}
             {me ? (
-              <span className="text-sm font-medium text-gray-600">{me.email}</span>
+              <span className="text-sm font-medium text-gray-600">
+                {me.email}
+              </span>
             ) : (
               <Link href="/login">
                 <Button variant="outline" size="sm">
-                  {t('login')}
+                  {t("login")}
                 </Button>
               </Link>
             )}
@@ -118,11 +119,13 @@ const Navbar = () => {
 
             {/* Add login button or user email for mobile */}
             {me ? (
-              <span className="text-sm font-medium text-gray-600">{me.email}</span>
+              <span className="text-sm font-medium text-gray-600">
+                {me.email}
+              </span>
             ) : (
               <Link href="/login">
                 <Button variant="outline" size="sm">
-                  {t('login')}
+                  {t("login")}
                 </Button>
               </Link>
             )}

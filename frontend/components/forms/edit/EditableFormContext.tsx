@@ -1,6 +1,5 @@
-import { FormResponsesContext } from "@/components/forms/view/FormResponsesContext";
 import { $api, apiTypes } from "@/lib/api";
-import { InputQuestion_type } from "@/lib/api/types";
+import { arrayMove } from "@dnd-kit/sortable";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
@@ -33,6 +32,7 @@ type EditableFormContextType = {
   ) => void;
   addNode: () => void;
   deleteNode: (nodeId: number) => void;
+  moveNode: (nodeId: number, newIndex: number) => void;
   saveForm: () => void;
 };
 
@@ -72,9 +72,8 @@ export function EditableFormProvider({
     {
       onSettled: () => {
         queryClient.invalidateQueries({
-          queryKey: $api.queryOptions("put", "/form/{form_id}", {
+          queryKey: $api.queryOptions("get", "/form/{form_id}", {
             params: { path: { form_id: id } },
-            body: {},
           }).queryKey,
         });
       },
@@ -100,8 +99,7 @@ export function EditableFormProvider({
     updates: Partial<apiTypes.SchemaFormNodeOutput>,
   ) => {
     if (!editableForm?.nodes) return;
-    setEditableForm({
-      ...editableForm,
+    updateForm({
       nodes: editableForm.nodes.map((node) =>
         node.id === nodeId ? { ...node, ...updates } : node,
       ),
@@ -134,24 +132,20 @@ export function EditableFormProvider({
     if (!editableForm) return;
 
     const newNode: apiTypes.SchemaFormNodeOutput = {
-      id: editableForm.nodes?.length || 0,
+      id: editableForm.nodes.length,
       content: {
         medias: [],
       },
       question: {
-        question_type: InputQuestion_type.input,
+        question_type: "input",
         textarea: false,
-        explanation: {
-          explanation: "",
-          for_correct_answer_too: true,
-        },
+        explanation: null,
       },
       required: false,
     };
 
-    setEditableForm({
-      ...editableForm,
-      nodes: [...(editableForm.nodes || []), newNode],
+    updateForm({
+      nodes: [...editableForm.nodes, newNode],
     });
     setFormIsEdited(true);
   };
@@ -159,9 +153,19 @@ export function EditableFormProvider({
   const deleteNode = (nodeId: number) => {
     if (!editableForm?.nodes) return;
 
-    setEditableForm({
-      ...editableForm,
+    updateForm({
       nodes: editableForm.nodes.filter((node) => node.id !== nodeId),
+    });
+    setFormIsEdited(true);
+  };
+
+  const moveNode = (nodeId: number, newIndex: number) => {
+    if (!editableForm?.nodes) return;
+    const oldIndex = editableForm.nodes.findIndex((node) => node.id === nodeId);
+    if (oldIndex === -1) return;
+
+    updateForm({
+      nodes: arrayMove(editableForm.nodes, oldIndex, newIndex),
     });
     setFormIsEdited(true);
   };
@@ -180,6 +184,7 @@ export function EditableFormProvider({
       updateNodeQuestion,
       addNode,
       deleteNode,
+      moveNode,
       saveForm,
     }),
     [editableForm, isSaving, isPending, error, formIsEdited],
@@ -200,25 +205,4 @@ export function useEditableForm(): EditableFormContextType {
     );
   }
   return context;
-}
-
-export function useEditableNode<T extends apiTypes.SchemaFormNodeOutput>(
-  id: number,
-): {
-  response: T | undefined;
-  setResponse: (value: T) => void;
-  clearResponse: () => void;
-} {
-  const context = useContext(FormResponsesContext);
-  if (!context) {
-    throw new Error(
-      "useFormResponse must be used within a FormResponsesProvider",
-    );
-  }
-
-  return {
-    response: context.responses[id] as T | undefined,
-    setResponse: (value: T) => context.setResponse(id, value),
-    clearResponse: () => context.clearResponse(id),
-  };
 }

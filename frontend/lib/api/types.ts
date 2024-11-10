@@ -4,1794 +4,1730 @@
  */
 
 export interface paths {
-  "/users/me": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/users/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Me
+         * @description Get current user info if authenticated
+         */
+        get: operations["users_get_me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get Me
-     * @description Get current user info if authenticated
-     */
-    get: operations["users_get_me"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/users/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/users/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Users */
+        get: operations["users_get_users"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get Users */
-    get: operations["users_get_users"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/users/promote": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/users/promote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Promote */
+        post: operations["users_promote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Promote */
-    post: operations["users_promote"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/users/new-hr": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/users/new-hr": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create Hr
+         * @description Create HR-user. Requires admin rights.
+         */
+        post: operations["users_create_hr"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Create Hr
-     * @description Create HR-user. Requires admin rights.
-     */
-    post: operations["users_create_hr"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/email/login": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/email/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start Email Flow */
+        post: operations["email_start_email_flow"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Start Email Flow */
-    post: operations["email_start_email_flow"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/email/validate-code-for-users": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/email/validate-code-for-users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** End Email Flow */
+        post: operations["email_end_email_flow"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** End Email Flow */
-    post: operations["email_end_email_flow"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/form/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/form/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Forms */
+        get: operations["forms_get_forms"];
+        put?: never;
+        /** Create Form */
+        post: operations["forms_create_form"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get Forms */
-    get: operations["forms_get_forms"];
-    put?: never;
-    /** Create Form */
-    post: operations["forms_create_form"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/form/{form_id}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/form/{form_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Form */
+        get: operations["forms_get_form"];
+        /** Update Form */
+        put: operations["forms_update_form"];
+        post?: never;
+        /** Delete Form */
+        delete: operations["forms_delete_form"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get Form */
-    get: operations["forms_get_form"];
-    /** Update Form */
-    put: operations["forms_update_form"];
-    post?: never;
-    /** Delete Form */
-    delete: operations["forms_delete_form"];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/form/{form_id}/share_with": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/form/{form_id}/share_with": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Share With */
+        put: operations["forms_share_with"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    /** Share With */
-    put: operations["forms_share_with"];
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/form/{form_id}/invite/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/form/{form_id}/invite/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Invites */
+        get: operations["forms_get_invites"];
+        put?: never;
+        /** Create Invite */
+        post: operations["forms_create_invite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get Invites */
-    get: operations["forms_get_invites"];
-    put?: never;
-    /** Create Invite */
-    post: operations["forms_create_invite"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/form/{form_id}/statistics/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/form/{form_id}/statistics/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Stats */
+        get: operations["forms_get_stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get Stats */
-    get: operations["forms_get_stats"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/form/{form_id}/answers": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/form/{form_id}/answers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** List Answers */
+        post: operations["forms_list_answers"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** List Answers */
-    post: operations["forms_list_answers"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/as-respondee/form/by-invite/{key}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/as-respondee/form/by-invite/{key}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Use Invite */
+        post: operations["respondee_use_invite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Use Invite */
-    post: operations["respondee_use_invite"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/as-respondee/form/{form_id}/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/as-respondee/form/{form_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Form As Respondee */
+        get: operations["respondee_get_form_as_respondee"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get Form As Respondee */
-    get: operations["respondee_get_form_as_respondee"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/as-respondee/form/{form_id}/answers/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/as-respondee/form/{form_id}/answers/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get My Answers */
+        get: operations["respondee_get_my_answers"];
+        /** Upsert Answer */
+        put: operations["respondee_upsert_answer"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get My Answers */
-    get: operations["respondee_get_my_answers"];
-    /** Upsert Answer */
-    put: operations["respondee_upsert_answer"];
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/file_worker/upload": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/file_worker/upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Upload File */
+        post: operations["fileworker_upload_file"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Upload File */
-    post: operations["fileworker_upload_file"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/file_worker/download": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/file_worker/download": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Download File */
+        get: operations["fileworker_download_file"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Download File */
-    get: operations["fileworker_download_file"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    /** Answer */
-    Answer: {
-      /**
-       * Id
-       * Format: objectid
-       * @description MongoDB document ObjectID
-       * @default None
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      id: string;
-      /**
-       * Invite Id
-       * @description Invite id of the link by which user has been connected to the service
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      invite_id: string;
-      /**
-       * Session Id
-       * @description Session id that is connected to the current respondent
-       */
-      session_id: string;
-      /**
-       * Form Id
-       * @description Form entity containing information about the form of the respondent
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      form_id: string;
-      /**
-       * Answers
-       * @description Map of the answers for the current user
-       */
-      answers: Record<string, never>;
-      /**
-       * Updated At
-       * Format: date-time
-       * @description Contains information about last changes in the given form from answer perspective
-       */
-      updated_at: string;
+    schemas: {
+        /** Answer */
+        Answer: {
+            /**
+             * Id
+             * Format: objectid
+             * @description MongoDB document ObjectID
+             * @default None
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            id: string;
+            /**
+             * Invite Id
+             * @description Invite id of the link by which user has been connected to the service
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            invite_id: string;
+            /**
+             * Session Id
+             * @description Session id that is connected to the current respondent
+             */
+            session_id: string;
+            /**
+             * Form Id
+             * @description Form entity containing information about the form of the respondent
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            form_id: string;
+            /**
+             * Answers
+             * @description Map of the answers for the current user
+             */
+            answers: Record<string, never>;
+            /**
+             * Updated At
+             * Format: date-time
+             * @description Contains information about last changes in the given form from answer perspective
+             */
+            updated_at: string;
+        };
+        /** Body_email_end_email_flow */
+        Body_email_end_email_flow: {
+            /**
+             * Email Flow Id
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            email_flow_id: string;
+            /** Verification Code */
+            verification_code: string;
+        };
+        /** Body_email_start_email_flow */
+        Body_email_start_email_flow: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+        };
+        /** Body_fileworker_upload_file */
+        Body_fileworker_upload_file: {
+            /**
+             * File
+             * Format: binary
+             */
+            file: string;
+        };
+        /**
+         * Contact
+         * @description Contact-type question, allowing respondents to provide various contact details.
+         *
+         *     Notes:
+         *         answer: dict[str, str], with key (fullname, date_of_birth...) and user input as value.
+         *          {"fullname": "Иванов Иван Иваныч", "gender": "M", ...}
+         */
+        Contact: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            question_type: "contact";
+            /**
+             * Fullname
+             * @description Indicating if the respondent's full name should be collected
+             * @default false
+             */
+            fullname: boolean;
+            /**
+             * Date Of Birth
+             * @description Indicating if the respondent's date of birth should be collected
+             * @default false
+             */
+            date_of_birth: boolean;
+            /**
+             * Gender
+             * @description Indicating if the respondent's gender should be collected
+             * @default false
+             */
+            gender: boolean;
+            /**
+             * Phone
+             * @description Indicating if the respondent's phone number should be collected
+             * @default false
+             */
+            phone: boolean;
+            /**
+             * Email
+             * @description Indicating if the respondent's email should be collected
+             * @default false
+             */
+            email: boolean;
+            /**
+             * Address
+             * @description Indicating if the respondent's address should be collected
+             * @default false
+             */
+            address: boolean;
+            /**
+             * Telegram Alias
+             * @description Indicating if the respondent's Telegram alias should be collected
+             * @default false
+             */
+            telegram_alias: boolean;
+            /**
+             * Github
+             * @description Indicating if the respondent's GitHub profile should be collected
+             * @default false
+             */
+            github: boolean;
+            /**
+             * Linkedin
+             * @description Indicating if the respondent's LinkedIn profile should be collected
+             * @default false
+             */
+            linkedin: boolean;
+            /**
+             * Portfolio
+             * @description Indicating if the respondent's portfolio link should be collected
+             * @default false
+             */
+            portfolio: boolean;
+            /**
+             * Website
+             * @description Indicating if the respondent's personal website URL should be collected
+             * @default false
+             */
+            website: boolean;
+        };
+        /**
+         * Content
+         * @description Content model that holds the title, markdown content, and media URLs for a form question.
+         */
+        Content: {
+            /**
+             * Title
+             * @description The title of the content section for the form node.
+             */
+            title?: string | null;
+            /**
+             * Md Content
+             * @description Markdown formatted content providing additional information or instructions.
+             */
+            md_content?: string | null;
+            /**
+             * Medias
+             * @description List of URLs pointing to media (e.g., images, videos) associated with the content.
+             * @default []
+             */
+            medias: string[];
+        };
+        /** CreateFormReq */
+        CreateFormReq: {
+            /** Title */
+            title: string;
+            /** Description */
+            description?: string | null;
+            /**
+             * Nodes
+             * @default []
+             */
+            nodes: components["schemas"]["FormNode-Input"][];
+        };
+        /** CreateInviteReq */
+        CreateInviteReq: {
+            /**
+             * One Time
+             * @default false
+             */
+            one_time: boolean;
+        };
+        /** CreateUser */
+        CreateUser: {
+            /** Email */
+            email: string;
+            /** Name */
+            name?: string | null;
+        };
+        /** DateSelector */
+        DateSelector: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            question_type: "date";
+            /**
+             * Select Date
+             * @description Select date (one day)
+             * @default true
+             */
+            select_date: boolean;
+            /**
+             * Select Time
+             * @description Select time (hour, minute)
+             * @default false
+             */
+            select_time: boolean;
+            /** Correct Answer */
+            correct_answer?: string | null;
+            explanation?: components["schemas"]["Explanation"] | null;
+        };
+        /** EmailFlowReference */
+        EmailFlowReference: {
+            /**
+             * Email Flow Id
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            email_flow_id: string;
+        };
+        /** EmailFlowResult */
+        EmailFlowResult: {
+            status: components["schemas"]["EmailFlowVerificationStatus"];
+            /** Email */
+            email?: string | null;
+        };
+        /**
+         * EmailFlowVerificationStatus
+         * @enum {string}
+         */
+        EmailFlowVerificationStatus: "success" | "expired" | "incorrect" | "not_found";
+        /** Explanation */
+        Explanation: {
+            /** Explanation */
+            explanation: string;
+            /**
+             * For Correct Answer Too
+             * @description Show not only on incorrect but on correct answer too
+             * @default false
+             */
+            for_correct_answer_too: boolean;
+        };
+        /** Form */
+        Form: {
+            /**
+             * Id
+             * Format: objectid
+             * @description MongoDB document ObjectID
+             * @default None
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            id: string;
+            /**
+             * Title
+             * @description Title of the form.
+             */
+            title: string;
+            /**
+             * Description
+             * @description Optional description providing additional context for the form.
+             */
+            description: string | null;
+            /**
+             * Nodes
+             * @description List of nodes, each representing a question with content, options, and configurations.
+             */
+            nodes: components["schemas"]["FormNode-Output"][];
+            /**
+             * Shared With
+             * @description List of user ids with which user shared the document
+             * @default []
+             */
+            shared_with: string[];
+            /**
+             * Created At
+             * Format: date-time
+             * @description Timestamp of when the form was created.
+             */
+            created_at: string;
+            /**
+             * Created By
+             * @description Identifier of the user or system that created the form.
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            created_by: string;
+            /**
+             * Updated At
+             * @description Timestamp of the last update made to the form (optional).
+             */
+            updated_at: string | null;
+            /**
+             * Updated By
+             * @description Identifier of the user who last updated the form (optional).
+             */
+            updated_by: string | null;
+            /**
+             * Deleted At
+             * @description Timestamp of when the form was deleted (optional).
+             */
+            deleted_at: string | null;
+            /**
+             * Deleted By
+             * @description Identifier of the user who deleted the form (optional).
+             */
+            deleted_by: string | null;
+        };
+        /**
+         * FormNode
+         * @description Represents a single node in a form, containing content and a question.
+         */
+        "FormNode-Input": {
+            /**
+             * Id
+             * @description Index in Form.nodes
+             */
+            id: number;
+            /** @description Content providing context, information, or instructions for the question. */
+            content: components["schemas"]["Content"];
+            /**
+             * Question
+             * @description The question to be presented, determined by the 'question_type' field.
+             */
+            question: components["schemas"]["SingleChoice"] | components["schemas"]["MultipleChoice"] | components["schemas"]["Scale"] | components["schemas"]["Ranking"] | components["schemas"]["Matching"] | components["schemas"]["Input"] | components["schemas"]["ListOfLinks"] | components["schemas"]["Contact"] | components["schemas"]["DateSelector"];
+            /**
+             * Required
+             * @description Determines if the question is mandatory (True) or optional (False).
+             */
+            required: boolean;
+            /**
+             * Next Node
+             * @description Index of the next node in 'Form.nodes' to proceed to, starting from zero.
+             */
+            next_node?: number | null;
+        };
+        /**
+         * FormNode
+         * @description Represents a single node in a form, containing content and a question.
+         */
+        "FormNode-Output": {
+            /**
+             * Id
+             * @description Index in Form.nodes
+             */
+            id: number;
+            /** @description Content providing context, information, or instructions for the question. */
+            content: components["schemas"]["Content"];
+            /**
+             * Question
+             * @description The question to be presented, determined by the 'question_type' field.
+             */
+            question: components["schemas"]["SingleChoice"] | components["schemas"]["MultipleChoice"] | components["schemas"]["Scale"] | components["schemas"]["Ranking"] | components["schemas"]["Matching"] | components["schemas"]["Input"] | components["schemas"]["ListOfLinks"] | components["schemas"]["Contact"] | components["schemas"]["DateSelector"];
+            /**
+             * Required
+             * @description Determines if the question is mandatory (True) or optional (False).
+             */
+            required: boolean;
+            /**
+             * Next Node
+             * @description Index of the next node in 'Form.nodes' to proceed to, starting from zero.
+             */
+            next_node?: number | null;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /**
+         * Input
+         * @description Model for an input-based question where respondents enter text.
+         *
+         *     Notes:
+         *         answer: str, just user input
+         */
+        Input: {
+            /**
+             * @description Indicates the type of question as 'input'. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            question_type: "input";
+            /**
+             * Textarea
+             * @description Determines whether the input is a single-line field (False) or a textarea (True).
+             * @default false
+             */
+            textarea: boolean;
+            /**
+             * Correct Answer
+             * @description List of acceptable correct answers as text (optional).
+             */
+            correct_answer?: string[] | null;
+            /**
+             * Regex
+             * @description Regex to validate input
+             */
+            regex?: string | null;
+            /**
+             * Name Of Column In Export
+             * @description How column with this input will be named in exported CSV
+             */
+            name_of_column_in_export?: string | null;
+            explanation?: components["schemas"]["Explanation"] | null;
+        };
+        /** Invite */
+        Invite: {
+            /**
+             * Id
+             * Format: objectid
+             * @description MongoDB document ObjectID
+             * @default None
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            id: string;
+            /** Key */
+            key: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Created By
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            created_by: string;
+            /**
+             * Form Id
+             * @description Form for which link is created
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            form_id: string;
+            /**
+             * One Time
+             * @default false
+             */
+            one_time: boolean;
+            /**
+             * Used By
+             * @description List of session ids
+             * @default []
+             */
+            used_by: string[];
+            /**
+             * Active
+             * @description Is active
+             * @default true
+             */
+            active: boolean;
+        };
+        /** ListAnswersFilter */
+        ListAnswersFilter: {
+            /** Invite Id */
+            invite_id?: string | null;
+            /** Session Id */
+            session_id?: string | null;
+        };
+        /**
+         * ListOfLinks
+         * @description List of links with optional notes
+         *
+         *     Notes:
+         *         answer: list[tuple[str, str]], with [(some_url, some_note or "")]
+         */
+        ListOfLinks: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            question_type: "list_of_links";
+        };
+        /**
+         * Matching
+         * @description Model for a matching-type question, where pairs are matched between two sets of options.
+         *
+         *     Notes:
+         *         answer: dict[int, int], with mapping between option sets
+         *          {options_first_1: options_second_4, options_first_3: options_second_2}
+         */
+        Matching: {
+            /**
+             * @description Indicates the type of question as 'matching'. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            question_type: "matching";
+            /**
+             * Options First
+             * @description List of items in the first group to be matched.
+             */
+            options_first: string[];
+            /**
+             * Options Second
+             * @description List of items in the second group to be matched.
+             */
+            options_second: string[];
+            /**
+             * Correct Answer
+             * @description Dictionary where keys are indices of items in 'options_first' and values are indices of matched items in "
+             *     "'options_second' (optional).
+             */
+            correct_answer?: {
+                [key: string]: number;
+            } | null;
+            explanation?: components["schemas"]["Explanation"] | null;
+        };
+        /**
+         * MultipleChoice
+         * @description Model for a multiple-choice question in a form.
+         *
+         *     Notes:
+         *         answer: list[int], with chosen indicies in self.options
+         */
+        MultipleChoice: {
+            /**
+             * @description Indicates the type of question as 'multiple_choice'. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            question_type: "multiple_choice";
+            /**
+             * Options
+             * @description List of answer options, allowing multiple selections.
+             */
+            options: string[];
+            /**
+             * Correct Answer
+             * @description List of indices for the correct answers (optional).
+             */
+            correct_answer?: number[] | null;
+            explanation?: components["schemas"]["Explanation"] | null;
+        };
+        /**
+         * Ranking
+         * @description Model for a ranking-type question, where options are ranked in a specified order.
+         *
+         *     Notes:
+         *         answer: list[int], with ranking of options [option_3, option_5, option_1, ...]
+         */
+        Ranking: {
+            /**
+             * @description Indicates the type of question as 'ranking'. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            question_type: "ranking";
+            /**
+             * Options
+             * @description List of options that must be ranked.
+             */
+            options: string[];
+            /**
+             * Correct Answer
+             * @description Correct order as a list of indices representing the ranking (optional).
+             */
+            correct_answer?: number[] | null;
+            explanation?: components["schemas"]["Explanation"] | null;
+        };
+        /**
+         * Scale
+         * @description Model for a scale-type question, allowing answers to be chosen from a specified scale.
+         *
+         *     Notes:
+         *         answer: int, with chosen index in self.scale
+         */
+        Scale: {
+            /**
+             * @description Indicates the type of question as 'scale'. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            question_type: "scale";
+            /**
+             * Scale
+             * @description List of scale labels, for example: ['Very Poor', 'Poor', 'Neutral', 'Good', 'Excellent'].
+             */
+            scale: string[];
+            /**
+             * Correct Answer
+             * @description List of indices representing correct answers on the scale (optional).
+             */
+            correct_answer?: number[] | null;
+            explanation?: components["schemas"]["Explanation"] | null;
+        };
+        /**
+         * SingleChoice
+         * @description Model for a single-choice question in a form.
+         *
+         *     Notes:
+         *         answer: int, with chosen index in self.options
+         */
+        SingleChoice: {
+            /**
+             * @description Indicates the type of question as 'select' for single-choice. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            question_type: "select";
+            /**
+             * Options
+             * @description List of answer options to choose from.
+             */
+            options: string[];
+            /**
+             * Correct Answer
+             * @description Index of the correct answer option (optional).
+             */
+            correct_answer?: number | null;
+            explanation?: components["schemas"]["Explanation"] | null;
+        };
+        /**
+         * UpdateFormReq
+         * @description Schema defining a form, which contains metadata and a series of nodes (questions).
+         */
+        UpdateFormReq: {
+            /**
+             * Title
+             * @description Title of the form.
+             */
+            title?: string | null;
+            /**
+             * Description
+             * @description Optional description providing additional context for the form.
+             */
+            description?: string | null;
+            /**
+             * Nodes
+             * @description List of nodes, each representing a question with content, options, and configurations.
+             */
+            nodes?: components["schemas"]["FormNode-Input"][] | null;
+        };
+        /** UpsertAnswerReq */
+        UpsertAnswerReq: {
+            /** Answers */
+            answers: Record<string, never>;
+        };
+        /** User */
+        User: {
+            /**
+             * Id
+             * Format: objectid
+             * @description MongoDB document ObjectID
+             * @default None
+             * @example 5eb7cf5a86d9755df3a6c593
+             */
+            id: string;
+            /** Name */
+            name: string | null;
+            /** Email */
+            email: string;
+            role: components["schemas"]["UserRole"];
+        };
+        /**
+         * UserRole
+         * @enum {string}
+         */
+        UserRole: "hr" | "manager" | "admin" | "banned";
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+        };
     };
-    /** Body_email_end_email_flow */
-    Body_email_end_email_flow: {
-      /**
-       * Email Flow Id
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      email_flow_id: string;
-      /** Verification Code */
-      verification_code: string;
-    };
-    /** Body_email_start_email_flow */
-    Body_email_start_email_flow: {
-      /**
-       * Email
-       * Format: email
-       */
-      email: string;
-    };
-    /** Body_fileworker_upload_file */
-    Body_fileworker_upload_file: {
-      /**
-       * File
-       * Format: binary
-       */
-      file: string;
-    };
-    /**
-     * Contact
-     * @description Contact-type question, allowing respondents to provide various contact details.
-     *
-     *     Notes:
-     *         answer: dict[str, str], with key (fullname, date_of_birth...) and user input as value.
-     *          {"fullname": "Иванов Иван Иваныч", "gender": "M", ...}
-     */
-    Contact: {
-      /**
-       * @description discriminator enum property added by openapi-typescript
-       * @enum {string}
-       */
-      question_type: ContactQuestion_type;
-      /**
-       * Fullname
-       * @description Indicating if the respondent's full name should be collected
-       * @default false
-       */
-      fullname: boolean;
-      /**
-       * Date Of Birth
-       * @description Indicating if the respondent's date of birth should be collected
-       * @default false
-       */
-      date_of_birth: boolean;
-      /**
-       * Gender
-       * @description Indicating if the respondent's gender should be collected
-       * @default false
-       */
-      gender: boolean;
-      /**
-       * Phone
-       * @description Indicating if the respondent's phone number should be collected
-       * @default false
-       */
-      phone: boolean;
-      /**
-       * Email
-       * @description Indicating if the respondent's email should be collected
-       * @default false
-       */
-      email: boolean;
-      /**
-       * Address
-       * @description Indicating if the respondent's address should be collected
-       * @default false
-       */
-      address: boolean;
-      /**
-       * Telegram Alias
-       * @description Indicating if the respondent's Telegram alias should be collected
-       * @default false
-       */
-      telegram_alias: boolean;
-      /**
-       * Github
-       * @description Indicating if the respondent's GitHub profile should be collected
-       * @default false
-       */
-      github: boolean;
-      /**
-       * Linkedin
-       * @description Indicating if the respondent's LinkedIn profile should be collected
-       * @default false
-       */
-      linkedin: boolean;
-      /**
-       * Portfolio
-       * @description Indicating if the respondent's portfolio link should be collected
-       * @default false
-       */
-      portfolio: boolean;
-      /**
-       * Website
-       * @description Indicating if the respondent's personal website URL should be collected
-       * @default false
-       */
-      website: boolean;
-    };
-    /**
-     * Content
-     * @description Content model that holds the title, markdown content, and media URLs for a form question.
-     */
-    Content: {
-      /**
-       * Title
-       * @description The title of the content section for the form node.
-       */
-      title?: string | null;
-      /**
-       * Md Content
-       * @description Markdown formatted content providing additional information or instructions.
-       */
-      md_content?: string | null;
-      /**
-       * Medias
-       * @description List of URLs pointing to media (e.g., images, videos) associated with the content.
-       * @default []
-       */
-      medias: string[];
-    };
-    /** CreateFormReq */
-    CreateFormReq: {
-      /** Title */
-      title: string;
-      /** Description */
-      description?: string | null;
-      /**
-       * Nodes
-       * @default []
-       */
-      nodes: components["schemas"]["FormNode-Input"][];
-    };
-    /** CreateInviteReq */
-    CreateInviteReq: {
-      /**
-       * One Time
-       * @default false
-       */
-      one_time: boolean;
-    };
-    /** CreateUser */
-    CreateUser: {
-      /** Email */
-      email: string;
-      /** Name */
-      name?: string | null;
-    };
-    /** DateSelector */
-    DateSelector: {
-      /**
-       * @description discriminator enum property added by openapi-typescript
-       * @enum {string}
-       */
-      question_type: DateSelectorQuestion_type;
-      /**
-       * Select Date
-       * @description Select date (one day)
-       * @default true
-       */
-      select_date: boolean;
-      /**
-       * Select Time
-       * @description Select time (hour, minute)
-       * @default false
-       */
-      select_time: boolean;
-      /** Correct Answer */
-      correct_answer?: string | null;
-      explanation?: components["schemas"]["Explanation"] | null;
-    };
-    /** EmailFlowReference */
-    EmailFlowReference: {
-      /**
-       * Email Flow Id
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      email_flow_id: string;
-    };
-    /** EmailFlowResult */
-    EmailFlowResult: {
-      status: components["schemas"]["EmailFlowVerificationStatus"];
-      /** Email */
-      email?: string | null;
-    };
-    /**
-     * EmailFlowVerificationStatus
-     * @enum {string}
-     */
-    EmailFlowVerificationStatus: EmailFlowVerificationStatus;
-    /** Explanation */
-    Explanation: {
-      /** Explanation */
-      explanation: string;
-      /**
-       * For Correct Answer Too
-       * @description Show not only on incorrect but on correct answer too
-       * @default false
-       */
-      for_correct_answer_too: boolean;
-    };
-    /** Form */
-    Form: {
-      /**
-       * Id
-       * Format: objectid
-       * @description MongoDB document ObjectID
-       * @default None
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      id: string;
-      /**
-       * Title
-       * @description Title of the form.
-       */
-      title: string;
-      /**
-       * Description
-       * @description Optional description providing additional context for the form.
-       */
-      description: string | null;
-      /**
-       * Nodes
-       * @description List of nodes, each representing a question with content, options, and configurations.
-       */
-      nodes: components["schemas"]["FormNode-Output"][];
-      /**
-       * Shared With
-       * @description List of user ids with which user shared the document
-       * @default []
-       */
-      shared_with: string[];
-      /**
-       * Created At
-       * Format: date-time
-       * @description Timestamp of when the form was created.
-       */
-      created_at: string;
-      /**
-       * Created By
-       * @description Identifier of the user or system that created the form.
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      created_by: string;
-      /**
-       * Updated At
-       * @description Timestamp of the last update made to the form (optional).
-       */
-      updated_at: string | null;
-      /**
-       * Updated By
-       * @description Identifier of the user who last updated the form (optional).
-       */
-      updated_by: string | null;
-      /**
-       * Deleted At
-       * @description Timestamp of when the form was deleted (optional).
-       */
-      deleted_at: string | null;
-      /**
-       * Deleted By
-       * @description Identifier of the user who deleted the form (optional).
-       */
-      deleted_by: string | null;
-    };
-    /**
-     * FormNode
-     * @description Represents a single node in a form, containing content and a question.
-     */
-    "FormNode-Input": {
-      /**
-       * Id
-       * @description Index in Form.nodes
-       */
-      id: number;
-      /** @description Content providing context, information, or instructions for the question. */
-      content: components["schemas"]["Content"];
-      /**
-       * Question
-       * @description The question to be presented, determined by the 'question_type' field.
-       */
-      question:
-        | components["schemas"]["SingleChoice"]
-        | components["schemas"]["MultipleChoice"]
-        | components["schemas"]["Scale"]
-        | components["schemas"]["Ranking"]
-        | components["schemas"]["Matching"]
-        | components["schemas"]["Input"]
-        | components["schemas"]["ListOfLinks"]
-        | components["schemas"]["Contact"]
-        | components["schemas"]["DateSelector"];
-      /**
-       * Required
-       * @description Determines if the question is mandatory (True) or optional (False).
-       */
-      required: boolean;
-      /**
-       * Next Node
-       * @description Index of the next node in 'Form.nodes' to proceed to, starting from zero.
-       */
-      next_node?: number | null;
-    };
-    /**
-     * FormNode
-     * @description Represents a single node in a form, containing content and a question.
-     */
-    "FormNode-Output": {
-      /**
-       * Id
-       * @description Index in Form.nodes
-       */
-      id: number;
-      /** @description Content providing context, information, or instructions for the question. */
-      content: components["schemas"]["Content"];
-      /**
-       * Question
-       * @description The question to be presented, determined by the 'question_type' field.
-       */
-      question:
-        | components["schemas"]["SingleChoice"]
-        | components["schemas"]["MultipleChoice"]
-        | components["schemas"]["Scale"]
-        | components["schemas"]["Ranking"]
-        | components["schemas"]["Matching"]
-        | components["schemas"]["Input"]
-        | components["schemas"]["ListOfLinks"]
-        | components["schemas"]["Contact"]
-        | components["schemas"]["DateSelector"];
-      /**
-       * Required
-       * @description Determines if the question is mandatory (True) or optional (False).
-       */
-      required: boolean;
-      /**
-       * Next Node
-       * @description Index of the next node in 'Form.nodes' to proceed to, starting from zero.
-       */
-      next_node?: number | null;
-    };
-    /** HTTPValidationError */
-    HTTPValidationError: {
-      /** Detail */
-      detail?: components["schemas"]["ValidationError"][];
-    };
-    /**
-     * Input
-     * @description Model for an input-based question where respondents enter text.
-     *
-     *     Notes:
-     *         answer: str, just user input
-     */
-    Input: {
-      /**
-       * @description Indicates the type of question as 'input'. (enum property replaced by openapi-typescript)
-       * @enum {string}
-       */
-      question_type: InputQuestion_type;
-      /**
-       * Textarea
-       * @description Determines whether the input is a single-line field (False) or a textarea (True).
-       * @default false
-       */
-      textarea: boolean;
-      /**
-       * Correct Answer
-       * @description List of acceptable correct answers as text (optional).
-       */
-      correct_answer?: string[] | null;
-      /**
-       * Regex
-       * @description Regex to validate input
-       */
-      regex?: string | null;
-      /**
-       * Name Of Column In Export
-       * @description How column with this input will be named in exported CSV
-       */
-      name_of_column_in_export?: string | null;
-      explanation?: components["schemas"]["Explanation"] | null;
-    };
-    /** Invite */
-    Invite: {
-      /**
-       * Id
-       * Format: objectid
-       * @description MongoDB document ObjectID
-       * @default None
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      id: string;
-      /** Key */
-      key: string;
-      /**
-       * Created At
-       * Format: date-time
-       */
-      created_at: string;
-      /**
-       * Created By
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      created_by: string;
-      /**
-       * Form Id
-       * @description Form for which link is created
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      form_id: string;
-      /**
-       * One Time
-       * @default false
-       */
-      one_time: boolean;
-      /**
-       * Used By
-       * @description List of session ids
-       * @default []
-       */
-      used_by: string[];
-      /**
-       * Active
-       * @description Is active
-       * @default true
-       */
-      active: boolean;
-    };
-    /** ListAnswersFilter */
-    ListAnswersFilter: {
-      /** Invite Id */
-      invite_id?: string | null;
-      /** Session Id */
-      session_id?: string | null;
-    };
-    /**
-     * ListOfLinks
-     * @description List of links with optional notes
-     *
-     *     Notes:
-     *         answer: list[tuple[str, str]], with [(some_url, some_note or "")]
-     */
-    ListOfLinks: {
-      /**
-       * @description discriminator enum property added by openapi-typescript
-       * @enum {string}
-       */
-      question_type: ListOfLinksQuestion_type;
-    };
-    /**
-     * Matching
-     * @description Model for a matching-type question, where pairs are matched between two sets of options.
-     *
-     *     Notes:
-     *         answer: dict[int, int], with mapping between option sets
-     *          {options_first_1: options_second_4, options_first_3: options_second_2}
-     */
-    Matching: {
-      /**
-       * @description Indicates the type of question as 'matching'. (enum property replaced by openapi-typescript)
-       * @enum {string}
-       */
-      question_type: MatchingQuestion_type;
-      /**
-       * Options First
-       * @description List of items in the first group to be matched.
-       */
-      options_first: string[];
-      /**
-       * Options Second
-       * @description List of items in the second group to be matched.
-       */
-      options_second: string[];
-      /**
-       * Correct Answer
-       * @description Dictionary where keys are indices of items in 'options_first' and values are indices of matched items in "
-       *     "'options_second' (optional).
-       */
-      correct_answer?: {
-        [key: string]: number;
-      } | null;
-      explanation?: components["schemas"]["Explanation"] | null;
-    };
-    /**
-     * MultipleChoice
-     * @description Model for a multiple-choice question in a form.
-     *
-     *     Notes:
-     *         answer: list[int], with chosen indicies in self.options
-     */
-    MultipleChoice: {
-      /**
-       * @description Indicates the type of question as 'multiple_choice'. (enum property replaced by openapi-typescript)
-       * @enum {string}
-       */
-      question_type: MultipleChoiceQuestion_type;
-      /**
-       * Options
-       * @description List of answer options, allowing multiple selections.
-       */
-      options: string[];
-      /**
-       * Correct Answer
-       * @description List of indices for the correct answers (optional).
-       */
-      correct_answer?: number[] | null;
-      explanation?: components["schemas"]["Explanation"] | null;
-    };
-    /**
-     * Ranking
-     * @description Model for a ranking-type question, where options are ranked in a specified order.
-     *
-     *     Notes:
-     *         answer: list[int], with ranking of options [option_3, option_5, option_1, ...]
-     */
-    Ranking: {
-      /**
-       * @description Indicates the type of question as 'ranking'. (enum property replaced by openapi-typescript)
-       * @enum {string}
-       */
-      question_type: RankingQuestion_type;
-      /**
-       * Options
-       * @description List of options that must be ranked.
-       */
-      options: string[];
-      /**
-       * Correct Answer
-       * @description Correct order as a list of indices representing the ranking (optional).
-       */
-      correct_answer?: number[] | null;
-      explanation?: components["schemas"]["Explanation"] | null;
-    };
-    /**
-     * Scale
-     * @description Model for a scale-type question, allowing answers to be chosen from a specified scale.
-     *
-     *     Notes:
-     *         answer: int, with chosen index in self.scale
-     */
-    Scale: {
-      /**
-       * @description Indicates the type of question as 'scale'. (enum property replaced by openapi-typescript)
-       * @enum {string}
-       */
-      question_type: ScaleQuestion_type;
-      /**
-       * Scale
-       * @description List of scale labels, for example: ['Very Poor', 'Poor', 'Neutral', 'Good', 'Excellent'].
-       */
-      scale: string[];
-      /**
-       * Correct Answer
-       * @description List of indices representing correct answers on the scale (optional).
-       */
-      correct_answer?: number[] | null;
-      explanation?: components["schemas"]["Explanation"] | null;
-    };
-    /**
-     * SingleChoice
-     * @description Model for a single-choice question in a form.
-     *
-     *     Notes:
-     *         answer: int, with chosen index in self.options
-     */
-    SingleChoice: {
-      /**
-       * @description Indicates the type of question as 'select' for single-choice. (enum property replaced by openapi-typescript)
-       * @enum {string}
-       */
-      question_type: SingleChoiceQuestion_type;
-      /**
-       * Options
-       * @description List of answer options to choose from.
-       */
-      options: string[];
-      /**
-       * Correct Answer
-       * @description Index of the correct answer option (optional).
-       */
-      correct_answer?: number | null;
-      explanation?: components["schemas"]["Explanation"] | null;
-    };
-    /**
-     * UpdateFormReq
-     * @description Schema defining a form, which contains metadata and a series of nodes (questions).
-     */
-    UpdateFormReq: {
-      /**
-       * Title
-       * @description Title of the form.
-       */
-      title?: string | null;
-      /**
-       * Description
-       * @description Optional description providing additional context for the form.
-       */
-      description?: string | null;
-      /**
-       * Nodes
-       * @description List of nodes, each representing a question with content, options, and configurations.
-       */
-      nodes?: components["schemas"]["FormNode-Input"][] | null;
-    };
-    /** UpsertAnswerReq */
-    UpsertAnswerReq: {
-      /** Answers */
-      answers: Record<string, never>;
-    };
-    /** User */
-    User: {
-      /**
-       * Id
-       * Format: objectid
-       * @description MongoDB document ObjectID
-       * @default None
-       * @example 5eb7cf5a86d9755df3a6c593
-       */
-      id: string;
-      /** Name */
-      name: string | null;
-      /** Email */
-      email: string;
-      role: components["schemas"]["UserRole"];
-    };
-    /**
-     * UserRole
-     * @enum {string}
-     */
-    UserRole: UserRole;
-    /** ValidationError */
-    ValidationError: {
-      /** Location */
-      loc: (string | number)[];
-      /** Message */
-      msg: string;
-      /** Error Type */
-      type: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-export type SchemaAnswer = components["schemas"]["Answer"];
-export type SchemaBodyEmailEndEmailFlow =
-  components["schemas"]["Body_email_end_email_flow"];
-export type SchemaBodyEmailStartEmailFlow =
-  components["schemas"]["Body_email_start_email_flow"];
-export type SchemaBodyFileworkerUploadFile =
-  components["schemas"]["Body_fileworker_upload_file"];
-export type SchemaContact = components["schemas"]["Contact"];
-export type SchemaContent = components["schemas"]["Content"];
-export type SchemaCreateFormReq = components["schemas"]["CreateFormReq"];
-export type SchemaCreateInviteReq = components["schemas"]["CreateInviteReq"];
-export type SchemaCreateUser = components["schemas"]["CreateUser"];
-export type SchemaDateSelector = components["schemas"]["DateSelector"];
-export type SchemaEmailFlowReference =
-  components["schemas"]["EmailFlowReference"];
-export type SchemaEmailFlowResult = components["schemas"]["EmailFlowResult"];
-export type SchemaEmailFlowVerificationStatus =
-  components["schemas"]["EmailFlowVerificationStatus"];
-export type SchemaExplanation = components["schemas"]["Explanation"];
-export type SchemaForm = components["schemas"]["Form"];
-export type SchemaFormNodeInput = components["schemas"]["FormNode-Input"];
-export type SchemaFormNodeOutput = components["schemas"]["FormNode-Output"];
-export type SchemaHttpValidationError =
-  components["schemas"]["HTTPValidationError"];
-export type SchemaInput = components["schemas"]["Input"];
-export type SchemaInvite = components["schemas"]["Invite"];
-export type SchemaListAnswersFilter =
-  components["schemas"]["ListAnswersFilter"];
-export type SchemaListOfLinks = components["schemas"]["ListOfLinks"];
-export type SchemaMatching = components["schemas"]["Matching"];
-export type SchemaMultipleChoice = components["schemas"]["MultipleChoice"];
-export type SchemaRanking = components["schemas"]["Ranking"];
-export type SchemaScale = components["schemas"]["Scale"];
-export type SchemaSingleChoice = components["schemas"]["SingleChoice"];
-export type SchemaUpdateFormReq = components["schemas"]["UpdateFormReq"];
-export type SchemaUpsertAnswerReq = components["schemas"]["UpsertAnswerReq"];
-export type SchemaUser = components["schemas"]["User"];
-export type SchemaUserRole = components["schemas"]["UserRole"];
-export type SchemaValidationError = components["schemas"]["ValidationError"];
+export type SchemaAnswer = components['schemas']['Answer'];
+export type SchemaBodyEmailEndEmailFlow = components['schemas']['Body_email_end_email_flow'];
+export type SchemaBodyEmailStartEmailFlow = components['schemas']['Body_email_start_email_flow'];
+export type SchemaBodyFileworkerUploadFile = components['schemas']['Body_fileworker_upload_file'];
+export type SchemaContact = components['schemas']['Contact'];
+export type SchemaContent = components['schemas']['Content'];
+export type SchemaCreateFormReq = components['schemas']['CreateFormReq'];
+export type SchemaCreateInviteReq = components['schemas']['CreateInviteReq'];
+export type SchemaCreateUser = components['schemas']['CreateUser'];
+export type SchemaDateSelector = components['schemas']['DateSelector'];
+export type SchemaEmailFlowReference = components['schemas']['EmailFlowReference'];
+export type SchemaEmailFlowResult = components['schemas']['EmailFlowResult'];
+export type SchemaEmailFlowVerificationStatus = components['schemas']['EmailFlowVerificationStatus'];
+export type SchemaExplanation = components['schemas']['Explanation'];
+export type SchemaForm = components['schemas']['Form'];
+export type SchemaFormNodeInput = components['schemas']['FormNode-Input'];
+export type SchemaFormNodeOutput = components['schemas']['FormNode-Output'];
+export type SchemaHttpValidationError = components['schemas']['HTTPValidationError'];
+export type SchemaInput = components['schemas']['Input'];
+export type SchemaInvite = components['schemas']['Invite'];
+export type SchemaListAnswersFilter = components['schemas']['ListAnswersFilter'];
+export type SchemaListOfLinks = components['schemas']['ListOfLinks'];
+export type SchemaMatching = components['schemas']['Matching'];
+export type SchemaMultipleChoice = components['schemas']['MultipleChoice'];
+export type SchemaRanking = components['schemas']['Ranking'];
+export type SchemaScale = components['schemas']['Scale'];
+export type SchemaSingleChoice = components['schemas']['SingleChoice'];
+export type SchemaUpdateFormReq = components['schemas']['UpdateFormReq'];
+export type SchemaUpsertAnswerReq = components['schemas']['UpsertAnswerReq'];
+export type SchemaUser = components['schemas']['User'];
+export type SchemaUserRole = components['schemas']['UserRole'];
+export type SchemaValidationError = components['schemas']['ValidationError'];
 export type $defs = Record<string, never>;
 export interface operations {
-  users_get_me: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    users_get_me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current user info */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description Unable to verify credentials OR Credentials not provided */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Current user info */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    users_get_users: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["User"];
+        requestBody?: never;
+        responses: {
+            /** @description List of users */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"][];
+                };
+            };
+            /** @description Unable to verify credentials OR Credentials not provided */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
-      /** @description Unable to verify credentials OR Credentials not provided */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
     };
-  };
-  users_get_users: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    users_promote: {
+        parameters: {
+            query: {
+                target_user_id: string;
+                role: components["schemas"]["UserRole"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description Unable to verify credentials OR Credentials not provided */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description List of users */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    users_create_hr: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["User"][];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateUser"];
+            };
         };
-      };
-      /** @description Unable to verify credentials OR Credentials not provided */
-      401: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Created user info */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description Unable to verify credentials OR Credentials not provided */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not enough permissions */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-        content?: never;
-      };
     };
-  };
-  users_promote: {
-    parameters: {
-      query: {
-        target_user_id: string;
-        role: components["schemas"]["UserRole"];
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
+    email_start_email_flow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Body_email_start_email_flow"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EmailFlowReference"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    email_end_email_flow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["User"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Body_email_end_email_flow"];
+            };
         };
-      };
-      /** @description Unable to verify credentials OR Credentials not provided */
-      401: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EmailFlowResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-        content?: never;
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
     };
-  };
-  users_create_hr: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    forms_get_forms: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Form"][];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateUser"];
-      };
+    forms_create_form: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFormReq"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Form"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description Created user info */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    forms_get_form: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["User"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Form"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
-      /** @description Unable to verify credentials OR Credentials not provided */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Not enough permissions */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
     };
-  };
-  email_start_email_flow: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    forms_update_form: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateFormReq"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Body_email_start_email_flow"];
-      };
+    forms_delete_form: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    forms_share_with: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["EmailFlowReference"];
+        requestBody: {
+            content: {
+                "application/json": string[];
+            };
         };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
     };
-  };
-  email_end_email_flow: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    forms_get_invites: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Invite"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Body_email_end_email_flow"];
-      };
+    forms_create_invite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateInviteReq"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Invite"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    forms_get_stats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["EmailFlowResult"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
     };
-  };
-  forms_get_forms: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    forms_list_answers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ListAnswersFilter"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Answer"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    respondee_use_invite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["Form"][];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
     };
-  };
-  forms_create_form: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    respondee_get_form_as_respondee: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Form"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateFormReq"];
-      };
+    respondee_get_my_answers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Answer"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    respondee_upsert_answer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                form_id: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["Form"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpsertAnswerReq"];
+            };
         };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Answer"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
     };
-  };
-  forms_get_form: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
+    fileworker_upload_file: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_fileworker_upload_file"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    fileworker_download_file: {
+        parameters: {
+            query: {
+                url: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["Form"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
     };
-  };
-  forms_update_form: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateFormReq"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  forms_delete_form: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  forms_share_with: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": string[];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  forms_get_invites: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Invite"][];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  forms_create_invite: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateInviteReq"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Invite"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  forms_get_stats: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  forms_list_answers: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ListAnswersFilter"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Answer"][];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  respondee_use_invite: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        key: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  respondee_get_form_as_respondee: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Form"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  respondee_get_my_answers: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Answer"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  respondee_upsert_answer: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        form_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpsertAnswerReq"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Answer"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  fileworker_upload_file: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "multipart/form-data": components["schemas"]["Body_fileworker_upload_file"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": string;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  fileworker_download_file: {
-    parameters: {
-      query: {
-        url: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-}
-export enum ContactQuestion_type {
-  contact = "contact",
-}
-export enum DateSelectorQuestion_type {
-  date = "date",
-}
-export enum EmailFlowVerificationStatus {
-  success = "success",
-  expired = "expired",
-  incorrect = "incorrect",
-  not_found = "not_found",
-}
-export enum InputQuestion_type {
-  input = "input",
-}
-export enum ListOfLinksQuestion_type {
-  list_of_links = "list_of_links",
-}
-export enum MatchingQuestion_type {
-  matching = "matching",
-}
-export enum MultipleChoiceQuestion_type {
-  multiple_choice = "multiple_choice",
-}
-export enum RankingQuestion_type {
-  ranking = "ranking",
-}
-export enum ScaleQuestion_type {
-  scale = "scale",
-}
-export enum SingleChoiceQuestion_type {
-  select = "select",
-}
-export enum UserRole {
-  hr = "hr",
-  manager = "manager",
-  admin = "admin",
-  banned = "banned",
 }

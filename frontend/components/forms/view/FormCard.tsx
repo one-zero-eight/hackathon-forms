@@ -1,11 +1,14 @@
 import { useForm } from "@/components/forms/view/FormContext";
 import { FormNodeRenderer } from "@/components/forms/view/FormNodeRenderer";
+import { FormResponsesContext } from "@/components/forms/view/FormResponsesContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useContext } from "react";
 
 export function FormCard() {
   const form = useForm();
-  if (!form) return null;
+  const formResponses = useContext(FormResponsesContext);
+  if (!form || !formResponses) return null;
 
   return (
     <Card className="flex w-full max-w-2xl flex-col gap-2 p-4">
@@ -13,7 +16,7 @@ export function FormCard() {
       {form.nodes.map((node, i) => (
         <FormNodeRenderer key={i} node={node} />
       ))}
-      <Button>Далее</Button>
+      <Button onClick={() => formResponses.sendResponses()}>Закончить</Button>
     </Card>
   );
 }

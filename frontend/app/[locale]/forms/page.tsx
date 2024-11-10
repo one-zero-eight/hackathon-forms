@@ -20,16 +20,28 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { $api } from "@/lib/api";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2, Plus, Trash2 } from "lucide-react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export default function FormsPage() {
   const tCommon = useTranslations("common");
   const tForms = useTranslations("forms");
   const { data: forms, isPending, error } = $api.useQuery("get", "/form/");
 
-  const handleDelete = async (formId: string) => {};
+  const queryClient = useQueryClient();
+  const { mutate: deleteForm } = $api.useMutation("delete", "/form/{form_id}", {
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: $api.queryOptions("get", "/form/").queryKey,
+      });
+    },
+  });
+
+  const handleDelete = async (formId: string) => {
+    deleteForm({ params: { path: { form_id: formId } } });
+  };
 
   if (isPending) {
     return (
@@ -76,9 +88,7 @@ export default function FormsPage() {
       {forms.length === 0 ? (
         <Card className="p-8 text-center">
           <CardContent>
-            <p className="mb-4 text-muted-foreground">
-              {tForms("list.empty")}
-            </p>
+            <p className="mb-4 text-muted-foreground">{tForms("list.empty")}</p>
             <Link href="/forms/create">
               <Button aria-label={tForms("list.createFirst")}>
                 {tForms("list.createFirst")}
@@ -92,78 +102,80 @@ export default function FormsPage() {
           role="list"
           aria-label={tForms("list.title")}
         >
-          {forms.map((form) => (
-            <Card
-              key={form.id}
-              className="flex h-full flex-col"
-              role="listitem"
-            >
-              <CardHeader className="flex-none">
-                <CardTitle className="line-clamp-2 text-xl">
-                  {form.title}
-                </CardTitle>
-                <CardDescription>
-                  {form.description && (
-                    <p className="mb-2 line-clamp-2 text-sm">
-                      {form.description}
+          {forms
+            .filter((form) => form.deleted_at === null)
+            .map((form) => (
+              <Card
+                key={form.id}
+                className="flex h-full flex-col"
+                role="listitem"
+              >
+                <CardHeader className="flex-none">
+                  <CardTitle className="line-clamp-2 text-xl">
+                    {form.title}
+                  </CardTitle>
+                  <CardDescription>
+                    {form.description && (
+                      <p className="mb-2 line-clamp-2 text-sm">
+                        {form.description}
+                      </p>
+                    )}
+                    <p className="text-sm">
+                      {tForms("list.createdOn")}:{" "}
+                      {form.created_at
+                        ? new Date(form.created_at).toLocaleDateString()
+                        : "Unknown date"}
                     </p>
-                  )}
-                  <p className="text-sm">
-                    {tForms("list.createdOn")}:{" "}
-                    {form.created_at
-                      ? new Date(form.created_at).toLocaleDateString()
-                      : "Unknown date"}
-                  </p>
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-1 items-end pt-4">
-                <div className="flex w-full gap-2">
-                  <Link
-                    href={`/forms/${form.id}/edit`}
-                    className="flex-1"
-                    aria-label={tCommon("actions.edit")}
-                  >
-                    <Button variant="outline" className="h-9 w-full">
-                      {tCommon("actions.edit")}
-                    </Button>
-                  </Link>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-9 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                        aria-label={`Delete form: ${form.title}`}
-                      >
-                        <Trash2 className="h-4 w-4" aria-hidden="true" />
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-1 items-end pt-4">
+                  <div className="flex w-full gap-2">
+                    <Link
+                      href={`/forms/${form.id}/edit`}
+                      className="flex-1"
+                      aria-label={tCommon("actions.edit")}
+                    >
+                      <Button variant="outline" className="h-9 w-full">
+                        {tCommon("actions.edit")}
                       </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
+                    </Link>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-9 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                          aria-label={`Delete form: ${form.title}`}
+                        >
+                          <Trash2 className="h-4 w-4" aria-hidden="true" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
                           <AlertDialogTitle>
                             {tCommon("actions.delete")}?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          {tCommon("actions.deleteConfirm")}
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {tCommon("actions.deleteConfirm")}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
                           <AlertDialogCancel>
-                          {tCommon("actions.cancel")}
-                        </AlertDialogCancel>
-                        <AlertDialogAction
-                          className="bg-destructive hover:bg-destructive/90"
-                          onClick={() => handleDelete(form.id)}
-                        >
-                          {tCommon("actions.delete")}
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                            {tCommon("actions.cancel")}
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-destructive hover:bg-destructive/90"
+                            onClick={() => handleDelete(form.id)}
+                          >
+                            {tCommon("actions.delete")}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
         </div>
       )}
     </div>

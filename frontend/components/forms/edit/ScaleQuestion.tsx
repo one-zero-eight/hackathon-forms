@@ -10,16 +10,20 @@ import {
 } from "@/components/ui/select";
 import { apiTypes } from "@/lib/api";
 
-export function SingleChoiceQuestion({
+export function ScaleQuestion({
   node,
   question,
 }: {
   node: apiTypes.SchemaFormNodeOutput;
-  question: apiTypes.SchemaSingleChoice;
+  question: apiTypes.SchemaScale;
 }) {
   const { updateNodeQuestion } = useEditableForm();
   return (
-    <ChoicesWrapper node={node} questionOptions={question.options ?? []}>
+    <ChoicesWrapper
+      node={node}
+      questionOptions={question.scale ?? []}
+      optionsKey="scale"
+    >
       <Label className="text-muted-foreground">Correct answer</Label>
       <Select
         value={(question.correct_answer ?? "") as string}
@@ -31,7 +35,7 @@ export function SingleChoiceQuestion({
           <SelectValue placeholder="Select correct answer" />
         </SelectTrigger>
         <SelectContent>
-          {question.options
+          {question.scale
             ?.filter((option) => option.trim() !== "")
             .map((option, i) => (
               <SelectItem key={i} value={option}>

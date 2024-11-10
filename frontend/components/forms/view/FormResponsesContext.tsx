@@ -1,3 +1,6 @@
+import { useForm } from "@/components/forms/view/FormContext";
+import { useRouter } from "@/i18n/routing";
+import { $api } from "@/lib/api";
 import {
   createContext,
   PropsWithChildren,
@@ -12,6 +15,7 @@ export type FormResponsesType = {
   responses: Record<string, Response>;
   setResponse: (id: number, value: Response) => void;
   clearResponse: (id: number) => void;
+  sendResponses: () => Promise<void>;
 };
 
 export const FormResponsesContext = createContext<
@@ -21,6 +25,19 @@ export const FormResponsesContext = createContext<
 export function FormResponsesProvider({ children }: PropsWithChildren) {
   const [responses, setResponses] = useState<Record<number, string | string[]>>(
     {},
+  );
+  const router = useRouter();
+
+  const form = useForm();
+
+  const { mutate: putAnswers } = $api.useMutation(
+    "put",
+    "/as-respondee/form/{form_id}/answers/",
+    {
+      onSuccess: () => {
+        router.push(`/forms/${form?.id}/thanks`);
+      },
+    },
   );
 
   const setResponse = (id: number, value: string | string[]) => {
@@ -38,11 +55,20 @@ export function FormResponsesProvider({ children }: PropsWithChildren) {
     });
   };
 
+  const sendResponses = async () => {
+    if (!form) return;
+    putAnswers({
+      params: { path: { form_id: form.id } },
+      body: { answers: responses as any },
+    });
+  };
+
   const data: FormResponsesType = useMemo(
     () => ({
       responses,
       setResponse,
       clearResponse,
+      sendResponses,
     }),
     [responses],
   );
