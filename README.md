@@ -1,5 +1,7 @@
 # КандидатАйКю
 
+ДЕМО: https://drive.google.com/drive/folders/1NyeO44GA2lcHLzymr8yqYMCiPmoMsjS6?usp=sharing
+
 ## Запуск проекта
 
 Требования:
