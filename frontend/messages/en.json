@@ -180,6 +180,12 @@
         "item": "Item",
         "matchedWith": "Matched With"
       }
+    },
+    "statistics": {
+      "noData": "No statistics available",
+      "description": "Statistics will be shown here once users start submitting answers",
+      "selectQuestion": "Select a question",
+      "selectQuestionPrompt": "Please select a question to view its statistics"
     }
   },
   "notFound": {

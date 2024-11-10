@@ -20,6 +20,7 @@ import { useTranslations } from "next-intl";
 import { AnswersTab } from "./AnswersTab";
 import { QuestionsTab } from "./QuestionsTab";
 import { SettingsTab } from "./SettingsTab";
+import { BarChart } from "recharts";
 
 export default function EditFormPage() {
   const params = useParams();
