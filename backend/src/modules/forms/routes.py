@@ -1,17 +1,35 @@
 __all__ = ["router"]
 
+import datetime
+import json
+from collections import Counter, defaultdict
+from typing import Any, TypedDict
+
 from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException
+from pydantic import TypeAdapter, ValidationError
 
 from src.api.dependencies import CURRENT_USER_ID_DEPENDENCY
+from src.logging_ import logger
 from src.modules.forms.repository import form_repository
 from src.modules.forms.schemas import CreateFormReq, CreateInviteReq, UpdateFormReq
 from src.modules.respondee.repository import answer_repository
 from src.modules.respondee.schemas import ListAnswersFilter
 from src.modules.users.repository import user_repository
+from src.pydantic_base import BaseSchema
 from src.storages.mongo import Invite
 from src.storages.mongo.answers import Answer
-from src.storages.mongo.forms import Form
+from src.storages.mongo.forms import (
+    DateSelector,
+    Form,
+    FormNode,
+    Input,
+    Matching,
+    MultipleChoice,
+    Ranking,
+    Scale,
+    SingleChoice,
+)
 from src.storages.mongo.users import UserRole
 
 router = APIRouter(prefix="/form", tags=["Forms"])
@@ -91,12 +109,71 @@ async def get_invites(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPEND
     return data
 
 
+class Stats(BaseSchema):
+    class ByNode(TypedDict):
+        node: FormNode
+        answers: list[Any]
+        with_no_answer: int
+        counter: dict[str | int, int]
+
+    total_answers: int
+    total_questions: int
+    by_nodes: dict[int, ByNode]
+
+
 @router.get("/{form_id}/statistics/")
-async def get_stats(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDENCY):
-    _ = await can_edit_form_guard(form_id, user_id)
-    raise NotImplementedError
+async def get_stats(form_id: PydanticObjectId, user_id: CURRENT_USER_ID_DEPENDENCY) -> Stats:
+    form = await can_edit_form_guard(form_id, user_id)
+    answers = await answer_repository.list_answers(form_id, ListAnswersFilter())
+    nodes = form.nodes
+    by_nodes: dict[int, Stats.ByNode] = defaultdict(dict)
+
+    for node in nodes:
+        by_nodes[node.id]["node"] = node
+        answers_on_that_question = [answer.answers.get(node.id) for answer in answers]
+        by_nodes[node.id]["answers"] = answers_on_that_question
+        nones = answers_on_that_question.count(None)
+        by_nodes[node.id]["with_no_answer"] = nones
+        answers_on_that_question = filter(None, answers_on_that_question)
+        counter = Counter()
+        try:
+            if isinstance(node.question, SingleChoice):
+                type_adapter = TypeAdapter(list[int | str])
+                counter.update(type_adapter.validate_python(answers_on_that_question))
+            elif isinstance(node.question, DateSelector):
+                type_adapter = TypeAdapter(list[datetime.date | datetime.datetime])
+                counter.update(type_adapter.validate_python(answers_on_that_question))
+            elif isinstance(node.question, MultipleChoice):
+                type_adapter = TypeAdapter(list[list[int | str]])
+                for _ in type_adapter.validate_python(answers_on_that_question):
+                    counter.update(_)
+            elif isinstance(node.question, Scale):
+                type_adapter = TypeAdapter(list[int | str])
+                counter.update(type_adapter.validate_python(answers_on_that_question))
+            elif isinstance(node.question, Input):
+                type_adapter = TypeAdapter(list[str])
+                counter.update(type_adapter.validate_python(answers_on_that_question))
+            elif isinstance(node.question, Ranking):
+                type_adapter = TypeAdapter(list[list[int | str]])
+                counter.update(
+                    [json.dumps(ranking) for ranking in type_adapter.validate_python(answers_on_that_question)]
+                )
+            elif isinstance(node.question, Matching):
+                type_adapter = TypeAdapter(list[dict])
+                for ranking in type_adapter.validate_python(answers_on_that_question):
+                    for k, v in ranking.items():
+                        counter.update([json.dumps({k: v})])
+
+        except ValidationError as e:
+            logger.warning(e)
+        by_nodes[node.id]["counter"] = counter
+
+    return Stats(total_answers=len(answers), total_questions=len(nodes), by_nodes=by_nodes)
 
 
 @router.post("/{form_id}/answers")
-async def list_answers(form_id: PydanticObjectId, filter: ListAnswersFilter) -> list[Answer]:
+async def list_answers(
+    form_id: PydanticObjectId, filter: ListAnswersFilter, user_id: CURRENT_USER_ID_DEPENDENCY
+) -> list[Answer]:
+    _ = await can_edit_form_guard(form_id, user_id)
     return await answer_repository.list_answers(form_id, filter)
