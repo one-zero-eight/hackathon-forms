@@ -11,7 +11,10 @@ export function ContentRenderer({
       <p>{node.content.md_content}</p>
       {node.content.medias.map((media, i) => (
         <div key={i}>
-          <img src={media} alt="media" />
+          <img
+            src={`${process.env.NEXT_PUBLIC_API_URL}/file_worker/download?url=${encodeURIComponent(media)}`}
+            alt="media"
+          />
         </div>
       ))}
     </div>

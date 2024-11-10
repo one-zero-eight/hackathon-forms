@@ -44,7 +44,7 @@ function MediaContentList({ node }: { node: apiTypes.SchemaFormNodeOutput }) {
   return (
     <div className="flex flex-wrap gap-4">
       {node.content.medias.map((media, i) => (
-        <Card key={i} className="relative h-48 w-48">
+        <Card key={i} className="relative h-48 w-48 overflow-clip">
           <img
             src={`${process.env.NEXT_PUBLIC_API_URL}/file_worker/download?url=${encodeURIComponent(media)}`}
             alt="media"
